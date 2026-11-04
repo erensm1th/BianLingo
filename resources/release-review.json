@@ -58,8 +58,8 @@
   ],
   "approval_kind": "windows-release-engineering-review",
   "source_review": {
-    "eligible_source_sha256": "6ab3cf89e210e56f5aca47f83a2f040c4710b76c94c46bf7c608e2cd1f50fc7d",
-    "preapproval_archive_sha256": "b2d1c6bdd5dfad2b68989a538fdc8f967cbcd33682fbebd39f49477df33630c8",
+    "eligible_source_sha256": "cdee9a27aa19033a595246946f3137077d3d6b66d839679813d0229cffdcd822",
+    "preapproval_archive_sha256": "a2abb514b52d459b2ba20f99a2705ab413583628e352eb2a7f4b3d7e38d5abce",
     "files_reviewed": 321,
     "scope": "Allowlisted source archive checked for contents, pinned provenance/notices, personal data exclusion and known secret patterns. Review metadata is excluded from its own fingerprint. Scope is limited to these checks, not exhaustive legal or security clearance."
   }
