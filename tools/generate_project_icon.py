@@ -21,13 +21,13 @@ def make_icon():
 def make_settings_icon():
     from PIL import Image
     source = Image.open(ROOT / "resources/branding/settings-icon.png").convert("RGBA")
-    if source.width != source.height or source.width > 256:
-        raise ValueError("Settings icon must be square and no larger than 256 pixels")
-    if set(source.getchannel("A").tobytes()) - {0, 255}:
-        raise ValueError("Pixel settings icon must use fully transparent or opaque pixels")
-    alpha = source.getchannel("A")
-    if any(alpha.getpixel((x, y)) for x in range(source.width) for y in (0, source.height - 1)) or any(alpha.getpixel((x, y)) for y in range(source.height) for x in (0, source.width - 1)):
-        raise ValueError("Settings icon needs a fully transparent outer border")
+    if min(source.size) < 1 or max(source.size) > 1024:
+        raise ValueError("Settings artwork must be between 1 and 1024 pixels per side")
+    # Keep the supplied pixels and alpha unchanged; add only a transparent border.
+    side = max(source.size) + 2
+    canvas = Image.new("RGBA", (side, side), (0, 0, 0, 0))
+    canvas.paste(source, ((side - source.width) // 2, (side - source.height) // 2))
+    source = canvas
     sizes = [16, 20, 24, 30, 32, 36, 40, 48, 60, 64, 96, 128, 256]
     images = [source.resize((n, n), Image.Resampling.NEAREST) for n in sizes]
     output = BytesIO()

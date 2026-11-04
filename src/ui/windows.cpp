@@ -975,6 +975,15 @@ class App {
             // User-chosen connection and tab names must remain verbatim.
             if (combo == interface_language || combo == provider_select || combo == tab_editor) continue;
             const auto selected = SendMessageW(combo, CB_GETCURSEL, 0, 0);
+            if (combo == chat_target) {
+                SendMessageW(combo, CB_RESETCONTENT, 0, 0);
+                for (auto code : chat_targets) {
+                    const auto caption = wide(ui_text(target_language_name(code)));
+                    SendMessageW(combo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(caption.c_str()));
+                }
+                SendMessageW(combo, CB_SETCURSEL, selected, 0);
+                continue;
+            }
             const auto count = SendMessageW(combo, CB_GETCOUNT, 0, 0);
             std::vector<std::wstring> items;
             for (int i = 0; i < count; ++i) {
@@ -991,6 +1000,12 @@ class App {
             for (const auto &item : items) SendMessageW(combo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(item.c_str()));
             SendMessageW(combo, CB_SETCURSEL, selected, 0);
         }
+#ifdef BL_UI_TESTS
+        if (chat_target)
+            for (size_t i = 0; i < chat_targets.size(); ++i)
+                if (narrow(picker_text(chat_target, int(i))) != ui_text(target_language_name(chat_targets[i])))
+                    throw std::runtime_error("Target-language captions did not refresh with the UI language");
+#endif
         fill_interface_languages();
         fill_design_choices(config);
         fill_skin_choices(config);
@@ -3570,6 +3585,9 @@ class App {
                                         c.key == "show_english_race";
                              }),
                 "Removed metadata display controls still present");
+        for (size_t i = 0; i < chat_targets.size(); ++i)
+            require(narrow(picker_text(chat_target, int(i))) == ui_text(target_language_name(chat_targets[i])),
+                    "Target-language caption does not follow the application UI language");
         require(chat_target && SendMessageW(chat_target, CB_GETCOUNT, 0, 0) == int(chat_targets.size()) &&
                     SendMessageW(chat_target, CB_GETCURSEL, 0, 0) >= 0,
                 "Chat target selector is missing a saved language");
@@ -4918,12 +4936,7 @@ class App {
                                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP, id_chat_target);
         auto selected_chat_target = config.value("target_language", default_target_language());
         for (size_t i = 0; i < chat_targets.size(); ++i) {
-            wchar_t localized_name[128]{};
-            const auto locale_name = wide(chat_targets[i]);
-            const auto caption = GetLocaleInfoEx(locale_name.c_str(), LOCALE_SLOCALIZEDDISPLAYNAME,
-                                                  localized_name, 128)
-                                     ? std::wstring(localized_name)
-                                     : wide(target_language_name(chat_targets[i]));
+            const auto caption = wide(ui_text(target_language_name(chat_targets[i])));
             SendMessageW(chat_target, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(caption.c_str()));
             if (chat_targets[i] == selected_chat_target)
                 SendMessageW(chat_target, CB_SETCURSEL, i, 0);

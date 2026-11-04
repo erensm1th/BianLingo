@@ -41,7 +41,14 @@ local function Config()
     if BLGBlocklist then BLGBlocklist.Ensure(db) end
     local n = tonumber(db.cacheLimit)
     db.cacheLimit = n and n == math.floor(n) and n >= 1 and n <= 100 and n or 10
-    if db.idleHide == nil then db.idleHide = true end
+    -- Apply the idle-hide default once, including pre-existing saved profiles.
+    -- Later explicit choices survive reloads and subsequent releases.
+    if db.idleHideDefaultV1 ~= true then
+        db.idleHide = true
+        db.idleHideDefaultV1 = true
+    elseif type(db.idleHide) ~= "boolean" then
+        db.idleHide = true
+    end
     if db.mode == "compact" and not db.compactPixelV2 then db.cell = 1; db.compactPixelV2 = true end
     if db.cell ~= 2 and db.cell ~= 3 and db.cell ~= 4 and not (db.mode == "compact" and db.cell == 1) then db.cell = 2 end
     if db.mode ~= "native" and db.mode ~= "compact" then db.mode = "native" end

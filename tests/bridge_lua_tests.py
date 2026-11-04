@@ -263,6 +263,24 @@ def run(output=None):
     markers=[];images=[];colors=[]
     fresh=boot({})
     assert fresh.g.BianLingoDB[b'idleHide'] is True
+    assert fresh.g.BianLingoDB[b'idleHideDefaultV1'] is True
+    upgraded=boot({b'idleHide':False,b'cacheLimit':17,b'mode':b'compact'})
+    assert upgraded.g.BianLingoDB[b'idleHide'] is True
+    assert upgraded.g.BianLingoDB[b'cacheLimit']==17 and upgraded.g.BianLingoDB[b'mode']==b'compact'
+    upgraded.command('settings')
+    checkbox=upgraded.g.BianLingoBridgeSettingsIdleHide
+    assert checkbox.GetChecked(checkbox)
+    upgraded.drain()
+    assert not upgraded.frame[b'shown'] and upgraded.marker[b'shown']
+    checkbox.SetChecked(checkbox,False);checkbox[b'scripts'][b'OnClick'](checkbox)
+    assert upgraded.g.BianLingoDB[b'idleHide'] is False
+    reloaded=boot({b'idleHide':False,b'idleHideDefaultV1':True})
+    reloaded.command('settings')
+    assert not reloaded.g.BianLingoBridgeSettingsIdleHide.GetChecked(reloaded.g.BianLingoBridgeSettingsIdleHide)
+    assert reloaded.g.BianLingoDB[b'idleHide'] is False
+    reloaded.command('hide on')
+    assert reloaded.g.BianLingoDB[b'idleHide'] is True
+
     assert fresh.g.BianLingoDB[b'enabled'] is True
     fresh.command('settings')
     switch=fresh.g.BianLingoBridgeSettingsEnabled
@@ -295,6 +313,7 @@ def run(output=None):
     assert controls.g.registeredCategory[b'name']=='BianLingo'.encode()
     controls.g.registeredSettings.Show(controls.g.registeredSettings)
     idle=controls.g.BianLingoBridgeOptionsIdleHide
+    assert idle.GetChecked(idle)
     idle.SetChecked(idle,True);idle[b'scripts'][b'OnClick'](idle)
     assert controls.g.BianLingoDB[b'idleHide'] and controls.marker[b'shown']
     limit=controls.g.BianLingoBridgeOptionsCacheLimit

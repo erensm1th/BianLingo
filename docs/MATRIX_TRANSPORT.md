@@ -4,7 +4,7 @@ The addon sends pixels from Lua; desktop adapters share the C++ decoder. Select 
 
 ## Display and location
 
-The compact matrix has 40 columns and ten rows. Compact cells default to one physical pixel (42×12 including the border), with two-, three- and four-pixel fallback sizes; with a one-cell black border, total dimensions are 84×24, 126×36 or 168×48. It supports corner placement, window movement, manual replay and idle hiding (enabled by default; explicit saved choices are retained). Idle capture reads only the 4×4 status marker, without extra heartbeats or periodic resends.
+The compact matrix has 40 columns and ten rows. Compact cells default to one physical pixel (42×12 including the border), with two-, three- and four-pixel fallback sizes; with a one-cell black border, total dimensions are 84×24, 126×36 or 168×48. It supports corner placement, window movement, manual replay and idle hiding (enabled by default; configuration initialization enables it once, and subsequent explicit choices are retained). Idle capture reads only the 4×4 status marker, without extra heartbeats or periodic resends.
 
 Coordinates are zero-based:
 

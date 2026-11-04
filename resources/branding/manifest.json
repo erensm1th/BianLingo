@@ -3,10 +3,10 @@
   "source_sha256": "f64e25bb54ca0805d0b099e30e314fa34878e0f045851c3293f1fa863c22f539",
   "artwork": "Original hand-drawn two-cat composition preserved; empty exterior margins trimmed in icon derivatives",
   "settings_source": "resources/branding/settings-icon.png",
-  "settings_source_sha256": "f0bdf51af243b6927eef5734b5649b2b6c8fe182b1c08ca5fb1fcf722f0a7950",
+  "settings_source_sha256": "38db4807d2a17e9271a53c5be7b828960932d21b931aa78d55b8c5ff4b11f904",
   "derivatives": {
     "resources/bianlingo.ico": "964f33bfbe952f673967ec4b12c2c1a282b62edc5f1c40ea4a6535fcdad2b3c7",
-    "resources/settings-icon.ico": "fd2fd04406dd99cea495a6adc7411ab7ed266ae0fc5a5eb39fc70eb45ac4ea1d",
+    "resources/settings-icon.ico": "9f69add07268ff53747f63f7e755fb6feb95a2b8aab84a5792753b79a8e5189d",
     "addon/BianLingo/Textures/Logo.tga": "96312f7f8827e2c4c145da030a5bbbf225fc90275313573463d14e335956a6df"
   }
 }

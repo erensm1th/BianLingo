@@ -628,14 +628,14 @@
   },
   "Russian": {
     "en": "Russian",
+    "zh": "俄语",
+    "ja": "ロシア語",
+    "ko": "러시아어",
     "fr": "Russe",
     "de": "Russisch",
     "es": "Ruso",
-    "ja": "ロシア語",
-    "ko": "러시아어",
     "pt-BR": "Russo",
-    "ru": "Русский",
-    "zh": "俄文"
+    "ru": "Русский"
   },
   "Save": {
     "en": "Save",
@@ -1277,14 +1277,14 @@
   },
   "German": {
     "en": "German",
+    "zh": "德语",
+    "ja": "ドイツ語",
+    "ko": "독일어",
     "fr": "Allemand",
     "de": "Deutsch",
     "es": "Alemán",
-    "ja": "ドイツ語",
-    "ko": "독일어",
     "pt-BR": "Alemão",
-    "ru": "Немецкий",
-    "zh": "德语"
+    "ru": "Немецкий"
   },
   "Must be a valid JSON object": {
     "en": "Must be a valid JSON object",
@@ -1332,14 +1332,14 @@
   },
   "Italian": {
     "en": "Italian",
+    "zh": "意大利语",
+    "ja": "イタリア語",
+    "ko": "이탈리아어",
     "fr": "Italien",
     "de": "Italienisch",
     "es": "Italiano",
-    "ja": "イタリア語",
-    "ko": "이탈리아어",
     "pt-BR": "Italiano",
-    "ru": "Итальянский",
-    "zh": "意大利语"
+    "ru": "Итальянский"
   },
   "Open log directory": {
     "en": "Open log directory",
@@ -1662,14 +1662,14 @@
   },
   "Japanese": {
     "en": "Japanese",
+    "zh": "日语",
+    "ja": "日本語",
+    "ko": "일본어",
     "fr": "Japonais",
     "de": "Japanisch",
     "es": "Japonés",
-    "ja": "日本語",
-    "ko": "일본어",
     "pt-BR": "Japonês",
-    "ru": "Японский",
-    "zh": "日文"
+    "ru": "Японский"
   },
   "Show gender": {
     "en": "Show gender",
@@ -1992,14 +1992,14 @@
   },
   "French": {
     "en": "French",
+    "zh": "法语",
+    "ja": "フランス語",
+    "ko": "프랑스어",
     "fr": "Français",
     "de": "Französisch",
     "es": "Francés",
-    "ja": "フランス語",
-    "ko": "프랑스어",
     "pt-BR": "Francês",
-    "ru": "Французский",
-    "zh": "法语"
+    "ru": "Французский"
   },
   "Test recognition (no API request)": {
     "en": "Test recognition (no API request)",
@@ -2531,14 +2531,14 @@
   },
   "Spanish": {
     "en": "Spanish",
+    "zh": "西班牙语",
+    "ja": "スペイン語",
+    "ko": "스페인어",
     "fr": "Espagnol",
     "de": "Spanisch",
     "es": "Español",
-    "ja": "スペイン語",
-    "ko": "스페인어",
     "pt-BR": "Espanhol",
-    "ru": "Испанский",
-    "zh": "西班牙语"
+    "ru": "Испанский"
   },
   "Unlock and show overlay": {
     "en": "Unlock and show overlay",
@@ -3026,14 +3026,14 @@
   },
   "Korean": {
     "en": "Korean",
+    "zh": "韩语",
+    "ja": "韓国語",
+    "ko": "한국어",
     "fr": "Coréen",
     "de": "Koreanisch",
     "es": "Coreano",
-    "ja": "韓国語",
-    "ko": "한국어",
     "pt-BR": "Coreano",
-    "ru": "Корейский",
-    "zh": "韩文"
+    "ru": "Корейский"
   },
   "Tabs only affect display; translation scope follows original settings; history limit is shared.": {
     "en": "Tabs only affect display; translation scope follows original settings; history limit is shared.",
@@ -5454,5 +5454,214 @@
     "pt-BR": "Gnome",
     "ru": "Gnome",
     "zh": "侏儒"
+  },
+  "English (US)": {
+    "en": "English (US)",
+    "zh": "英语（美国）",
+    "ja": "英語（米国）",
+    "ko": "영어(미국)",
+    "fr": "Anglais (États-Unis)",
+    "de": "Englisch (USA)",
+    "es": "Inglés (Estados Unidos)",
+    "pt-BR": "Inglês (Estados Unidos)",
+    "ru": "Английский (США)"
+  },
+  "English (UK)": {
+    "en": "English (UK)",
+    "zh": "英语（英国）",
+    "ja": "英語（英国）",
+    "ko": "영어(영국)",
+    "fr": "Anglais (Royaume-Uni)",
+    "de": "Englisch (Großbritannien)",
+    "es": "Inglés (Reino Unido)",
+    "pt-BR": "Inglês (Reino Unido)",
+    "ru": "Английский (Великобритания)"
+  },
+  "Portuguese (Brazil)": {
+    "en": "Portuguese (Brazil)",
+    "zh": "葡萄牙语（巴西）",
+    "ja": "ポルトガル語（ブラジル）",
+    "ko": "포르투갈어(브라질)",
+    "fr": "Portugais (Brésil)",
+    "de": "Portugiesisch (Brasilien)",
+    "es": "Portugués (Brasil)",
+    "pt-BR": "Português (Brasil)",
+    "ru": "Португальский (Бразилия)"
+  },
+  "Portuguese (Portugal)": {
+    "en": "Portuguese (Portugal)",
+    "zh": "葡萄牙语（葡萄牙）",
+    "ja": "ポルトガル語（ポルトガル）",
+    "ko": "포르투갈어(포르투갈)",
+    "fr": "Portugais (Portugal)",
+    "de": "Portugiesisch (Portugal)",
+    "es": "Portugués (Portugal)",
+    "pt-BR": "Português (Portugal)",
+    "ru": "Португальский (Португалия)"
+  },
+  "Ukrainian": {
+    "en": "Ukrainian",
+    "zh": "乌克兰语",
+    "ja": "ウクライナ語",
+    "ko": "우크라이나어",
+    "fr": "Ukrainien",
+    "de": "Ukrainisch",
+    "es": "Ucraniano",
+    "pt-BR": "Ucraniano",
+    "ru": "Украинский"
+  },
+  "Polish": {
+    "en": "Polish",
+    "zh": "波兰语",
+    "ja": "ポーランド語",
+    "ko": "폴란드어",
+    "fr": "Polonais",
+    "de": "Polnisch",
+    "es": "Polaco",
+    "pt-BR": "Polonês",
+    "ru": "Польский"
+  },
+  "Dutch": {
+    "en": "Dutch",
+    "zh": "荷兰语",
+    "ja": "オランダ語",
+    "ko": "네덜란드어",
+    "fr": "Néerlandais",
+    "de": "Niederländisch",
+    "es": "Neerlandés",
+    "pt-BR": "Holandês",
+    "ru": "Нидерландский"
+  },
+  "Swedish": {
+    "en": "Swedish",
+    "zh": "瑞典语",
+    "ja": "スウェーデン語",
+    "ko": "스웨덴어",
+    "fr": "Suédois",
+    "de": "Schwedisch",
+    "es": "Sueco",
+    "pt-BR": "Sueco",
+    "ru": "Шведский"
+  },
+  "Danish": {
+    "en": "Danish",
+    "zh": "丹麦语",
+    "ja": "デンマーク語",
+    "ko": "덴마크어",
+    "fr": "Danois",
+    "de": "Dänisch",
+    "es": "Danés",
+    "pt-BR": "Dinamarquês",
+    "ru": "Датский"
+  },
+  "Norwegian": {
+    "en": "Norwegian",
+    "zh": "挪威语",
+    "ja": "ノルウェー語",
+    "ko": "노르웨이어",
+    "fr": "Norvégien",
+    "de": "Norwegisch",
+    "es": "Noruego",
+    "pt-BR": "Norueguês",
+    "ru": "Норвежский"
+  },
+  "Finnish": {
+    "en": "Finnish",
+    "zh": "芬兰语",
+    "ja": "フィンランド語",
+    "ko": "핀란드어",
+    "fr": "Finnois",
+    "de": "Finnisch",
+    "es": "Finés",
+    "pt-BR": "Finlandês",
+    "ru": "Финский"
+  },
+  "Czech": {
+    "en": "Czech",
+    "zh": "捷克语",
+    "ja": "チェコ語",
+    "ko": "체코어",
+    "fr": "Tchèque",
+    "de": "Tschechisch",
+    "es": "Checo",
+    "pt-BR": "Tcheco",
+    "ru": "Чешский"
+  },
+  "Turkish": {
+    "en": "Turkish",
+    "zh": "土耳其语",
+    "ja": "トルコ語",
+    "ko": "튀르키예어",
+    "fr": "Turc",
+    "de": "Türkisch",
+    "es": "Turco",
+    "pt-BR": "Turco",
+    "ru": "Турецкий"
+  },
+  "Greek": {
+    "en": "Greek",
+    "zh": "希腊语",
+    "ja": "ギリシャ語",
+    "ko": "그리스어",
+    "fr": "Grec",
+    "de": "Griechisch",
+    "es": "Griego",
+    "pt-BR": "Grego",
+    "ru": "Греческий"
+  },
+  "Hungarian": {
+    "en": "Hungarian",
+    "zh": "匈牙利语",
+    "ja": "ハンガリー語",
+    "ko": "헝가리어",
+    "fr": "Hongrois",
+    "de": "Ungarisch",
+    "es": "Húngaro",
+    "pt-BR": "Húngaro",
+    "ru": "Венгерский"
+  },
+  "Romanian": {
+    "en": "Romanian",
+    "zh": "罗马尼亚语",
+    "ja": "ルーマニア語",
+    "ko": "루마니아어",
+    "fr": "Roumain",
+    "de": "Rumänisch",
+    "es": "Rumano",
+    "pt-BR": "Romeno",
+    "ru": "Румынский"
+  },
+  "Chinese (Simplified)": {
+    "en": "Chinese (Simplified)",
+    "zh": "中文（简体）",
+    "ja": "中国語（簡体字）",
+    "ko": "중국어(간체)",
+    "fr": "Chinois (simplifié)",
+    "de": "Chinesisch (vereinfacht)",
+    "es": "Chino (simplificado)",
+    "pt-BR": "Chinês (simplificado)",
+    "ru": "Китайский (упрощённый)"
+  },
+  "Chinese (Traditional)": {
+    "en": "Chinese (Traditional)",
+    "zh": "中文（繁体）",
+    "ja": "中国語（繁体字）",
+    "ko": "중국어(번체)",
+    "fr": "Chinois (traditionnel)",
+    "de": "Chinesisch (traditionell)",
+    "es": "Chino (tradicional)",
+    "pt-BR": "Chinês (tradicional)",
+    "ru": "Китайский (традиционный)"
+  },
+  "Arabic": {
+    "en": "Arabic",
+    "zh": "阿拉伯语",
+    "ja": "アラビア語",
+    "ko": "아랍어",
+    "fr": "Arabe",
+    "de": "Arabisch",
+    "es": "Árabe",
+    "pt-BR": "Árabe",
+    "ru": "Арабский"
   }
 }
