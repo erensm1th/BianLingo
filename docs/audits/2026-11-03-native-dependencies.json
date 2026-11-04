@@ -1,0 +1,150 @@
+{
+  "checked_date": "2026-11-03",
+  "project_commit": "0f2b9cae60143cb656c26a5f4d5942bb8d34146f",
+  "archive_sha256": "d728b26eafedcdf65641fe07dc0f469660aa5452bde84f7f633ab900b93b8ab3",
+  "method": "CMake cache, vcpkg installed package SPDX records, link command library list and embedded notice comparison. This is a build-input inventory, not a complete release SBOM or legal clearance.",
+  "packages": [
+    {
+      "name": "bzip2",
+      "version": "1.0.8#6",
+      "license_metadata": "bzip2-1.0.6",
+      "source_metadata": "git+https://github.com/Microsoft/vcpkg#ports/bzip2",
+      "copyright_sha256": "c6dbbf828498be844a89eaa3b84adbab3199e342eb5cb2ed2f0d4ba7ec0f38a3",
+      "scope": "installed build input; exact executable code reachability not inferred"
+    },
+    {
+      "name": "curl",
+      "version": "8.23.0",
+      "license_metadata": "BSD-3-Clause AND ISC AND curl",
+      "source_metadata": "git+https://github.com/Microsoft/vcpkg#ports/curl",
+      "copyright_sha256": "543457a53893d439ac029f115c15940c0921ce1b919db501bbad266e2a4d1059",
+      "scope": "installed build input; exact executable code reachability not inferred"
+    },
+    {
+      "name": "giflib",
+      "version": "6.1.3",
+      "license_metadata": "MIT",
+      "source_metadata": "git+https://github.com/Microsoft/vcpkg#ports/giflib",
+      "copyright_sha256": "ed5d90cb4a041bddad679470a071302ab05ae5d0ec2cf8f9c97ad7b2708751e6",
+      "scope": "installed build input; exact executable code reachability not inferred"
+    },
+    {
+      "name": "leptonica",
+      "version": "1.87.0",
+      "license_metadata": "LicenseRef-vcpkg-null",
+      "source_metadata": "git+https://github.com/Microsoft/vcpkg#ports/leptonica",
+      "copyright_sha256": "87829abb5bbb00b55a107365da89e9a33f86c4250169e5a1e5588505be7d5806",
+      "scope": "installed build input; exact executable code reachability not inferred"
+    },
+    {
+      "name": "libarchive",
+      "version": "3.8.9",
+      "license_metadata": "LicenseRef-vcpkg-null",
+      "source_metadata": "git+https://github.com/Microsoft/vcpkg#ports/libarchive",
+      "copyright_sha256": "16964d644e47d0e8ded669a62863ef01abc9420c732d45bf52e9be2737525445",
+      "scope": "installed build input; exact executable code reachability not inferred"
+    },
+    {
+      "name": "libjpeg-turbo",
+      "version": "3.2.0#1",
+      "license_metadata": "BSD-3-Clause AND IJG",
+      "source_metadata": "git+https://github.com/Microsoft/vcpkg#ports/libjpeg-turbo",
+      "copyright_sha256": "ba6bceebcba0fdd35488477c2cca8c4632ce82c74dbfbc87d886ce6fc4433579",
+      "scope": "installed build input; exact executable code reachability not inferred"
+    },
+    {
+      "name": "liblzma",
+      "version": "5.8.4",
+      "license_metadata": "0BSD",
+      "source_metadata": "git+https://github.com/Microsoft/vcpkg#ports/liblzma",
+      "copyright_sha256": "616a3ad264ce29b8f1cb97e53037b139d406899ca8d1f799651e17bfa09830b8",
+      "scope": "installed build input; exact executable code reachability not inferred"
+    },
+    {
+      "name": "libpng",
+      "version": "1.6.59",
+      "license_metadata": "libpng-2.0",
+      "source_metadata": "git+https://github.com/Microsoft/vcpkg#ports/libpng",
+      "copyright_sha256": "bdb0a645ea18c60507d0368379b1ac5474b92255fcc2d115e07486a7672ba526",
+      "scope": "installed build input; exact executable code reachability not inferred"
+    },
+    {
+      "name": "libspng",
+      "version": "0.7.4#1",
+      "license_metadata": "BSD-2-Clause AND libpng-2.0",
+      "source_metadata": "git+https://github.com/Microsoft/vcpkg#ports/libspng",
+      "copyright_sha256": "c23ec2c56ebd6ff8af3ac70e72e85ac11e9183d602d461e1712ca46dd647868f",
+      "scope": "installed build input; exact executable code reachability not inferred"
+    },
+    {
+      "name": "libwebp",
+      "version": "1.6.0#3",
+      "license_metadata": "BSD-3-Clause",
+      "source_metadata": "git+https://github.com/Microsoft/vcpkg#ports/libwebp",
+      "copyright_sha256": "050b5ba2c8eb0bd3b996e12ef79312a1c62237f2de1b3c609843f00bb74744f3",
+      "scope": "installed build input; exact executable code reachability not inferred"
+    },
+    {
+      "name": "lz4",
+      "version": "1.10.0",
+      "license_metadata": "BSD-2-Clause",
+      "source_metadata": "git+https://github.com/Microsoft/vcpkg#ports/lz4",
+      "copyright_sha256": "8b58c446121a109ccf32edc094bba3010a3d85e4ee3702950db55e4d3e87736c",
+      "scope": "installed build input; exact executable code reachability not inferred"
+    },
+    {
+      "name": "openjpeg",
+      "version": "2.5.4",
+      "license_metadata": "BSD-2-Clause",
+      "source_metadata": "git+https://github.com/Microsoft/vcpkg#ports/openjpeg",
+      "copyright_sha256": "a6af136f3e15038a666b61f376612a07d9a4e48cb7c01adbf3e33b3f14ab49b6",
+      "scope": "installed build input; exact executable code reachability not inferred"
+    },
+    {
+      "name": "openssl",
+      "version": "3.6.5#2",
+      "license_metadata": "Apache-2.0",
+      "source_metadata": "git+https://github.com/Microsoft/vcpkg@531e65d1e8dcc42d0ac01783393753bbe365be9d",
+      "copyright_sha256": "7d5450cb2d142651b8afa315b5f238efc805dad827d91ba367d8516bc9d49e7a",
+      "scope": "installed build input; exact executable code reachability not inferred"
+    },
+    {
+      "name": "tesseract",
+      "version": "5.5.3",
+      "license_metadata": "Apache-2.0",
+      "source_metadata": "git+https://github.com/Microsoft/vcpkg#ports/tesseract",
+      "copyright_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "scope": "installed build input; exact executable code reachability not inferred"
+    },
+    {
+      "name": "tiff",
+      "version": "4.7.2",
+      "license_metadata": "libtiff",
+      "source_metadata": "git+https://github.com/Microsoft/vcpkg#ports/tiff",
+      "copyright_sha256": "0e27c2382d7b8147972bbb746e04059a1152c8d0fda9d03ef1399d1a433c4ade",
+      "scope": "installed build input; exact executable code reachability not inferred"
+    },
+    {
+      "name": "zlib",
+      "version": "1.3.2#2",
+      "license_metadata": "Zlib",
+      "source_metadata": "git+https://github.com/Microsoft/vcpkg#ports/zlib",
+      "copyright_sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2",
+      "scope": "installed build input; exact executable code reachability not inferred"
+    },
+    {
+      "name": "zstd",
+      "version": "1.5.7",
+      "license_metadata": "(BSD-3-Clause OR GPL-2.0-only)",
+      "source_metadata": "git+https://github.com/Microsoft/vcpkg#ports/zstd",
+      "copyright_sha256": "434dca949c6da7c500413aef694539fe37f867dd1a94d83d4ed1d260194e2660",
+      "scope": "installed build input; exact executable code reachability not inferred"
+    },
+    {
+      "name": "nlohmann-json",
+      "version": "3.12.0",
+      "license_metadata": "MIT",
+      "scope": "header-only dependency resolved from a separate dependency prefix; embedded notice compared successfully"
+    }
+  ]
+}

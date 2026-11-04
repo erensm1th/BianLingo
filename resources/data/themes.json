@@ -1,0 +1,237 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "ios",
+    "name": "iOS",
+    "author": "BianLingo",
+    "description": "内置主题",
+    "base": "",
+    "colors": {
+      "background": "#1C1C1E",
+      "surface": "#2C2C2E",
+      "text": "#F5F5F7",
+      "accent": "#0A84FF"
+    },
+    "widgets": {
+      "toggle": "switch",
+      "slider": "round",
+      "navigation": "icons",
+      "menuMark": "tick",
+      "invertSelection": false,
+      "cardBorder": false
+    },
+    "metrics": {
+      "cardRadius": 10,
+      "controlRadius": 7,
+      "buttonRadius": 7,
+      "borderWidth": 1,
+      "sliderPadding": 12,
+      "trackThickness": 6,
+      "thumbSize": 22,
+      "toggleWidth": 36,
+      "toggleHeight": 20,
+      "popupRowHeight": 34
+    },
+    "fonts": {
+      "latin": "system-sans",
+      "cjk": "system",
+      "size": 13
+    },
+    "palettes": [
+      {
+        "id": "graphite",
+        "name": "石墨灰",
+        "colors": {
+          "background": "#1C1C1E",
+          "surface": "#2C2C2E",
+          "text": "#F5F5F7",
+          "accent": "#0A84FF"
+        }
+      },
+      {
+        "id": "paper",
+        "name": "雾白",
+        "colors": {
+          "background": "#F2F2F7",
+          "surface": "#FFFFFF",
+          "text": "#1C1C1E",
+          "accent": "#007AFF"
+        }
+      },
+      {
+        "id": "navy",
+        "name": "暗夜蓝",
+        "colors": {
+          "background": "#111923",
+          "surface": "#1B2836",
+          "text": "#EDF4FA",
+          "accent": "#63D7C1"
+        }
+      },
+      {
+        "id": "warm",
+        "name": "暖棕",
+        "colors": {
+          "background": "#26211C",
+          "surface": "#393028",
+          "text": "#F0E8DF",
+          "accent": "#CDB086"
+        }
+      }
+    ],
+    "chat": {
+      "defaultBackgroundOpacity": 0.3
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "terminal",
+    "name": "Terminal",
+    "author": "BianLingo",
+    "description": "内置主题",
+    "base": "",
+    "colors": {
+      "background": "#000000",
+      "surface": "#000000",
+      "text": "#C5D1C5",
+      "accent": "#50FA7B"
+    },
+    "widgets": {
+      "toggle": "ascii",
+      "slider": "square",
+      "navigation": "plain",
+      "menuMark": "chevron",
+      "invertSelection": true,
+      "cardBorder": true
+    },
+    "metrics": {
+      "cardRadius": 0,
+      "controlRadius": 0,
+      "buttonRadius": 0,
+      "borderWidth": 1,
+      "sliderPadding": 12,
+      "trackThickness": 2,
+      "thumbSize": 8,
+      "toggleWidth": 36,
+      "toggleHeight": 20,
+      "popupRowHeight": 29
+    },
+    "fonts": {
+      "latin": "system-mono",
+      "cjk": "system",
+      "size": 13
+    },
+    "palettes": [
+      {
+        "id": "terminal_green",
+        "name": "纯黑 · 荧绿",
+        "colors": {
+          "background": "#000000",
+          "surface": "#000000",
+          "text": "#C5D1C5",
+          "accent": "#50FA7B"
+        }
+      },
+      {
+        "id": "terminal_amber",
+        "name": "纯黑 · 琥珀",
+        "colors": {
+          "background": "#000000",
+          "surface": "#000000",
+          "text": "#DFD2B4",
+          "accent": "#FFB454"
+        }
+      },
+      {
+        "id": "terminal_ice",
+        "name": "纯黑 · 冰蓝",
+        "colors": {
+          "background": "#000000",
+          "surface": "#000000",
+          "text": "#C4CDD5",
+          "accent": "#89DDFF"
+        }
+      }
+    ],
+    "chat": {
+      "defaultBackgroundOpacity": 0.3
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "classic",
+    "name": "Classic",
+    "author": "BianLingo",
+    "description": "经典聊天外观，正式服选项风格的深色金属设置界面、金色文字和红色按钮",
+    "base": "",
+    "colors": {
+      "background": "#000000",
+      "surface": "#0C0E10",
+      "text": "#FFD100",
+      "accent": "#FF8040",
+      "muted": "#A9A397",
+      "border": "#77746A",
+      "focus": "#FFD100",
+      "hover": "#34332D",
+      "selection": "#343027",
+      "selectedText": "#FFFFFF",
+      "disabled": "#6C6A63",
+      "track": "#030405",
+      "thumb": "#B2B1A6",
+      "toggleOff": "#040506",
+      "pressed": "#360303",
+      "button": "#710B0B",
+      "onAccent": "#FFD100"
+    },
+    "widgets": {
+      "toggle": "checkbox",
+      "slider": "diamond",
+      "navigation": "plain",
+      "menuMark": "tick",
+      "invertSelection": false,
+      "cardBorder": true,
+      "frame": "beveled"
+    },
+    "metrics": {
+      "cardRadius": 0,
+      "controlRadius": 2,
+      "buttonRadius": 1,
+      "borderWidth": 1,
+      "sliderPadding": 12,
+      "trackThickness": 4,
+      "thumbSize": 16,
+      "toggleWidth": 26,
+      "toggleHeight": 22,
+      "popupRowHeight": 32
+    },
+    "fonts": {
+      "latin": "system-serif",
+      "cjk": "system",
+      "size": 14
+    },
+    "palettes": [
+      {
+        "id": "classic_original",
+        "name": "原生配色",
+        "colors": {
+          "background": "#000000",
+          "surface": "#0C0E10",
+          "text": "#FFD100",
+          "accent": "#FF8040"
+        }
+      }
+    ],
+    "chat": {
+      "tabs": "classic",
+      "flashUnread": true,
+      "unreadCount": false,
+      "tabText": "#FFD100",
+      "tabFill": "#17120D",
+      "tabBorder": "#6B5538",
+      "glow": "#FF8040",
+      "fadeInMs": 1000,
+      "fadeOutMs": 1000,
+      "defaultBackgroundOpacity": 0.3
+    }
+  }
+]

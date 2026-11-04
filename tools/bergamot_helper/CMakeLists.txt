@@ -1,0 +1,28 @@
+cmake_minimum_required(VERSION 3.24)
+project(BianLingoBergamot LANGUAGES CXX)
+
+if(NOT DEFINED BL_BERGAMOT_SOURCE OR NOT EXISTS "${BL_BERGAMOT_SOURCE}/CMakeLists.txt")
+  message(FATAL_ERROR "BL_BERGAMOT_SOURCE must point to the pinned upstream Bergamot checkout")
+endif()
+
+set(USE_WASM_COMPATIBLE_SOURCE ON CACHE BOOL "Build the compact Bergamot backend" FORCE)
+set(USE_WASM_COMPATIBLE_BLAS OFF CACHE BOOL "Do not build ONNX BLAS" FORCE)
+set(USE_ONNX_SGEMM OFF CACHE BOOL "Do not build ONNX SGEMM" FORCE)
+set(USE_RUY ON CACHE BOOL "Use the portable Ruy CPU backend" FORCE)
+set(USE_RUY_SGEMM ON CACHE BOOL "Provide CPU matrix multiplication without system BLAS" FORCE)
+set(SSPLIT_USE_INTERNAL_PCRE2 ON CACHE BOOL "Use the bundled PCRE2" FORCE)
+set(COMPILE_TESTS OFF CACHE BOOL "Upstream tests run separately" FORCE)
+set(GIT_SUBMODULE OFF CACHE BOOL "Submodules are pinned before configure" FORCE)
+set(BUILD_ARCH x86-64-v2 CACHE STRING "Portable x64 CPU baseline" FORCE)
+
+if(MSVC)
+  set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+  add_compile_options(/utf-8 /wd4127 /wd4244)
+  add_compile_definitions(PCRE2_STATIC)
+endif()
+add_subdirectory("${BL_BERGAMOT_SOURCE}" bergamot-upstream EXCLUDE_FROM_ALL)
+
+add_executable(BianLingoBergamot src/main.cpp)
+target_compile_features(BianLingoBergamot PRIVATE cxx_std_17)
+target_include_directories(BianLingoBergamot PRIVATE "${BL_BERGAMOT_SOURCE}/src")
+target_link_libraries(BianLingoBergamot PRIVATE bergamot-translator)

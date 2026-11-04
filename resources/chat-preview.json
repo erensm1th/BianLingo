@@ -1,0 +1,146 @@
+[
+  {
+    "event": "CHAT_MSG_SAY",
+    "name": "示例战士",
+    "player_class": "WARRIOR",
+    "race": "人类",
+    "english_race": "Human",
+    "original": "hey everyone",
+    "translated": "大家好，欢迎来到艾泽拉斯！"
+  },
+  {
+    "event": "CHAT_MSG_YELL",
+    "name": "示例猎人",
+    "player_class": "HUNTER",
+    "race": "暗夜精灵",
+    "english_race": "NightElf",
+    "original": "inc patrol!",
+    "translated": "巡逻怪过来了！"
+  },
+  {
+    "event": "CHAT_MSG_PARTY",
+    "name": "示例牧师",
+    "player_class": "PRIEST",
+    "race": "矮人",
+    "english_race": "Dwarf",
+    "original": "oom, drinking",
+    "translated": "没蓝了，喝水回蓝中，稍等一下。"
+  },
+  {
+    "event": "CHAT_MSG_PARTY_LEADER",
+    "name": "示例圣骑士",
+    "player_class": "PALADIN",
+    "race": "人类",
+    "english_race": "Human",
+    "original": "ready? lets go",
+    "translated": "准备好了吗？我们出发吧。"
+  },
+  {
+    "event": "CHAT_MSG_RAID",
+    "name": "示例法师",
+    "player_class": "MAGE",
+    "race": "侏儒",
+    "english_race": "Gnome",
+    "original": "sheep marked target pls",
+    "translated": "请控制标记的目标，其他人先不要打。"
+  },
+  {
+    "event": "CHAT_MSG_RAID_WARNING",
+    "name": "示例德鲁伊",
+    "player_class": "DRUID",
+    "race": "暗夜精灵",
+    "english_race": "NightElf",
+    "original": "spread out!",
+    "translated": "注意躲开地面技能，保持分散！"
+  },
+  {
+    "event": "CHAT_MSG_GUILD",
+    "name": "示例术士",
+    "player_class": "WARLOCK",
+    "race": "亡灵",
+    "english_race": "Scourge",
+    "original": "anyone need a summon?",
+    "translated": "有人需要拉人吗？我已经在副本门口了。"
+  },
+  {
+    "event": "CHAT_MSG_OFFICER",
+    "name": "示例萨满",
+    "player_class": "SHAMAN",
+    "race": "兽人",
+    "english_race": "Orc",
+    "original": "raid starts at 8",
+    "translated": "今晚八点集合，请提前准备药水。"
+  },
+  {
+    "event": "CHAT_MSG_WHISPER",
+    "name": "示例潜行者",
+    "player_class": "ROGUE",
+    "race": "人类",
+    "english_race": "Human",
+    "original": "got room for one more?",
+    "translated": "你们还有一个位置吗？我可以马上过来。"
+  },
+  {
+    "event": "CHAT_MSG_WHISPER_INFORM",
+    "name": "示例回复",
+    "player_class": "WARRIOR",
+    "race": "人类",
+    "english_race": "Human",
+    "original": "sure, omw",
+    "translated": "有位置，我正在路上。"
+  },
+  {
+    "event": "CHAT_MSG_CHANNEL",
+    "name": "示例交易",
+    "player_class": "MAGE",
+    "race": "侏儒",
+    "english_race": "Gnome",
+    "original": "WTS bags, pst",
+    "translated": "出售背包，有需要请私聊，支持自带材料。"
+  },
+  {
+    "event": "CHAT_MSG_INSTANCE_CHAT",
+    "name": "示例副本",
+    "player_class": "PALADIN",
+    "race": "人类",
+    "english_race": "Human",
+    "original": "lf healer then gtg",
+    "translated": "再来一个治疗就可以出发了。"
+  },
+  {
+    "event": "CHAT_MSG_PARTY",
+    "name": "示例物品",
+    "player_class": "HUNTER",
+    "race": "暗夜精灵",
+    "english_race": "NightElf",
+    "original": "free food at the inn",
+    "translated": "旅店免费领取 |cffffffff|Hitem:2685|h[啤酒烤猪排]|h|r x10，吃完一起出发。"
+  },
+  {
+    "event": "CHAT_MSG_GUILD",
+    "name": "示例装备",
+    "player_class": "WARRIOR",
+    "race": "人类",
+    "english_race": "Human",
+    "original": "check out these items",
+    "translated": "品质颜色：|cff9d9d9d|Hitem:7073|h[灰色物品]|h|r |cff1eff00|Hitem:15210|h[绿色装备]|h|r |cff0070dd|Hitem:5191|h[蓝色武器]|h|r |cffa335ee|Hitem:18832|h[紫色装备]|h|r |cffff8000|Hitem:19019|h[传说武器]|h|r，链接后恢复频道颜色。"
+  },
+  {
+    "event": "CHAT_MSG_PARTY",
+    "name": "示例长消息",
+    "player_class": "PRIEST",
+    "race": "矮人",
+    "english_race": "Dwarf",
+    "original": "please wait for mana before the next pull, and avoid the patrol near the bridge",
+    "translated": "这是一条用于检查自动换行的长消息：开怪前请等待治疗回蓝，坦克把怪拉到桥边，远程注意不要引到旁边的巡逻怪。This part checks mixed English and 中文, DPS / tank / healer, 12345，标点与多行排版。"
+  },
+  {
+    "event": "CHAT_MSG_RAID",
+    "name": "示例补发",
+    "player_class": "DRUID",
+    "race": "暗夜精灵",
+    "english_race": "NightElf",
+    "original": "this is a replay preview",
+    "translated": "这是手动补发消息的显示示例。"
+  }
+]

@@ -1,0 +1,10 @@
+CTranslate2 native CPU runtime (4.8.4)
+
+BianLingoCT2.exe is built from checksum-pinned sources listed in resources/ct2-native-sources.json.
+BLCT3 protocol; Ruy CPU backend; static CRT; no Python, MKL, OpenMP, CUDA or cuDNN.
+The binary imports only Windows operating-system DLLs (verified during packaging).
+Full upstream notices, including nested source licenses, are in CT2Native.txt and
+beside the worker in engine-LICENSES.txt. Inputs and wrapper hashes are recorded
+in native-build.json. Input notice inclusion does not claim every source file is linked.
+
+Model download and attribution rules are independent of this runtime.

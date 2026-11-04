@@ -1,0 +1,559 @@
+{
+  "schemaVersion": 1,
+  "scope": "Pinned model cards, not reproduction of original weights",
+  "models": [
+    {
+      "pair": "ar-en",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-ar-en",
+          "revision": "c5b2a50db78d6be98ae207223f8d4f63bc7a0ff1",
+          "path": "resources/model-evidence/ctranslate2/ar-en/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-ar-en/raw/c5b2a50db78d6be98ae207223f8d4f63bc7a0ff1/README.md",
+          "sha256": "35e4a45fc28e591430ec663b3a5dff970311d90f94fcba3d9c983d5fe999a170"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-ar-en-ct2-float16",
+          "revision": "4f50aae25375af44f24f87becac4349059d92486",
+          "path": "resources/model-evidence/ctranslate2/ar-en/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-ar-en-ct2-float16/raw/4f50aae25375af44f24f87becac4349059d92486/README.md",
+          "sha256": "b3441966991e5469615de598518673112fe6a01ab4a2578f36c9aec1f7a27949"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "cs-en",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-cs-en",
+          "revision": "577d2053d249b476aefec9524a37ec945ccbd331",
+          "path": "resources/model-evidence/ctranslate2/cs-en/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-cs-en/raw/577d2053d249b476aefec9524a37ec945ccbd331/README.md",
+          "sha256": "a40f97d14c3f128857473afee25e29cbdc20f6dcb8c2e6ab7a2d01f580a363f7"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-cs-en-ct2-float16",
+          "revision": "345b2a579142c5490debd76f4d8db248f8b231f6",
+          "path": "resources/model-evidence/ctranslate2/cs-en/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-cs-en-ct2-float16/raw/345b2a579142c5490debd76f4d8db248f8b231f6/README.md",
+          "sha256": "489e6afa001fa016fc1d59fe611d36d5da508561e05f88c758f95a1d6cb142e4"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "da-en",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-da-en",
+          "revision": "0960cff506758772cf23186b941305e0afeb43c5",
+          "path": "resources/model-evidence/ctranslate2/da-en/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-da-en/raw/0960cff506758772cf23186b941305e0afeb43c5/README.md",
+          "sha256": "d490321b08fec6f4118a67588d421cc6d801711d0d15588a2d234853ee9ff11b"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-da-en-ct2-float16",
+          "revision": "e9d0867f8f99a482ae6426a0ca39db9f2b2c8f7f",
+          "path": "resources/model-evidence/ctranslate2/da-en/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-da-en-ct2-float16/raw/e9d0867f8f99a482ae6426a0ca39db9f2b2c8f7f/README.md",
+          "sha256": "249077bfb2daba07b1a0e2953abb1b987d608acea4a0c310e92f2750efc84221"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "de-en",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-de-en",
+          "revision": "1a922f3b32a8e809e17a47d4b32142d8105924e5",
+          "path": "resources/model-evidence/ctranslate2/de-en/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-de-en/raw/1a922f3b32a8e809e17a47d4b32142d8105924e5/README.md",
+          "sha256": "ae6f262ce3e16c3ee213703b6e89bdc744e6c8d784a1f286a3de8abc86667e89"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-de-en-ct2-float16",
+          "revision": "7a81892cee99d630f48ccac3b16c220d7270c35c",
+          "path": "resources/model-evidence/ctranslate2/de-en/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-de-en-ct2-float16/raw/7a81892cee99d630f48ccac3b16c220d7270c35c/README.md",
+          "sha256": "fab3992b0e6fcf9540983fc3e5aa3693a5b4553e15b5abd42d86499459c60f0c"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "en-ar",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-en-ar",
+          "revision": "03087980e8ce753d64b3248ed0a912444545b840",
+          "path": "resources/model-evidence/ctranslate2/en-ar/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-en-ar/raw/03087980e8ce753d64b3248ed0a912444545b840/README.md",
+          "sha256": "7cc0866ce36041ab0f6e2d32241ebd55f3c372b44024f3fa36252da6b412129a"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-en-ar-ct2-float16",
+          "revision": "908c1eb592272e7e9144145e6785f9af4b70d2db",
+          "path": "resources/model-evidence/ctranslate2/en-ar/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-en-ar-ct2-float16/raw/908c1eb592272e7e9144145e6785f9af4b70d2db/README.md",
+          "sha256": "ff8b344314c2a5ce0bcfa7949e8115c1b3539ed01f10ba56fef1fcf9bf149634"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "en-de",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-en-de",
+          "revision": "6183067f769a302e3861815543b9f312c71b0ca4",
+          "path": "resources/model-evidence/ctranslate2/en-de/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-en-de/raw/6183067f769a302e3861815543b9f312c71b0ca4/README.md",
+          "sha256": "7625de996b7c4c51c217095941cf2e27d2b5cc5b4cd695c382882679f2f53710"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-en-de-ct2-float16",
+          "revision": "652dfce3373fa1d4b110c221cd59fc0e9825090c",
+          "path": "resources/model-evidence/ctranslate2/en-de/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-en-de-ct2-float16/raw/652dfce3373fa1d4b110c221cd59fc0e9825090c/README.md",
+          "sha256": "b8ac0fe8dfc63798cbc5046c1d46757186676b20465812b59d2104a14251e593"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "en-es",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-en-es",
+          "revision": "5bc4493d463cf000c1f0b50f8d56886a392ed4ab",
+          "path": "resources/model-evidence/ctranslate2/en-es/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-en-es/raw/5bc4493d463cf000c1f0b50f8d56886a392ed4ab/README.md",
+          "sha256": "7831f4fa1eda04c91a5aa7b57006db58355c78337a552c5ff0252d0c049710d8"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-en-es-ct2-float16",
+          "revision": "bb2dbacb9b21abe9e9e3dd431cff1297366fa6d0",
+          "path": "resources/model-evidence/ctranslate2/en-es/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-en-es-ct2-float16/raw/bb2dbacb9b21abe9e9e3dd431cff1297366fa6d0/README.md",
+          "sha256": "9255177774d824cc7e977fd97ffff776d39d10f7923b95d29973981b0d3f071c"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "en-fr",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-en-fr",
+          "revision": "dd7f6540a7a48a7f4db59e5c0b9c42c8eea67f18",
+          "path": "resources/model-evidence/ctranslate2/en-fr/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-en-fr/raw/dd7f6540a7a48a7f4db59e5c0b9c42c8eea67f18/README.md",
+          "sha256": "695f64a07925db14e3e2f9d0f2074ef8ac86e4d43939451fae5603683dba90a6"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-en-fr-ct2-float16",
+          "revision": "862d85c691dfc11e6cc0423464d97cfb2037d92e",
+          "path": "resources/model-evidence/ctranslate2/en-fr/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-en-fr-ct2-float16/raw/862d85c691dfc11e6cc0423464d97cfb2037d92e/README.md",
+          "sha256": "35191e5e6d487079ea17da62cf4d3fd57bce469a54dc0fc30d0f6552c0341cd1"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "en-id",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-en-id",
+          "revision": "6e4c52d61a6b16fe3509b0267cbfec65011b860b",
+          "path": "resources/model-evidence/ctranslate2/en-id/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-en-id/raw/6e4c52d61a6b16fe3509b0267cbfec65011b860b/README.md",
+          "sha256": "b22576651af4091e2b7460f1a0a59b96ce24e2bbfeb4886941e7805d51db4a15"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-en-id-ct2-float16",
+          "revision": "a56ff05aac5a122792cc09c93aeea41e40121030",
+          "path": "resources/model-evidence/ctranslate2/en-id/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-en-id-ct2-float16/raw/a56ff05aac5a122792cc09c93aeea41e40121030/README.md",
+          "sha256": "734bd261e814b88c217fdf7812fd484b6b3030c779a1dfc939f7ac6de559ef46"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "en-it",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-en-it",
+          "revision": "be5a254d936f1a8c8da080406ca582a6615e6658",
+          "path": "resources/model-evidence/ctranslate2/en-it/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-en-it/raw/be5a254d936f1a8c8da080406ca582a6615e6658/README.md",
+          "sha256": "c478ba7a5c5ecc7cb608fdbf807cdf69e48e4d713626efc8a2494375497ca185"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-en-it-ct2-float16",
+          "revision": "b3560fb2a6c18f8d55aa86fbdec728f8dafafedd",
+          "path": "resources/model-evidence/ctranslate2/en-it/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-en-it-ct2-float16/raw/b3560fb2a6c18f8d55aa86fbdec728f8dafafedd/README.md",
+          "sha256": "65a51439d95f8216298ab043e6784295306ce16796bd1425fcaa3b2871b5faf5"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "en-ru",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-en-ru",
+          "revision": "bb09c99d180016eac6819df3dae68edb1690fdee",
+          "path": "resources/model-evidence/ctranslate2/en-ru/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-en-ru/raw/bb09c99d180016eac6819df3dae68edb1690fdee/README.md",
+          "sha256": "020bfd697b7d0da0338611cf445eb44ae45dda27ff49f2bf64e21ee46882b48b"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-en-ru-ct2-float16",
+          "revision": "4b044627da66689ee0e3d28f092c5a56f46af902",
+          "path": "resources/model-evidence/ctranslate2/en-ru/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-en-ru-ct2-float16/raw/4b044627da66689ee0e3d28f092c5a56f46af902/README.md",
+          "sha256": "28941573ea833331da46701208eece7eb27700474dc97618f48795be74bbb565"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "en-vi",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-en-vi",
+          "revision": "989c9fb9ec63987901022baf0182dcec3e149be6",
+          "path": "resources/model-evidence/ctranslate2/en-vi/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-en-vi/raw/989c9fb9ec63987901022baf0182dcec3e149be6/README.md",
+          "sha256": "1a41a58687158940cd4fa0c334a1e3ccd73f6f778433638191af96933940fcbd"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-en-vi-ct2-float16",
+          "revision": "9f6af416a2eda9a256ba88b83f2f29fdc62175a2",
+          "path": "resources/model-evidence/ctranslate2/en-vi/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-en-vi-ct2-float16/raw/9f6af416a2eda9a256ba88b83f2f29fdc62175a2/README.md",
+          "sha256": "2308bd27e7ce41bd982ff6a954ad7dbb68a87d4c4a73c1dd4bce1406e220e404"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "en-zh",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-en-zh",
+          "revision": "408d9bc410a388e1d9aef112a2daba955b945255",
+          "path": "resources/model-evidence/ctranslate2/en-zh/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-en-zh/raw/408d9bc410a388e1d9aef112a2daba955b945255/README.md",
+          "sha256": "83eee2a6598751f746a057e10d5c9dfd71d6b0cf0146f9e6c1bb3ebd6e90959b"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-en-zh-ct2-float16",
+          "revision": "5213be57ce67e590d556f3f317331582454d59e5",
+          "path": "resources/model-evidence/ctranslate2/en-zh/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-en-zh-ct2-float16/raw/5213be57ce67e590d556f3f317331582454d59e5/README.md",
+          "sha256": "d2cbe78320c05ac63617f84a86f16130f2a824b8a0a71a78b0bbf178428b04da"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "es-en",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-es-en",
+          "revision": "c96e2c5399ebfae4fc43d9669556b9afa74bb69d",
+          "path": "resources/model-evidence/ctranslate2/es-en/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-es-en/raw/c96e2c5399ebfae4fc43d9669556b9afa74bb69d/README.md",
+          "sha256": "d67ee971854b4c166da1cc281b58fbdc8596e0412441ef71fb0d422263230e0a"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-es-en-ct2-float16",
+          "revision": "e0c9c54b239774e5ce8450c8168f9e48320ecf97",
+          "path": "resources/model-evidence/ctranslate2/es-en/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-es-en-ct2-float16/raw/e0c9c54b239774e5ce8450c8168f9e48320ecf97/README.md",
+          "sha256": "f57ebc4b6b0bb08a7bcc89ad9ff2023a75d05dc0f10183e9a784d4237f99dadc"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "fr-en",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-fr-en",
+          "revision": "c4aed37b318c763fd177aa449b44e3b783cc6c02",
+          "path": "resources/model-evidence/ctranslate2/fr-en/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-fr-en/raw/c4aed37b318c763fd177aa449b44e3b783cc6c02/README.md",
+          "sha256": "a923263e9691f40ce7c9afe5d59f6296051439ae7776a158d18d57258be48195"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-fr-en-ct2-float16",
+          "revision": "e7fa58d8122534140201c198ef2ac6e5954d76ce",
+          "path": "resources/model-evidence/ctranslate2/fr-en/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-fr-en-ct2-float16/raw/e7fa58d8122534140201c198ef2ac6e5954d76ce/README.md",
+          "sha256": "043f4b414697c197f8259c27260afb91a04dae56b7bfa60166770c54c323ba0e"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "id-en",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-id-en",
+          "revision": "9a7f1b0d0dfe0a92ba691030b01d6f23f966e7ec",
+          "path": "resources/model-evidence/ctranslate2/id-en/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-id-en/raw/9a7f1b0d0dfe0a92ba691030b01d6f23f966e7ec/README.md",
+          "sha256": "02362f9831450d02ed0a94c995a7168da502664ee30cc9e16fee04e9dc9bde0f"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-id-en-ct2-float16",
+          "revision": "5a5a8273cd8cd9e95ce887e55ad330bb5a2020d7",
+          "path": "resources/model-evidence/ctranslate2/id-en/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-id-en-ct2-float16/raw/5a5a8273cd8cd9e95ce887e55ad330bb5a2020d7/README.md",
+          "sha256": "e640ada65c8f3fd4972b370187cadfc19480c21e8d79f4d1360d5c85085bd11e"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "it-en",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-it-en",
+          "revision": "42556a0848fc726f4d27399f20b19ff6f01afe11",
+          "path": "resources/model-evidence/ctranslate2/it-en/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-it-en/raw/42556a0848fc726f4d27399f20b19ff6f01afe11/README.md",
+          "sha256": "45a950bcb79576832baf346543ac3fe054d4fb2a03f713dc255b27811f4c0cbd"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-it-en-ct2-float16",
+          "revision": "5ff8662244df6e9f9c560f0a8277cab12ffd1c82",
+          "path": "resources/model-evidence/ctranslate2/it-en/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-it-en-ct2-float16/raw/5ff8662244df6e9f9c560f0a8277cab12ffd1c82/README.md",
+          "sha256": "36efbf6eb4b830d761ab18faca6c5a3c6c6c46b387d13079a1ab491580378de8"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "ja-en",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-ja-en",
+          "revision": "0770961a39ba6bd66305b149c3f4110bcafca2e6",
+          "path": "resources/model-evidence/ctranslate2/ja-en/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-ja-en/raw/0770961a39ba6bd66305b149c3f4110bcafca2e6/README.md",
+          "sha256": "0b86e8b0db54d2371edbd3896da45f44c1d1c4d151c6a1164304da49fd841676"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-ja-en-ct2-float16",
+          "revision": "19000cf875f2a01f0f23bbf67eb654ab4cc42a96",
+          "path": "resources/model-evidence/ctranslate2/ja-en/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-ja-en-ct2-float16/raw/19000cf875f2a01f0f23bbf67eb654ab4cc42a96/README.md",
+          "sha256": "9a967985b4782fb273d5e1917fdedc2350e22cd24015227c884e79c0f91e2e65"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "ko-en",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-ko-en",
+          "revision": "e42d1f41b66194e6d10512f8a27bebc1f4f5097e",
+          "path": "resources/model-evidence/ctranslate2/ko-en/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-ko-en/raw/e42d1f41b66194e6d10512f8a27bebc1f4f5097e/README.md",
+          "sha256": "b570727abdf8bfd6ab579e3648d999fc8b4ace4b81a22160c0f03fb501ad07a3"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-ko-en-ct2-float16",
+          "revision": "e4f095af7ac15d3540bf07aa820559eec376f44d",
+          "path": "resources/model-evidence/ctranslate2/ko-en/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-ko-en-ct2-float16/raw/e4f095af7ac15d3540bf07aa820559eec376f44d/README.md",
+          "sha256": "b631f3221411c4671082b6837e781f99f8cf8b7ad2384008091d44553228502e"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "ru-en",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-ru-en",
+          "revision": "fbd6dc73284f95536648512cc21d57f19191961a",
+          "path": "resources/model-evidence/ctranslate2/ru-en/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-ru-en/raw/fbd6dc73284f95536648512cc21d57f19191961a/README.md",
+          "sha256": "58decd5dfb14dfd59bd63a80286869798f94b7d432d249dd289de467ba9a1417"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-ru-en-ct2-float16",
+          "revision": "ca72906869055efb29fffe846fdc6be82d5c07f1",
+          "path": "resources/model-evidence/ctranslate2/ru-en/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-ru-en-ct2-float16/raw/ca72906869055efb29fffe846fdc6be82d5c07f1/README.md",
+          "sha256": "dbefb9364915a1b7e0c8a3b23366fc5b50d938c6036b4542215f5a4f133687a6"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "th-en",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-th-en",
+          "revision": "0fff80be1c3f40d6180efd59f566ece956ace689",
+          "path": "resources/model-evidence/ctranslate2/th-en/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-th-en/raw/0fff80be1c3f40d6180efd59f566ece956ace689/README.md",
+          "sha256": "1ef118a7eb09bafc0c2b3db9af7d1ed55dbcfb01b437d4300bcb46434a2d5e76"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-th-en-ct2-float16",
+          "revision": "db1dede419e76d964459ac25a6402d7c631e1688",
+          "path": "resources/model-evidence/ctranslate2/th-en/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-th-en-ct2-float16/raw/db1dede419e76d964459ac25a6402d7c631e1688/README.md",
+          "sha256": "29922772cb9c939b4c7e258371b636032f2ed75657f5d6ac2b427067cb6d3071"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "tr-en",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-tr-en",
+          "revision": "19c65427cc2af5f191337d4899e0348c4af25902",
+          "path": "resources/model-evidence/ctranslate2/tr-en/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-tr-en/raw/19c65427cc2af5f191337d4899e0348c4af25902/README.md",
+          "sha256": "b8e5d51c40ca2cf0e6d0621092c022093076768b27188cc28f8ee6602fc96bcc"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-tr-en-ct2-float16",
+          "revision": "6d1186c177d4690895d6166a207df0d9051bfb29",
+          "path": "resources/model-evidence/ctranslate2/tr-en/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-tr-en-ct2-float16/raw/6d1186c177d4690895d6166a207df0d9051bfb29/README.md",
+          "sha256": "404f07ba1b21328663ce1e7d41872a1ce19126ccbc02edd8998f82bc706f86b1"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "vi-en",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-vi-en",
+          "revision": "c8d2853e77f5fae31124d993e0b35176b1c8914e",
+          "path": "resources/model-evidence/ctranslate2/vi-en/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-vi-en/raw/c8d2853e77f5fae31124d993e0b35176b1c8914e/README.md",
+          "sha256": "a01298b73b38800792c820bd3a649a7f8d6580f6a3cd1c95c4f1743acbc0da5e"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-vi-en-ct2-float16",
+          "revision": "6759b4606a21f3cb3afa8f99701432e82e1292c8",
+          "path": "resources/model-evidence/ctranslate2/vi-en/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-vi-en-ct2-float16/raw/6759b4606a21f3cb3afa8f99701432e82e1292c8/README.md",
+          "sha256": "9bc9f904ddec0610f72b9fbfce76c6e7a07c5fec4a3881ba653975f63cb587af"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    },
+    {
+      "pair": "zh-en",
+      "assurance": "publisher-declared-lineage",
+      "original_weight_revision": null,
+      "review_status": "reviewed-license-notices",
+      "cards": {
+        "upstream": {
+          "repository": "Helsinki-NLP/opus-mt-zh-en",
+          "revision": "cf109095479db38d6df799875e34039d4938aaa6",
+          "path": "resources/model-evidence/ctranslate2/zh-en/upstream-README.md",
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-zh-en/raw/cf109095479db38d6df799875e34039d4938aaa6/README.md",
+          "sha256": "7f4b7f90672cd55b85b213bbe21f4b2d0c92327e885734b7e86b019feb145a6b"
+        },
+        "conversion": {
+          "repository": "ooeoeo/opus-mt-zh-en-ct2-float16",
+          "revision": "93868521d2ac56bfc5db11e8d07ddcb3dd9daf24",
+          "path": "resources/model-evidence/ctranslate2/zh-en/conversion-README.md",
+          "url": "https://huggingface.co/ooeoeo/opus-mt-zh-en-ct2-float16/raw/93868521d2ac56bfc5db11e8d07ddcb3dd9daf24/README.md",
+          "sha256": "4e6df5d811a6abd565cfe16d9f8e4c96b463a5672c66441efa7c38e3e34c4be1"
+        }
+      },
+      "review_basis": "Checked pinned source and converter cards, declared upstream identity, conversion command and both license labels. Does not establish the original checkpoint or independently reproduce conversion."
+    }
+  ],
+  "reviewed_date": "2026-11-03"
+}

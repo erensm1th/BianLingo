@@ -1,0 +1,17 @@
+* text=auto
+*.cpp text eol=lf
+*.hpp text eol=lf
+*.mm text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.bgra binary
+*.ico binary
+# Preserve exact upstream evidence and pinned license hashes across Windows checkouts.
+resources/data/provenance-source/** -text whitespace=-blank-at-eol,-blank-at-eof
+resources/licenses/*.txt -text whitespace=-blank-at-eol,-blank-at-eof
+resources/model-evidence/** -text whitespace=-blank-at-eol,-blank-at-eof
+*.py text eol=lf
+*.manifest text eol=lf
+*.png binary
+*.tga binary

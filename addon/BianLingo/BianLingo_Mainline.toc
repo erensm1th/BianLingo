@@ -1,0 +1,10 @@
+## Interface: 120100, 120105
+## Title: BianLingo
+## Notes: Minimal chat bridge for BianLingo. Command: /bl
+## IconTexture: Interface/AddOns/BianLingo/Textures/Logo
+## Version: 0.2.7
+## SavedVariables: BianLingoDB
+LocaleMessages.lua
+TraditionalMarkers.lua
+Blocklist.lua
+PixelBridge.lua

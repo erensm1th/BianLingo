@@ -1,0 +1,56 @@
+[
+  {
+    "file": "CTranslate2.txt",
+    "url": "https://raw.githubusercontent.com/OpenNMT/CTranslate2/v4.8.4/LICENSE",
+    "sha256": "54aa79d9fe3c09e67a16dcd95b9e88676405a6ec174efda31036983cf7672ecb",
+    "size": 1115
+  },
+  {
+    "file": "SentencePiece.txt",
+    "url": "https://raw.githubusercontent.com/google/sentencepiece/v0.2.2/LICENSE",
+    "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "size": 11358
+  },
+  {
+    "file": "CC-BY-4.0.txt",
+    "url": "https://creativecommons.org/licenses/by/4.0/legalcode.txt",
+    "sha256": "9ba9550ad48438d0836ddab3da480b3b69ffa0aac7b7878b5a0039e7ab429411",
+    "size": 18657
+  },
+  {
+    "file": "Ollama.txt",
+    "url": "https://raw.githubusercontent.com/ollama/ollama/v0.40.13/LICENSE",
+    "sha256": "5934ed2ce0d15154bcdb9c85203210abac0da4314af34081e36df4599f90b226",
+    "size": 1058
+  },
+  {
+    "file": "nlohmann-json-3.11.2.txt",
+    "url": "https://raw.githubusercontent.com/nlohmann/json/v3.11.2/LICENSE.MIT",
+    "sha256": "86b998c792894ccb911a1cb7994f7a9652894e7a094c0b5e45be2f553f45cf14",
+    "size": 1076
+  },
+  {
+    "file": "BS_thread_pool.txt",
+    "url": "https://raw.githubusercontent.com/bshoshany/thread-pool/v5.1.0/LICENSE.txt",
+    "sha256": "712a867cc12ebfcdecf6cea097f5aa7ec5acaa435a8f818c9f370960df35acbf",
+    "size": 1076
+  },
+  {
+    "file": "simd_utils.txt",
+    "url": "https://raw.githubusercontent.com/JishinMaster/simd_utils/master/LICENSE",
+    "sha256": "dfaa54b4188ffa0e6298ce7ea27c865d12edcf73d742e2200ce9812db6268c0f",
+    "size": 1322
+  },
+  {
+    "file": "LLVM.txt",
+    "url": "https://raw.githubusercontent.com/llvm/llvm-project/llvmorg-18.1.8/LICENSE.TXT",
+    "sha256": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+    "size": 15141
+  },
+  {
+    "file": "winpthreads.txt",
+    "url": "https://raw.githubusercontent.com/mingw-w64/mingw-w64/v12.0.0/mingw-w64-libraries/winpthreads/COPYING",
+    "sha256": "63263614cdd29f2f93cba85e992f041b31f9fc7b4033692f31269489a8a1b177",
+    "size": 2883
+  }
+]

@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "ctranslate2": "4.8.4",
+  "sentencepiece": "0.2.2",
+  "backend": "CPU/Ruy; static CRT; no OpenMP/MKL/CUDA/Python",
+  "sources": [
+    {
+      "name": "ctranslate2",
+      "repository": "OpenNMT/CTranslate2",
+      "revision": "5de572ef60b67a0276c5989ee73d0072808ff4c3",
+      "url": "https://codeload.github.com/OpenNMT/CTranslate2/zip/5de572ef60b67a0276c5989ee73d0072808ff4c3",
+      "sha256": "7a442ffedf6e467e8f51f8daf31dc4497c80a3bc011e64d37ead5cb3f4177ce9",
+      "size": 3907078,
+      "destination": "",
+      "format": "zip"
+    },
+    {
+      "name": "ruy",
+      "repository": "google/ruy",
+      "revision": "363f252289fb7a1fba1703d99196524698cb884d",
+      "url": "https://codeload.github.com/google/ruy/zip/363f252289fb7a1fba1703d99196524698cb884d",
+      "sha256": "6ce5d6b89def2c4f2772074fe89451a3de69c9bfe30a3887a6f2749111824094",
+      "size": 381291,
+      "destination": "third_party/ruy",
+      "format": "zip"
+    },
+    {
+      "name": "cpu_features",
+      "repository": "google/cpu_features",
+      "revision": "8a494eb1e158ec2050e5f699a504fbc9b896a43b",
+      "url": "https://codeload.github.com/google/cpu_features/zip/8a494eb1e158ec2050e5f699a504fbc9b896a43b",
+      "sha256": "4ccded88992089effa9852740b192e404e7ba26541b185ad2a4a0e8aa95a109c",
+      "size": 136506,
+      "destination": "third_party/cpu_features",
+      "format": "zip"
+    },
+    {
+      "name": "spdlog",
+      "repository": "gabime/spdlog",
+      "revision": "76fb40d95455f249bd70824ecfcae7a8f0930fa3",
+      "url": "https://codeload.github.com/gabime/spdlog/zip/76fb40d95455f249bd70824ecfcae7a8f0930fa3",
+      "sha256": "9a00dd50318b9467148adc5e822e55221c65d8d8794c6890ba034eed222dcf64",
+      "size": 459107,
+      "destination": "third_party/spdlog",
+      "format": "zip"
+    },
+    {
+      "name": "cpuinfo",
+      "repository": "pytorch/cpuinfo",
+      "revision": "082deffc80ce517f81dc2f3aebe6ba671fcd09c9",
+      "url": "https://codeload.github.com/pytorch/cpuinfo/zip/082deffc80ce517f81dc2f3aebe6ba671fcd09c9",
+      "sha256": "cd4d4a7659581260f57f821c151826190813f2e3741e7edae4aef336d50d6496",
+      "size": 3797836,
+      "destination": "third_party/ruy/third_party/cpuinfo",
+      "format": "zip"
+    },
+    {
+      "name": "sentencepiece",
+      "repository": "google/sentencepiece",
+      "version": "0.2.2",
+      "url": "https://files.pythonhosted.org/packages/cc/33/ea3cb3839607eb175da835244a798f797f478c5ddf0e8ecdf57ea85a4c70/sentencepiece-0.2.2.tar.gz",
+      "sha256": "3d2b5e824b5622038dc7b490897efe05ebbbb9e7350fc142f3ecc8789ef9bdf6",
+      "size": 8218435,
+      "destination": "sentencepiece",
+      "format": "tar.gz"
+    }
+  ]
+}

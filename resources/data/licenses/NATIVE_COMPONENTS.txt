@@ -1,0 +1,19 @@
+BianLingo directly uses:
+
+OpenSSL 3 — Apache License 2.0
+https://www.openssl.org/
+
+nlohmann/json — MIT License
+https://github.com/nlohmann/json
+
+WoWTranslator terminology data — MIT License
+The unchanged upstream notice is in WoWTranslator-LICENSE.txt.
+
+Build packaging copies the exact OpenSSL and nlohmann/json license notices from
+the dependency installation. Platform SDKs are supplied by Microsoft / Apple.
+Optional CTranslate2 uses a separately prepared portable Python runtime, wheels
+and models, with different component licenses. See licenses/CT2Runtime.txt,
+THIRD_PARTY_NOTICES.md and the pinned runtime/model catalogs. Terminology also
+includes separately credited LibBabble tables (Terminology.txt). Bergamot covered
+source is co-distributed; see SOURCE_ACCESS.md. This legacy index is not a complete
+component inventory or legal clearance statement.

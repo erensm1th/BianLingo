@@ -1,0 +1,38 @@
+{
+  "en": [
+    "Total {total} tokens · {requests} requests",
+    "Input {input} (cached {cached}) · Output {output}"
+  ],
+  "fr": [
+    "Total {total} jetons · {requests} requêtes",
+    "Entrée {input} (cache {cached}) · Sortie {output}"
+  ],
+  "de": [
+    "Gesamt {total} Tokens · {requests} Anfragen",
+    "Eingabe {input} (Cache {cached}) · Ausgabe {output}"
+  ],
+  "es": [
+    "Total {total} tokens · {requests} solicitudes",
+    "Entrada {input} (caché {cached}) · Salida {output}"
+  ],
+  "ja": [
+    "合計 {total} トークン · {requests} リクエスト",
+    "入力 {input}（キャッシュ {cached}）· 出力 {output}"
+  ],
+  "ko": [
+    "총 {total} 토큰 · 요청 {requests}회",
+    "입력 {input} (캐시 {cached}) · 출력 {output}"
+  ],
+  "pt-BR": [
+    "Total {total} tokens · {requests} solicitações",
+    "Entrada {input} (cache {cached}) · Saída {output}"
+  ],
+  "ru": [
+    "Всего {total} токенов · {requests} запросов",
+    "Ввод {input} (кэш {cached}) · Вывод {output}"
+  ],
+  "zh": [
+    "累计 {total} Tokens  ·  {requests} 次请求",
+    "输入 {input}（含缓存 {cached}）  ·  输出 {output}"
+  ]
+}

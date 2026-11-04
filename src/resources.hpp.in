@@ -1,0 +1,6 @@
+#pragma once
+#include <string_view>
+namespace bl::embedded {
+inline constexpr std::string_view prompts = R"BL_CONFIG(@PROMPT_CONFIGURATION@)BL_CONFIG";
+inline constexpr std::string_view traditional = R"BL_CONFIG(@TRADITIONAL_MARKERS@)BL_CONFIG";
+}

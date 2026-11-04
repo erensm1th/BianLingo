@@ -1,0 +1,1037 @@
+{
+  "schemaVersion": 3,
+  "models": [
+    {
+      "pair": "ar-en",
+      "source": "ar",
+      "target": "en",
+      "repository": "ooeoeo/opus-mt-ar-en-ct2-float16",
+      "revision": "4f50aae25375af44f24f87becac4349059d92486",
+      "source_model": "Helsinki-NLP/opus-mt-ar-en",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "b3441966991e5469615de598518673112fe6a01ab4a2578f36c9aec1f7a27949"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          153279273,
+          "7e062478a1cefb61f879ec96d7bb2baf5def6bc121a4f4afcb380a564b1c7511"
+        ],
+        "shared_vocabulary.json": [
+          1828507,
+          "fd300311c28d6d3e347df902da557d2c3de0a0028fc9fe3260084de8477dc7b2"
+        ],
+        "source.spm": [
+          917407,
+          "484f7210e5f4466f7e5b99b660717c6ef2a6f90746196daba507795b69dc02a2"
+        ],
+        "target.spm": [
+          801886,
+          "156cae4f035ba812224e79d71626802a07296a3ad2ea5c6bc1f2cb35420dfeb4"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "c5b2a50db78d6be98ae207223f8d4f63bc7a0ff1",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-ar-en-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "cs-en",
+      "source": "cs",
+      "target": "en",
+      "repository": "ooeoeo/opus-mt-cs-en-ct2-float16",
+      "revision": "345b2a579142c5490debd76f4d8db248f8b231f6",
+      "source_model": "Helsinki-NLP/opus-mt-cs-en",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          796,
+          "489e6afa001fa016fc1d59fe611d36d5da508561e05f88c758f95a1d6cb142e4"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          152945823,
+          "d2c8d981cca12852da8f529f7897a4d35140b6f5f3139daa947905e8201d7e54"
+        ],
+        "shared_vocabulary.json": [
+          1295006,
+          "1ff7170e52f208f4cda455ff52c5f19d67a012404b1818d8f6d69d2364910160"
+        ],
+        "source.spm": [
+          829548,
+          "a2e6d98cdd54d80ad404ad493a7755e723c8d619e998840eba682e3e3fe25e33"
+        ],
+        "target.spm": [
+          788721,
+          "8cb772d24cbd559a9e0c5dfd4726e1201b07497af59189f107dd812bff1909e7"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "577d2053d249b476aefec9524a37ec945ccbd331",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-cs-en-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "da-en",
+      "source": "da",
+      "target": "en",
+      "repository": "ooeoeo/opus-mt-da-en-ct2-float16",
+      "revision": "e9d0867f8f99a482ae6426a0ca39db9f2b2c8f7f",
+      "source_model": "Helsinki-NLP/opus-mt-da-en",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          796,
+          "249077bfb2daba07b1a0e2953abb1b987d608acea4a0c310e92f2750efc84221"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          149273769,
+          "35a814e9019b578623759724e3ec1a9db16b1cce4fd25cddb0ca77f46a655f91"
+        ],
+        "shared_vocabulary.json": [
+          1098457,
+          "5b053891df251805a5b48acf4a97f61aac73626e420bd359b38df20d0da7ed2f"
+        ],
+        "source.spm": [
+          819654,
+          "c97d12d35fe411947392d927f0be14985e2ea0e5cf258164db7f37780563ca15"
+        ],
+        "target.spm": [
+          788462,
+          "08d1d21ea3f6f80f06484db753c1a60238b2acfe4aa0fafd496be869857f697f"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "0960cff506758772cf23186b941305e0afeb43c5",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-da-en-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "de-en",
+      "source": "de",
+      "target": "en",
+      "repository": "ooeoeo/opus-mt-de-en-ct2-float16",
+      "revision": "7a81892cee99d630f48ccac3b16c220d7270c35c",
+      "source_model": "Helsinki-NLP/opus-mt-de-en",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "fab3992b0e6fcf9540983fc3e5aa3693a5b4553e15b5abd42d86499459c60f0c"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          148423215,
+          "3dbafb4ab375ba3a6e9057e0cec4910341e0b8aac57f5784508b474e7738d24a"
+        ],
+        "shared_vocabulary.json": [
+          993828,
+          "fa4c8d666c582ad39892a2ae5d4ded1b0ddde4b49dc784a7fcbd73940f9fa13e"
+        ],
+        "source.spm": [
+          796845,
+          "bbd1f495eea99c8e21ae086d9146e0fa7b096c3dfdd9ba07ab8b631889df5c9b"
+        ],
+        "target.spm": [
+          768489,
+          "678f2a1177d8389f67b66299762dcc4fc567e89b07e212ba91b0c56daecf47ce"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "1a922f3b32a8e809e17a47d4b32142d8105924e5",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-de-en-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "en-ar",
+      "source": "en",
+      "target": "ar",
+      "repository": "ooeoeo/opus-mt-en-ar-ct2-float16",
+      "revision": "908c1eb592272e7e9144145e6785f9af4b70d2db",
+      "source_model": "Helsinki-NLP/opus-mt-en-ar",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "ff8b344314c2a5ce0bcfa7949e8115c1b3539ed01f10ba56fef1fcf9bf149634"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          153246441,
+          "dfa3661c1b958bbe9020d33dd2cf959e48b8f99e151759d5f25f1fa94f465c49"
+        ],
+        "shared_vocabulary.json": [
+          1815066,
+          "1f3c24e6f4e03183b20b95b757f3b7df30512bdf9980a6818c5393b4f8b9aaf6"
+        ],
+        "source.spm": [
+          801074,
+          "81ac8f4d4ee271f4109eac67560a31f9c2d555463ba5eb95c32c6deee8ae819d"
+        ],
+        "target.spm": [
+          916890,
+          "67d0f6afb87768c078ee46c0756b8cc94b1ec23c5526b49ecf6c3b2f9197ec39"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "03087980e8ce753d64b3248ed0a912444545b840",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-en-ar-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "en-de",
+      "source": "en",
+      "target": "de",
+      "repository": "ooeoeo/opus-mt-en-de-ct2-float16",
+      "revision": "652dfce3373fa1d4b110c221cd59fc0e9825090c",
+      "source_model": "Helsinki-NLP/opus-mt-en-de",
+      "license": "CC-BY-4.0",
+      "files": {
+        "README.md": [
+          791,
+          "b8ac0fe8dfc63798cbc5046c1d46757186676b20465812b59d2104a14251e593"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          148423215,
+          "ef19d4ddfd1d82f75b7469b33f754464c83f04ffb1691e33454561d7b816e8d3"
+        ],
+        "shared_vocabulary.json": [
+          993828,
+          "fa4c8d666c582ad39892a2ae5d4ded1b0ddde4b49dc784a7fcbd73940f9fa13e"
+        ],
+        "source.spm": [
+          768489,
+          "678f2a1177d8389f67b66299762dcc4fc567e89b07e212ba91b0c56daecf47ce"
+        ],
+        "target.spm": [
+          796845,
+          "bbd1f495eea99c8e21ae086d9146e0fa7b096c3dfdd9ba07ab8b631889df5c9b"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "6183067f769a302e3861815543b9f312c71b0ca4",
+      "original_license": "CC-BY-4.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-en-de-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain CC-BY-4.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "en-es",
+      "source": "en",
+      "target": "es",
+      "repository": "ooeoeo/opus-mt-en-es-ct2-float16",
+      "revision": "bb2dbacb9b21abe9e9e3dd431cff1297366fa6d0",
+      "source_model": "Helsinki-NLP/opus-mt-en-es",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "9255177774d824cc7e977fd97ffff776d39d10f7923b95d29973981b0d3f071c"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          155502615,
+          "5468badac0c33b3e35e433afd30b2584f28060d35ee1ac1fbebda4d87ce66d9d"
+        ],
+        "shared_vocabulary.json": [
+          1276136,
+          "040e48c9d00734f48506e052695837720bd1f6aa01c70636cde83038362baf19"
+        ],
+        "source.spm": [
+          801636,
+          "4dd547c24816a335e7b0b2e63376a8f1b3cbfc671eda5ab808dd44fdadaa8791"
+        ],
+        "target.spm": [
+          825924,
+          "e236ee6d866b635c0142114f8647f39831f9d92534aa2aad75c942f6a78ad0e3"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "5bc4493d463cf000c1f0b50f8d56886a392ed4ab",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-en-es-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "en-fr",
+      "source": "en",
+      "target": "fr",
+      "repository": "ooeoeo/opus-mt-en-fr-ct2-float16",
+      "revision": "862d85c691dfc11e6cc0423464d97cfb2037d92e",
+      "source_model": "Helsinki-NLP/opus-mt-en-fr",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "35191e5e6d487079ea17da62cf4d3fd57bce469a54dc0fc30d0f6552c0341cd1"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          149872953,
+          "9e0307ebada265fdd1e65fb2361524c83d6f2d6a64dcf664052dacff0a7264ce"
+        ],
+        "shared_vocabulary.json": [
+          1052697,
+          "a157eb51a42817dd1ae4bc46cecf66e591ab32641df936da292bd09f2728631b"
+        ],
+        "source.spm": [
+          778395,
+          "173e9f493a668fe396d599e28d414a201193094e6ffd7a4678e5aab0f6d3d838"
+        ],
+        "target.spm": [
+          802397,
+          "78d0e717c77053f1c4b856d8661d9cb87c64f083a35418c087b9146300e4f585"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "dd7f6540a7a48a7f4db59e5c0b9c42c8eea67f18",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-en-fr-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "en-id",
+      "source": "en",
+      "target": "id",
+      "repository": "ooeoeo/opus-mt-en-id-ct2-float16",
+      "revision": "a56ff05aac5a122792cc09c93aeea41e40121030",
+      "source_model": "Helsinki-NLP/opus-mt-en-id",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "734bd261e814b88c217fdf7812fd484b6b3030c779a1dfc939f7ac6de559ef46"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          145032285,
+          "0f572e4408e2b41d9ceb6cff55b15612847fa39ae12c4f5c7cf03dae922e3c99"
+        ],
+        "shared_vocabulary.json": [
+          994511,
+          "847ee565009741a6334e25486f5d17606505d387ab8f631a2c3752e165433c96"
+        ],
+        "source.spm": [
+          795925,
+          "e88300911c2c573ec5526777a1e84bae698d20925b82dcef9c7248bb0e537ed0"
+        ],
+        "target.spm": [
+          800687,
+          "2a8fefe71c7f26cb0c6aa1b9f0cc0f8d18006b20fe41c547af7f25b9c8333465"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "6e4c52d61a6b16fe3509b0267cbfec65011b860b",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-en-id-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "en-it",
+      "source": "en",
+      "target": "it",
+      "repository": "ooeoeo/opus-mt-en-it-ct2-float16",
+      "revision": "b3560fb2a6c18f8d55aa86fbdec728f8dafafedd",
+      "source_model": "Helsinki-NLP/opus-mt-en-it",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "65a51439d95f8216298ab043e6784295306ce16796bd1425fcaa3b2871b5faf5"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          170927499,
+          "db94e7952aca1cb746cefea26ab1cb329e5e0c64cafe56f1708ab23266bc0f4d"
+        ],
+        "shared_vocabulary.json": [
+          1962501,
+          "7b6e620b328335c4ed0e1d923fa2374f4caf004425008502aab3bf336deecc47"
+        ],
+        "source.spm": [
+          789468,
+          "2efff2c37e51842c2817a6770280979b5dd803cebbe2928e576d42a888f89537"
+        ],
+        "target.spm": [
+          813725,
+          "ef5b179cd5933782af78595099807b5c0156bd67665e4c3af425c7aec6d02d34"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "be5a254d936f1a8c8da080406ca582a6615e6658",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-en-it-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "en-ru",
+      "source": "en",
+      "target": "ru",
+      "repository": "ooeoeo/opus-mt-en-ru-ct2-float16",
+      "revision": "4b044627da66689ee0e3d28f092c5a56f46af902",
+      "source_model": "Helsinki-NLP/opus-mt-en-ru",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "28941573ea833331da46701208eece7eb27700474dc97618f48795be74bbb565"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          152955057,
+          "8a395f62f51d01f9fb78f6bd317267111e114462caf4144c255ca9624a4d135b"
+        ],
+        "shared_vocabulary.json": [
+          2300269,
+          "bf1812383ed402163a2ed1b553e175e7db96a54ed68b6c15566018fdf945ed99"
+        ],
+        "source.spm": [
+          802781,
+          "16bebef1389a0b8ab452772c4e35b9e605e5713f8ac7baa71ca701394eaa086d"
+        ],
+        "target.spm": [
+          1080169,
+          "745998e51ba5b058e38b7ac7765c25c43ed5c1c39cc92b27163b9b2e323c9d7c"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "bb09c99d180016eac6819df3dae68edb1690fdee",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-en-ru-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "en-vi",
+      "source": "en",
+      "target": "vi",
+      "repository": "ooeoeo/opus-mt-en-vi-ct2-float16",
+      "revision": "9f6af416a2eda9a256ba88b83f2f29fdc62175a2",
+      "source_model": "Helsinki-NLP/opus-mt-en-vi",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "2308bd27e7ce41bd982ff6a954ad7dbb68a87d4c4a73c1dd4bce1406e220e404"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          143892399,
+          "b6a9ead6ecb19aba93eb84c61529d4ce43bafee3140b2ca663ba028c48627583"
+        ],
+        "shared_vocabulary.json": [
+          935068,
+          "5f2a279e57b170f567fb605bd44fb40f8ed22f73a06648eefa9b877831e95a3e"
+        ],
+        "source.spm": [
+          808612,
+          "fdd9ab486ca8ea060967105e30db7d8928729c78a67448711d2dd7c3153b37cd"
+        ],
+        "target.spm": [
+          756198,
+          "fb8ad63c818f073c246952c91b2cb1f16aa30728bf51b5c179b8481bc0e20bb5"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "989c9fb9ec63987901022baf0182dcec3e149be6",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-en-vi-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "en-zh",
+      "source": "en",
+      "target": "zh-Hans",
+      "repository": "ooeoeo/opus-mt-en-zh-ct2-float16",
+      "revision": "5213be57ce67e590d556f3f317331582454d59e5",
+      "source_model": "Helsinki-NLP/opus-mt-en-zh",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "d2cbe78320c05ac63617f84a86f16130f2a824b8a0a71a78b0bbf178428b04da"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          155502615,
+          "f24c2bb82368f7de0196882de1d8b644d2aa54ae2439c3142f263de8a64ea2a9"
+        ],
+        "shared_vocabulary.json": [
+          1303887,
+          "37314a6abb25ed8f8497498aeeb31fcea98de892bf00ff7c2e8c966b26fe0b82"
+        ],
+        "source.spm": [
+          806435,
+          "5775ddc9e3ff2fae91554da56468ad35ff56edaba870fea74447bc7234bfdaa8"
+        ],
+        "target.spm": [
+          804600,
+          "81dc94efa84e4025ef38d25d5d07429fe41e3eb29d44003f1db6fe98487b0052"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "408d9bc410a388e1d9aef112a2daba955b945255",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-en-zh-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "es-en",
+      "source": "es",
+      "target": "en",
+      "repository": "ooeoeo/opus-mt-es-en-ct2-float16",
+      "revision": "e0c9c54b239774e5ce8450c8168f9e48320ecf97",
+      "source_model": "Helsinki-NLP/opus-mt-es-en",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "f57ebc4b6b0bb08a7bcc89ad9ff2023a75d05dc0f10183e9a784d4237f99dadc"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          155502615,
+          "7e3a7b3c8c8b6c6e3a14b154cd5733b3dc543d7acf12371d2f9f6498069701c3"
+        ],
+        "shared_vocabulary.json": [
+          1276136,
+          "040e48c9d00734f48506e052695837720bd1f6aa01c70636cde83038362baf19"
+        ],
+        "source.spm": [
+          825924,
+          "e236ee6d866b635c0142114f8647f39831f9d92534aa2aad75c942f6a78ad0e3"
+        ],
+        "target.spm": [
+          801636,
+          "4dd547c24816a335e7b0b2e63376a8f1b3cbfc671eda5ab808dd44fdadaa8791"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "c96e2c5399ebfae4fc43d9669556b9afa74bb69d",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-es-en-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "fr-en",
+      "source": "fr",
+      "target": "en",
+      "repository": "ooeoeo/opus-mt-fr-en-ct2-float16",
+      "revision": "e7fa58d8122534140201c198ef2ac6e5954d76ce",
+      "source_model": "Helsinki-NLP/opus-mt-fr-en",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "043f4b414697c197f8259c27260afb91a04dae56b7bfa60166770c54c323ba0e"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          149872953,
+          "0dbc6d68e18c1b502c920ff57c380d1f89a9a27cc76c32225934640642c99746"
+        ],
+        "shared_vocabulary.json": [
+          1052697,
+          "a157eb51a42817dd1ae4bc46cecf66e591ab32641df936da292bd09f2728631b"
+        ],
+        "source.spm": [
+          802397,
+          "78d0e717c77053f1c4b856d8661d9cb87c64f083a35418c087b9146300e4f585"
+        ],
+        "target.spm": [
+          778395,
+          "173e9f493a668fe396d599e28d414a201193094e6ffd7a4678e5aab0f6d3d838"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "c4aed37b318c763fd177aa449b44e3b783cc6c02",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-fr-en-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "id-en",
+      "source": "id",
+      "target": "en",
+      "repository": "ooeoeo/opus-mt-id-en-ct2-float16",
+      "revision": "5a5a8273cd8cd9e95ce887e55ad330bb5a2020d7",
+      "source_model": "Helsinki-NLP/opus-mt-id-en",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "e640ada65c8f3fd4972b370187cadfc19480c21e8d79f4d1360d5c85085bd11e"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          145032285,
+          "ac2490da160c012721a67f8148a7d650b50b8538a313327a5c86783352432cfa"
+        ],
+        "shared_vocabulary.json": [
+          994511,
+          "847ee565009741a6334e25486f5d17606505d387ab8f631a2c3752e165433c96"
+        ],
+        "source.spm": [
+          800687,
+          "2a8fefe71c7f26cb0c6aa1b9f0cc0f8d18006b20fe41c547af7f25b9c8333465"
+        ],
+        "target.spm": [
+          795925,
+          "e88300911c2c573ec5526777a1e84bae698d20925b82dcef9c7248bb0e537ed0"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "9a7f1b0d0dfe0a92ba691030b01d6f23f966e7ec",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-id-en-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "it-en",
+      "source": "it",
+      "target": "en",
+      "repository": "ooeoeo/opus-mt-it-en-ct2-float16",
+      "revision": "5ff8662244df6e9f9c560f0a8277cab12ffd1c82",
+      "source_model": "Helsinki-NLP/opus-mt-it-en",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "36efbf6eb4b830d761ab18faca6c5a3c6c6c46b387d13079a1ab491580378de8"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          171280443,
+          "02f69ee0aa9534f2ad3f7b10cbc2ad5d6c7b824cb870b3b5d051b959af5e49e4"
+        ],
+        "shared_vocabulary.json": [
+          1979039,
+          "493ed8b6729325acf56272e0fd96fc2e5db6a098e85b5240e08b6288c5d1d1d4"
+        ],
+        "source.spm": [
+          813709,
+          "1bd307e2756991d470e4b40172147f7889b46a323b1a9a2150e66274825b1f21"
+        ],
+        "target.spm": [
+          789549,
+          "5d0ea845f1daa59c379e797de366607b75594935f7c6d476c933e527bf25e0a8"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "42556a0848fc726f4d27399f20b19ff6f01afe11",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-it-en-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "ja-en",
+      "source": "ja",
+      "target": "en",
+      "repository": "ooeoeo/opus-mt-ja-en-ct2-float16",
+      "revision": "19000cf875f2a01f0f23bbf67eb654ab4cc42a96",
+      "source_model": "Helsinki-NLP/opus-mt-ja-en",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "9a967985b4782fb273d5e1917fdedc2350e22cd24015227c884e79c0f91e2e65"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          151106205,
+          "fcc505f9a24b43caf3514e5bc3fc1581bbe0b17cbf99d4eff136b7b5af4997e1"
+        ],
+        "shared_vocabulary.json": [
+          1208862,
+          "c6e7f9988e5fe15c59ed331ce2d7c3dd551e70add8efc09f839f5a48168da4d6"
+        ],
+        "source.spm": [
+          781853,
+          "d0b5c3b10b5959f056ff2c86e2f2356129242ff1fc72d3a4a34d6a8c0eee4e57"
+        ],
+        "target.spm": [
+          801883,
+          "35d89c704e270d441fade716a3931d49c43179400682edcca7f180694982a2f6"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "0770961a39ba6bd66305b149c3f4110bcafca2e6",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-ja-en-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "ko-en",
+      "source": "ko",
+      "target": "en",
+      "repository": "ooeoeo/opus-mt-ko-en-ct2-float16",
+      "revision": "e4f095af7ac15d3540bf07aa820559eec376f44d",
+      "source_model": "Helsinki-NLP/opus-mt-ko-en",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "b631f3221411c4671082b6837e781f99f8cf8b7ad2384008091d44553228502e"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          155502615,
+          "51fbb28b5dcb5788178e2d105d8985d8e7ef915068678381077f19871dfa69f2"
+        ],
+        "shared_vocabulary.json": [
+          1405962,
+          "598510ee69f4cbdaeed42f5a583f0a1260b175199a277ef79b2504ffac1565de"
+        ],
+        "source.spm": [
+          841805,
+          "c9496f7c2be9aecb84c751ae9f35a875915dde8e3892f652a5c76811ab2a0f49"
+        ],
+        "target.spm": [
+          813126,
+          "f1531ac8576fe64267dfca0dc33950a6e9a2d3fd9e05346558ad7ea5ee0e65bf"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "e42d1f41b66194e6d10512f8a27bebc1f4f5097e",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-ko-en-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "ru-en",
+      "source": "ru",
+      "target": "en",
+      "repository": "ooeoeo/opus-mt-ru-en-ct2-float16",
+      "revision": "ca72906869055efb29fffe846fdc6be82d5c07f1",
+      "source_model": "Helsinki-NLP/opus-mt-ru-en",
+      "license": "CC-BY-4.0",
+      "files": {
+        "README.md": [
+          791,
+          "dbefb9364915a1b7e0c8a3b23366fc5b50d938c6036b4542215f5a4f133687a6"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          152955057,
+          "40e9ac681e5acba38d376d0c38e546e1a55c56714cdb0111f07a8842dad3680f"
+        ],
+        "shared_vocabulary.json": [
+          2300269,
+          "bf1812383ed402163a2ed1b553e175e7db96a54ed68b6c15566018fdf945ed99"
+        ],
+        "source.spm": [
+          1080169,
+          "745998e51ba5b058e38b7ac7765c25c43ed5c1c39cc92b27163b9b2e323c9d7c"
+        ],
+        "target.spm": [
+          802781,
+          "16bebef1389a0b8ab452772c4e35b9e605e5713f8ac7baa71ca701394eaa086d"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "fbd6dc73284f95536648512cc21d57f19191961a",
+      "original_license": "CC-BY-4.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-ru-en-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain CC-BY-4.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "th-en",
+      "source": "th",
+      "target": "en",
+      "repository": "ooeoeo/opus-mt-th-en-ct2-float16",
+      "revision": "db1dede419e76d964459ac25a6402d7c631e1688",
+      "source_model": "Helsinki-NLP/opus-mt-th-en",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "29922772cb9c939b4c7e258371b636032f2ed75657f5d6ac2b427067cb6d3071"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          152738571,
+          "18837c0cd22efbbd7251c828f6091c1a26e3db25aefc4ee3333370a56f79dd6f"
+        ],
+        "shared_vocabulary.json": [
+          2103329,
+          "959821990166b8a53cef2fc9d0d9d03b5e31f6aef72d00ddbfd22eac45402f18"
+        ],
+        "source.spm": [
+          1213743,
+          "01ecb88d0f92bbb20c21257b92e93e301a10971ecd60971e8e637bc3eacd9124"
+        ],
+        "target.spm": [
+          810346,
+          "fc618401104178afa0e8d67d469a49f8e71cd3151c51d640a7003a1f71b16b1e"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "0fff80be1c3f40d6180efd59f566ece956ace689",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-th-en-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "tr-en",
+      "source": "tr",
+      "target": "en",
+      "repository": "ooeoeo/opus-mt-tr-en-ct2-float16",
+      "revision": "6d1186c177d4690895d6166a207df0d9051bfb29",
+      "source_model": "Helsinki-NLP/opus-mt-tr-en",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "404f07ba1b21328663ce1e7d41872a1ce19126ccbc02edd8998f82bc706f86b1"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          152822703,
+          "d9558bc4ebd911bdc086caa003fcb362a9155e8c9b1d898049796bd81112eeb4"
+        ],
+        "shared_vocabulary.json": [
+          1263120,
+          "b18703ef326b780864b2fbfb66d9168b4bc6a0ec0490a7422262647967ecff79"
+        ],
+        "source.spm": [
+          839750,
+          "4a6356e3ee892f2896dbf0b5cabeb51fdf16e03c70b0702cefc8b847e504241c"
+        ],
+        "target.spm": [
+          796647,
+          "4cc15427e50b80e53b7dcf5f4d8a52edfe219b8d8e290c031f5578f5760b335f"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "19c65427cc2af5f191337d4899e0348c4af25902",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-tr-en-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "vi-en",
+      "source": "vi",
+      "target": "en",
+      "repository": "ooeoeo/opus-mt-vi-en-ct2-float16",
+      "revision": "6759b4606a21f3cb3afa8f99701432e82e1292c8",
+      "source_model": "Helsinki-NLP/opus-mt-vi-en",
+      "license": "Apache-2.0",
+      "files": {
+        "README.md": [
+          791,
+          "9bc9f904ddec0610f72b9fbfce76c6e7a07c5fec4a3881ba653975f63cb587af"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          143947803,
+          "e5e3f35a9b5f3c0bb1d7ab7deea2bbace6c164c3fd196a5737ec1148250490a7"
+        ],
+        "shared_vocabulary.json": [
+          936003,
+          "1a261fb75cbe05d3f184b74199aecb8c764859d1324dd3203f080f3c181b4db5"
+        ],
+        "source.spm": [
+          756168,
+          "9deb4f9e7bebd3876f4bf238a9eb52f2f95a1fba2210a4a8239167c55c15e67d"
+        ],
+        "target.spm": [
+          808853,
+          "629182070d11db929990c603779345a11743b749f6586f224829303fa979c138"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "c8d2853e77f5fae31124d993e0b35176b1c8914e",
+      "original_license": "Apache-2.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-vi-en-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain Apache-2.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    },
+    {
+      "pair": "zh-en",
+      "source": "zh-Hans",
+      "target": "en",
+      "repository": "ooeoeo/opus-mt-zh-en-ct2-float16",
+      "revision": "93868521d2ac56bfc5db11e8d07ddcb3dd9daf24",
+      "source_model": "Helsinki-NLP/opus-mt-zh-en",
+      "license": "CC-BY-4.0",
+      "files": {
+        "README.md": [
+          791,
+          "4e6df5d811a6abd565cfe16d9f8e4c96b463a5672c66441efa7c38e3e34c4be1"
+        ],
+        "config.json": [
+          223,
+          "8f6496adfc930cbfecbe8281112197705c488fab47d34b4829b06d7f478909af"
+        ],
+        "model.bin": [
+          155502615,
+          "a188bc45bce24635a1eb0cc42ad0b43afdad806b86af9beb3065bba11f3b212c"
+        ],
+        "shared_vocabulary.json": [
+          1303998,
+          "acbf13516c56af2bb78ebdb770c2e4648fd8232ddd17af75298119cbfa7ee33d"
+        ],
+        "source.spm": [
+          804677,
+          "e27a3a1b539f4959ec72ea60e453f49156289f95d4e6000b29332efc45616203"
+        ],
+        "target.spm": [
+          806530,
+          "6a881f4717cd7265f53fea54fd3dc689c767c05338fac7a4590f3088cb2d7855"
+        ]
+      },
+      "converted_license": "Apache-2.0",
+      "original_weight_revision": null,
+      "license_evidence_revision": "cf109095479db38d6df799875e34039d4938aaa6",
+      "original_license": "CC-BY-4.0",
+      "attribution": "Helsinki-NLP / OPUS-MT contributors; conversion: ooeoeo/opus-mt-zh-en-ct2-float16",
+      "changes": "Upstream OPUS-MT converted to CTranslate2 float16 by the named conversion publisher. Project pins and distributes the catalog; no claim of original model authorship.",
+      "provenance_status": "reviewed-publisher-declared-lineage",
+      "license_resolution": "Original model terms remain CC-BY-4.0. Preserve the conversion publisher Apache-2.0 claim without treating it as a replacement for upstream rights. Attribution, source links and conversion changes are retained. Exact original checkpoint used by the converter is unrecorded; lineage is publisher-declared, not reproduced."
+    }
+  ]
+}

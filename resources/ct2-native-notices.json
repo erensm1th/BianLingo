@@ -1,0 +1,6 @@
+{
+  "source_lock_sha256": "84584f63f9f42e6e23a93a897e134848a867af0837fabe099fe819d67f8fabaa",
+  "notice_sha256": "527494e2b8159bf755e2b3b85e949b9ac82f434fc9d3dbf1797aad97f53e96b5",
+  "review_status": "reviewed-source-notices",
+  "scope": "CPU-only source inputs and embedded standalone headers; no Python/GPU runtime"
+}

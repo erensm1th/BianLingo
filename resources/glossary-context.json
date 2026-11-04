@@ -1,0 +1,5 @@
+{
+  "heal_over_time": "持续治疗（Heal over Time，治疗技能）",
+  "hall_of_thanes": "领主大厅（Hall of Thanes，《魔兽世界：永恒》的新副本）",
+  "ambiguous_hot": "领主大厅副本或持续治疗，视上下文；无法判断则保留 HoT"
+}

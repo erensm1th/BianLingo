@@ -1,0 +1,8 @@
+{
+  "review_status": "reviewed-publisher-direct-inventory",
+  "distribution": "download-directly-from-publisher",
+  "inventory_sha256": "1de61d370128085db5f6a14e17fa0041ec19327f7d5587cdaf60a36003f35610",
+  "cpu_smoke_sha256": "72944675e526010ef6418545f2cb2b76899fac71b285ca9fd6b0c880106b903f",
+  "notice_sha256": "8523a4bd6e7c903b097c62f26845473d2eda991481a87e443f1c0947419ad6a1",
+  "scope": "Complete upstream ZIP hash/content/notices and actual hosted Windows CPU inference. Runtime remains external; not a project redistribution grant or AMD/NVIDIA gaming performance test."
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "id": "example.obsidian",
+  "name": "Obsidian · Example",
+  "author": "BianLingo community example",
+  "description": "Dark graphite, a cyan accent, square sliders and checkboxes; a community skin template.",
+  "base": "ios",
+  "colors": {
+    "background": "#101418",
+    "surface": "#1A222A",
+    "text": "#D7E2EB",
+    "accent": "#63D7C1",
+    "focus": "#90E8D7",
+    "hover": "#28463F",
+    "selection": "#28463F",
+    "selectedText": "#E9FFFA",
+    "border": "#3A4E5A",
+    "thumb": "#B5D0D9",
+    "toggleOff": "#4D6670",
+    "pressed": "#387E70",
+    "button": "#1D2B33",
+    "onAccent": "#071D17"
+  },
+  "widgets": {
+    "toggle": "checkbox",
+    "slider": "square",
+    "navigation": "icons",
+    "menuMark": "tick",
+    "invertSelection": false,
+    "cardBorder": true
+  },
+  "metrics": {
+    "cardRadius": 6,
+    "controlRadius": 4,
+    "buttonRadius": 4,
+    "borderWidth": 1,
+    "sliderPadding": 24,
+    "trackThickness": 6,
+    "thumbSize": 16,
+    "toggleWidth": 36,
+    "toggleHeight": 20,
+    "popupRowHeight": 36
+  },
+  "fonts": {
+    "latin": "system-sans",
+    "cjk": "system",
+    "size": 13
+  }
+}

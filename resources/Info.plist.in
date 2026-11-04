@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>CFBundleExecutable</key><string>BianLingo</string>
+<key>CFBundleIdentifier</key><string>io.github.erensm1th.BianLingo</string>
+<key>CFBundleName</key><string>BianLingo</string>
+<key>CFBundleVersion</key><string>@PROJECT_VERSION@</string>
+<key>CFBundleShortVersionString</key><string>@PROJECT_VERSION@</string>
+<key>CFBundlePackageType</key><string>APPL</string>
+<key>LSMinimumSystemVersion</key><string>14.0</string>
+<key>NSHighResolutionCapable</key><true/>
+<key>NSScreenCaptureUsageDescription</key><string>Read the game pixel bridge to translate chat. Screen images are not saved.</string>
+<key>NSAccessibilityUsageDescription</key><string>Use a global shortcut to open output translation.</string>
+</dict></plist>

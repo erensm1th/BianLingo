@@ -1,0 +1,292 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BianLingo community theme v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z0-9_-]+)+$"
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[^\\x00-\\x1F\\x7F]*$",
+      "minLength": 1
+    },
+    "author": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^[^\\x00-\\x1F\\x7F]*$"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 256,
+      "pattern": "^[^\\x00-\\x1F\\x7F]*$"
+    },
+    "base": {
+      "enum": [
+        "ios",
+        "terminal",
+        "classic"
+      ]
+    },
+    "colors": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "background": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "surface": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "text": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "accent": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "muted": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "border": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "focus": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "hover": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "selection": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "selectedText": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "disabled": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "track": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "thumb": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "toggleOff": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "pressed": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "button": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "onAccent": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cardRadius": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20
+        },
+        "controlRadius": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 14
+        },
+        "buttonRadius": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 14
+        },
+        "borderWidth": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "sliderPadding": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 40
+        },
+        "trackThickness": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "thumbSize": {
+          "type": "integer",
+          "minimum": 8,
+          "maximum": 24
+        },
+        "toggleWidth": {
+          "type": "integer",
+          "minimum": 24,
+          "maximum": 44
+        },
+        "toggleHeight": {
+          "type": "integer",
+          "minimum": 14,
+          "maximum": 22
+        },
+        "popupRowHeight": {
+          "type": "integer",
+          "minimum": 26,
+          "maximum": 44
+        }
+      }
+    },
+    "fonts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "latin": {
+          "enum": [
+            "system-sans",
+            "system-mono",
+            "system-serif"
+          ]
+        },
+        "cjk": {
+          "const": "system"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 11,
+          "maximum": 14
+        }
+      }
+    },
+    "widgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "toggle": {
+          "enum": [
+            "switch",
+            "ascii",
+            "checkbox"
+          ]
+        },
+        "slider": {
+          "enum": [
+            "round",
+            "square",
+            "diamond"
+          ]
+        },
+        "navigation": {
+          "enum": [
+            "icons",
+            "plain"
+          ]
+        },
+        "menuMark": {
+          "enum": [
+            "tick",
+            "chevron"
+          ]
+        },
+        "invertSelection": {
+          "type": "boolean"
+        },
+        "cardBorder": {
+          "type": "boolean"
+        },
+        "frame": {
+          "enum": [
+            "flat",
+            "beveled"
+          ]
+        }
+      }
+    },
+    "chat": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tabs": {
+          "enum": [
+            "pills",
+            "classic"
+          ]
+        },
+        "flashUnread": {
+          "type": "boolean"
+        },
+        "unreadCount": {
+          "type": "boolean"
+        },
+        "tabText": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "tabFill": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "tabBorder": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "glow": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "fadeInMs": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 10000
+        },
+        "fadeOutMs": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 10000
+        },
+        "defaultBackgroundOpacity": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "name",
+    "base"
+  ]
+}

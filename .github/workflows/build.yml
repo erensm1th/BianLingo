@@ -1,0 +1,220 @@
+name: Native build and regression
+on:
+  push:
+    branches: [main, 'work/**']
+    paths:
+      - 'src/**'
+      - 'include/**'
+      - 'tests/**'
+      - 'resources/**'
+      - 'addon/**'
+      - 'tools/**'
+      - 'docs/**'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
+      - 'vcpkg.json'
+      - '*.md'
+      - 'LICENSE'
+      - '.gitattributes'
+      - '.github/workflows/**'
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'include/**'
+      - 'tests/**'
+      - 'resources/**'
+      - 'addon/**'
+      - 'tools/**'
+      - 'docs/**'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
+      - 'vcpkg.json'
+      - '*.md'
+      - 'LICENSE'
+      - '.gitattributes'
+      - '.github/workflows/**'
+  workflow_call:
+    inputs:
+      formal:
+        type: boolean
+        default: false
+      windows_runner:
+        type: string
+        default: windows-2022
+  workflow_dispatch:
+    inputs:
+      formal:
+        description: Build a formal Windows artifact from an approved version tag (never publishes automatically)
+        type: boolean
+        default: false
+      windows_runner:
+        description: Windows build environment (alternate pool if the default is queued)
+        type: choice
+        default: windows-2022
+        options:
+          - windows-2022
+permissions:
+  contents: read
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: windows-2022
+            triplet: x64-windows-static
+            arch: x64
+            name: windows-x64
+    runs-on: ${{ inputs.windows_runner || 'windows-2022' }}
+    env:
+      PYTHONIOENCODING: utf-8
+      BL_PACKAGE_LABEL: ${{ inputs.formal && 'release' || 'preview' }}
+      BL_RUNNER_KEY: ${{ inputs.windows_runner || 'windows-2022' }}
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Verify release evidence and tag before downloading build inputs
+        env:
+          BL_FORMAL: ${{ inputs.formal && 'true' || 'false' }}
+        run: |
+          python tools/compliance.py
+          if ($LASTEXITCODE) { throw 'Release evidence regression' }
+          if ($env:BL_FORMAL -eq 'true') {
+            python tools/check_release_ref.py
+            if ($LASTEXITCODE) { throw 'Formal builds require a matching version tag' }
+            python tools/compliance.py --formal
+            if ($LASTEXITCODE) { throw 'Formal release is blocked by unresolved review items' }
+          }
+      - name: Install test-only Lua and model test dependencies
+        run: |
+          python -m pip install lupa==2.8 zstandard==0.25.0
+          if ($LASTEXITCODE) { throw 'Test dependencies unavailable' }
+          python -c "from lupa.lua51 import LuaRuntime"
+          if ($LASTEXITCODE) { throw 'The real Lua 5.1 sender regression must not be skipped' }
+      - name: Build own Bergamot helper and prepare models
+        if: runner.os == 'Windows'
+        env:
+          CMAKE_GENERATOR: Visual Studio 17 2022
+        run: |
+          python -m pip install --target .tools/bergamot-cmake cmake==3.31.10
+          if ($LASTEXITCODE) { throw 'Install pinned CMake failed' }
+          $cmakeBin = python -c "import sys; sys.path.insert(0, '.tools/bergamot-cmake'); import cmake; print(cmake.CMAKE_BIN_DIR)"
+          python tools/build_bergamot.py --source .tools/bergamot-source --build .tools/bergamot-build --output bergamot-runtime --cmake "$cmakeBin/cmake.exe"
+          if ($LASTEXITCODE) { throw 'Own Bergamot helper build failed' }
+          python tools/prepare_bergamot.py --output bergamot-runtime
+          if ($LASTEXITCODE) { throw 'Bergamot model preparation failed' }
+      - name: Build pinned native CTranslate2 CPU worker
+        if: runner.os == 'Windows'
+        env:
+          CMAKE_GENERATOR: Visual Studio 17 2022
+        run: |
+          python tools/build_ct2_native.py --source .tools/ct2-source --build .tools/ct2-build --output ct2-runtime --cache .tools/ct2-cache
+          if ($LASTEXITCODE) { throw 'Native CT2 worker build failed' }
+      - uses: actions/cache/restore@v4
+        id: cache
+        with:
+          path: .tools/vcpkg-cache
+          key: native-v2-${{ matrix.name }}-${{ env.BL_RUNNER_KEY }}-${{ hashFiles('vcpkg.json') }}
+      - name: Bootstrap pinned vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg.git .tools/vcpkg
+          if ($LASTEXITCODE) { throw 'vcpkg clone failed' }
+          git -C .tools/vcpkg checkout 469a0504e4a6ebf6173d1c0f51a7fa34c382fd43
+          if ($LASTEXITCODE) { throw 'vcpkg checkout failed' }
+          & .tools/vcpkg/bootstrap-vcpkg.bat -disableMetrics
+          if ($LASTEXITCODE) { throw 'vcpkg bootstrap failed' }
+      - name: Configure
+        run: |
+          New-Item -ItemType Directory -Force .tools/vcpkg-cache | Out-Null
+          $env:VCPKG_BINARY_SOURCES = "clear;files,$PWD/.tools/vcpkg-cache,readwrite"
+          # Seed official archives through the system HTTPS client. vcpkg still
+          # verifies the pinned port's SHA512 before extracting either archive.
+          $sources = @(
+            @{ Url='https://codeload.github.com/nlohmann/json/tar.gz/refs/tags/v3.12.0'; File='nlohmann-json-v3.12.0.tar.gz' },
+            @{ Url='https://codeload.github.com/openssl/openssl/tar.gz/refs/tags/openssl-3.6.5'; File='openssl-openssl-openssl-3.6.5.tar.gz' }
+          )
+          New-Item -ItemType Directory -Force .tools/vcpkg/downloads | Out-Null
+          foreach ($source in $sources) {
+            Invoke-WebRequest -Uri $source.Url -OutFile ".tools/vcpkg/downloads/$($source.File)" -TimeoutSec 120 -MaximumRetryCount 2 -RetryIntervalSec 3
+          }
+          $pythonExe = (Get-Command python).Source
+          $options = @('-S', '.', '-B', 'build', "-DPython3_EXECUTABLE=$pythonExe", "-DCMAKE_TOOLCHAIN_FILE=$PWD/.tools/vcpkg/scripts/buildsystems/vcpkg.cmake", '-DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}', "-DVCPKG_INSTALLED_DIR=$PWD/vcpkg_installed")
+          $options += @('-G','Visual Studio 17 2022','-A','x64',"-DBL_BERGAMOT_RUNTIME=$PWD/bergamot-runtime","-DBL_CT2_NATIVE_RUNTIME=$PWD/ct2-runtime")
+          cmake @options
+          if ($LASTEXITCODE) { throw 'Configure failed' }
+      - name: Build
+        run: |
+          cmake --build build --config Release --parallel 3
+          if ($LASTEXITCODE) { throw 'Native build failed' }
+          if ($IsWindows) {
+            python tools/compliance.py --vcpkg vcpkg_installed/${{ matrix.triplet }}
+            if ($LASTEXITCODE) { throw 'Dependency licenses or provenance evidence changed' }
+          }
+          if ($IsWindows) {
+            cmake --build build --config Release --target bianlingo_bergamot_integration_tests --parallel 3
+            if ($LASTEXITCODE) { throw 'Bergamot integration test build failed' }
+            cmake --build build --config Release --target bianlingo_ctranslate2_integration_tests --parallel 3
+            if ($LASTEXITCODE) { throw 'CTranslate2 integration test build failed' }
+          }
+      - name: Test
+        run: |
+          ctest --test-dir build -C Release --output-on-failure --timeout 120
+          if ($LASTEXITCODE) {
+            Get-ChildItem build/Release/ui-tests-error*.log -ErrorAction SilentlyContinue | ForEach-Object { Write-Output $_.Name; Get-Content -LiteralPath $_.FullName }
+            throw 'Native tests failed'
+          }
+          if ($IsWindows) {
+            python -m pip install zstandard==0.25.0
+            if ($LASTEXITCODE) { throw 'Install model test dependency failed' }
+            python tests/bergamot_helper_tests.py --helper bergamot-runtime/BianLingoBergamot.exe --runtime bergamot-runtime
+            if ($LASTEXITCODE) { throw 'Own Bergamot helper real-model test failed' }
+            & build/Release/bianlingo_ct2_models_tests.exe --prepare-real "$PWD/ct2-runtime" "$PWD/build/Release/UserData/ctranslate2" en-fr en-zh-Hans zh-Hans-en
+            if ($LASTEXITCODE) { throw 'Native CT2 explicit preparation failed' }
+            New-Item -ItemType Directory -Force build/Release/data/ctranslate2 | Out-Null
+            Copy-Item ct2-runtime/* build/Release/data/ctranslate2
+            python tests/ct2_native_tests.py --helper ct2-runtime/BianLingoCT2.exe --models build/Release/UserData/ctranslate2
+            if ($LASTEXITCODE) { throw 'Native CT2 real protocol/model regression failed' }
+            & build/Release/bianlingo_ctranslate2_integration_tests.exe
+            if ($LASTEXITCODE) { throw 'Native CT2 app-to-worker integration failed' }
+          }
+      - name: Package
+        run: |
+          cmake --install build --config Release --prefix dist/${{ matrix.name }}
+          if ($LASTEXITCODE) { throw 'Install failed' }
+          foreach ($dep in @(@{Name='openssl';File='OpenSSL.txt'}, @{Name='nlohmann-json';File='nlohmann-json.txt'})) {
+            $actual = (Get-Content "vcpkg_installed/${{ matrix.triplet }}/share/$($dep.Name)/copyright" -Raw).Replace("`r`n", "`n")
+            $embedded = (Get-Content "resources/licenses/$($dep.File)" -Raw).Replace("`r`n", "`n")
+            if ($actual -ne $embedded) { throw 'Update embedded dependency notices to match the installed version' }
+          }
+          Copy-Item dist/${{ matrix.name }}/native-build.json dist/native-build-${{ matrix.name }}.json
+          # Inference creates a portable model cache. Exercise the installed
+          # runtime in a disposable fixture, never in the clean package stage.
+          $integrationRoot = "$PWD/build/package-bergamot-integration"
+          New-Item -ItemType Directory -Force "$integrationRoot/data" | Out-Null
+          Copy-Item build/Release/bianlingo_bergamot_integration_tests.exe "$integrationRoot/"
+          Copy-Item -LiteralPath dist/${{ matrix.name }}/data/bergamot -Destination "$integrationRoot/data/" -Recurse
+          & "$integrationRoot/bianlingo_bergamot_integration_tests.exe"
+          if ($LASTEXITCODE) { throw 'Bergamot app-to-helper integration failed' }
+          $formalArgs = @()
+          if ($env:BL_PACKAGE_LABEL -eq 'release') { $formalArgs += '--formal' }
+          python tools/package_windows.py --root dist/${{ matrix.name }} --output "dist/BianLingo-${{ matrix.name }}-$env:BL_PACKAGE_LABEL.zip" @formalArgs
+          if ($LASTEXITCODE) { throw 'Archive failed' }
+          python tools/verify_windows_package.py --archive "dist/BianLingo-${{ matrix.name }}-$env:BL_PACKAGE_LABEL.zip" --smoke
+          if ($LASTEXITCODE) { throw 'Embedded package first launch or restart failed' }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: BianLingo-${{ matrix.name }}-${{ env.BL_PACKAGE_LABEL }}
+          path: |
+            dist/BianLingo-${{ matrix.name }}-${{ env.BL_PACKAGE_LABEL }}.zip
+            dist/native-build-${{ matrix.name }}.json
+          retention-days: 14
+      - uses: actions/cache/save@v4
+        if: always() && steps.cache.outputs.cache-hit != 'true'
+        with:
+          path: .tools/vcpkg-cache
+          key: native-v2-${{ matrix.name }}-${{ env.BL_RUNNER_KEY }}-${{ hashFiles('vcpkg.json') }}

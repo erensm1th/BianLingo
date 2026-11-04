@@ -1,0 +1,6 @@
+{
+  "en": "BianLingo\n\nChoose a translation connection and target language in settings. Copy AddOns/BianLingo into the game's Interface/AddOns folder and run /reload.\n\nUse the reply shortcut to translate and copy text; paste it into the game yourself.\n\nAn independent fan project, not affiliated with or approved by Blizzard.\n\nFull licenses and notices: data/Notices and data/bergamot/engine-LICENSES.txt. Matching source: data/bergamot/corresponding-source.zip.",
+  "zh": "BianLingo\n\n在设置中选择翻译连接与目标语言。将 AddOns/BianLingo 复制到游戏 Interface/AddOns 目录，执行 /reload。\n\n使用快捷键翻译并复制回复，再手动粘贴到游戏中。\n\n独立粉丝项目，与暴雪无关联，未经其认可。\n\n完整许可与声明：data/Notices 和 data/bergamot/engine-LICENSES.txt。对应源码：data/bergamot/corresponding-source.zip。",
+  "privacy_en": "Privacy\n\nLocal translation stays on your PC. Online translation sends submitted text to your selected provider; its terms and fees apply.\n\nSettings, encrypted keys, models and caches stay in UserData next to the app. Chat logging is optional and off by default. Logs may contain private messages and player names.\n\nKeep UserData private. Full policy: data/Notices/PRIVACY.md.",
+  "privacy_zh": "隐私说明\n\n本地翻译在电脑上完成。在线翻译会将待翻译文本发送至所选供应商，遵循其条款和收费规则。\n\n设置、加密密钥、模型和缓存位于程序旁的 UserData。聊天日志默认关闭，开启后可能记录私聊与玩家名。\n\n请勿分享 UserData。完整说明：data/Notices/PRIVACY.md。"
+}

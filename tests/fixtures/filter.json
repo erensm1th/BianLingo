@@ -1,0 +1,162 @@
+[
+  {
+    "text": "0",
+    "translate": false
+  },
+  {
+    "text": "12345",
+    "translate": false
+  },
+  {
+    "text": "A!@#123",
+    "translate": false
+  },
+  {
+    "text": "DPS",
+    "translate": true
+  },
+  {
+    "text": "LFM 2 DPS!!!",
+    "translate": true
+  },
+  {
+    "text": "a",
+    "translate": false
+  },
+  {
+    "text": "a123456!",
+    "translate": false
+  },
+  {
+    "text": "handlers.OnEvent(nil,\"CHAT_MSG_SAY\",\"来个 DPS\",\"name\",nil,nil,nil,nil,nil,nil,nil,nil,nil,\"Player-1\")",
+    "translate": true
+  },
+  {
+    "text": "need a DPS",
+    "translate": true
+  },
+  {
+    "text": "need healer",
+    "translate": true
+  },
+  {
+    "text": "|Hitem:1|h[Beer Basted Boar Ribs]|h 免费领取",
+    "translate": false
+  },
+  {
+    "text": "|Hitem:1|h[繁體物品]|h x10 free at the inn",
+    "translate": true
+  },
+  {
+    "text": "|cffaabbcc|Hitem:123:0|h[炉石]|h|r",
+    "translate": false
+  },
+  {
+    "text": "|cffaabbcc|Hitem:1|h[炉石]|h|r",
+    "translate": false
+  },
+  {
+    "text": "|cffffffff|Hitem:2681::::::::|h[啤酒烤猪排]|h|r x10 free at the inn",
+    "translate": true
+  },
+  {
+    "text": "|cnIQ1:|Hitem:123:0|h[炉石]|h|r",
+    "translate": false
+  },
+  {
+    "text": "|cnIQ1:|Hitem:1|h[炉石]|h|r",
+    "translate": false
+  },
+  {
+    "text": "|cnIQ1:|Hitem:2681::::::::10:::::|h[啤酒烤猪排]|h|r",
+    "translate": false
+  },
+  {
+    "text": "中文 I am on my way",
+    "translate": true
+  },
+  {
+    "text": "中文 pls +1",
+    "translate": false
+  },
+  {
+    "text": "中文玩家",
+    "translate": false
+  },
+  {
+    "text": "哀嚎洞穴缺治疗",
+    "translate": false
+  },
+  {
+    "text": "回復できますか",
+    "translate": true
+  },
+  {
+    "text": "差一个治疗",
+    "translate": false
+  },
+  {
+    "text": "来个 DPS",
+    "translate": false
+  },
+  {
+    "text": "来个 |Hitem:1|h[DPS饰品]|h",
+    "translate": false
+  },
+  {
+    "text": "来个治疗",
+    "translate": false
+  },
+  {
+    "text": "来个治疗 please join us",
+    "translate": true
+  },
+  {
+    "text": "来个治疗！123",
+    "translate": false
+  },
+  {
+    "text": "歡迎來個 DPS，WTS 裝備",
+    "translate": false
+  },
+  {
+    "text": "死亡矿井缺治疗",
+    "translate": false
+  },
+  {
+    "text": "治疗 힐러 구합니다",
+    "translate": true
+  },
+  {
+    "text": "治疗できますか",
+    "translate": true
+  },
+  {
+    "text": "简体中文 please join us",
+    "translate": true
+  },
+  {
+    "text": "繁體中文 please join us",
+    "translate": false
+  },
+  {
+    "text": "缺治疗",
+    "translate": false
+  },
+  {
+    "text": "缺治疗=LF healer",
+    "translate": false
+  },
+  {
+    "text": "缺治疗！",
+    "translate": false
+  },
+  {
+    "text": "需要治疗",
+    "translate": false
+  },
+  {
+    "text": "힐러 구합니다",
+    "translate": true
+  }
+]

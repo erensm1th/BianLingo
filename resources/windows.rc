@@ -1,0 +1,30 @@
+#include <windows.h>
+#include "version.hpp"
+#pragma code_page(65001)
+101 ICON "bianlingo.ico"
+102 ICON "settings-icon.ico"
+1 VERSIONINFO
+ FILEVERSION BL_VERSION_RESOURCE
+ PRODUCTVERSION BL_VERSION_RESOURCE
+ FILEFLAGSMASK 0x3fL
+ FILEFLAGS 0
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0
+ BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+   BLOCK "080404b0"
+   BEGIN
+    VALUE "CompanyName", "anbi"
+    VALUE "FileDescription", "BianLingo"
+    VALUE "FileVersion", BL_VERSION
+    VALUE "ProductName", "BianLingo"
+    VALUE "ProductVersion", BL_VERSION
+   END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+   VALUE "Translation", 0x804, 1200
+  END
+ END

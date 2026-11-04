@@ -1,0 +1,62 @@
+name: Windows UI and portable setup diagnostic
+on:
+  workflow_dispatch:
+  push:
+    tags: ['diag-windows-ui-*']
+permissions:
+  contents: read
+jobs:
+  windows-checks:
+    runs-on: windows-2022
+    env:
+      PYTHONIOENCODING: utf-8
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Check portable setup with synthetic fixtures
+        continue-on-error: true
+        run: |
+          python tests/ollama_setup_tests.py
+          if ($LASTEXITCODE) { throw 'Portable setup failed; UI diagnosis will still run' }
+      - uses: actions/cache/restore@v4
+        with:
+          path: .tools/vcpkg-cache
+          key: native-v2-windows-x64-windows-2022-${{ hashFiles('vcpkg.json') }}
+          fail-on-cache-miss: true
+      - name: Configure with reviewed dependency cache
+        run: |
+          git clone https://github.com/microsoft/vcpkg.git .tools/vcpkg
+          if ($LASTEXITCODE) { throw 'vcpkg clone failed' }
+          git -C .tools/vcpkg checkout 469a0504e4a6ebf6173d1c0f51a7fa34c382fd43
+          if ($LASTEXITCODE) { throw 'vcpkg checkout failed' }
+          & .tools/vcpkg/bootstrap-vcpkg.bat -disableMetrics
+          if ($LASTEXITCODE) { throw 'vcpkg bootstrap failed' }
+          $env:VCPKG_BINARY_SOURCES = "clear;files,$PWD/.tools/vcpkg-cache,read"
+          $pythonExe = (Get-Command python).Source
+          cmake -S . -B build "-DPython3_EXECUTABLE=$pythonExe" -G 'Visual Studio 17 2022' -A x64 "-DCMAKE_TOOLCHAIN_FILE=$PWD/.tools/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows-static "-DVCPKG_INSTALLED_DIR=$PWD/vcpkg_installed"
+          if ($LASTEXITCODE) { throw 'Configure failed' }
+      - name: Build UI test executable only
+        run: |
+          cmake --build build --config Release --target bianlingo_ui_tests --parallel 3
+          if ($LASTEXITCODE) { throw 'UI test build failed' }
+      - name: Test all five UI languages
+        run: |
+          ctest --test-dir build -C Release -R '^windows_chat_ui' --output-on-failure
+          $result = $LASTEXITCODE
+          Get-ChildItem build/Release/ui-tests-error*.log -ErrorAction SilentlyContinue | ForEach-Object { Write-Output $_.Name; Get-Content -LiteralPath $_.FullName }
+          if ($result) { throw 'UI regression failed; see diagnostic text above' }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: windows-ui-diagnostic
+          path: |
+            build/Release/ui-tests-*.log
+            build/Testing/Temporary/LastTest.log
+          if-no-files-found: ignore
+          retention-days: 7

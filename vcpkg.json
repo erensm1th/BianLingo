@@ -1,0 +1,21 @@
+{
+  "name": "bianlingo",
+  "version-string": "0.2.7",
+  "dependencies": [
+    "openssl",
+    "nlohmann-json",
+    {
+      "name": "libarchive",
+      "platform": "windows"
+    },
+    {
+      "name": "tesseract",
+      "platform": "windows"
+    },
+    {
+      "name": "zstd",
+      "platform": "windows"
+    }
+  ],
+  "builtin-baseline": "469a0504e4a6ebf6173d1c0f51a7fa34c382fd43"
+}

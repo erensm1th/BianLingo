@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "checkedDate": "2026-11-05",
+  "releaseStatus": "approved",
+  "pending": [],
+  "deferred": [
+    {
+      "id": "terminology-unverified",
+      "decision": "maintainer-deferred",
+      "unresolved_count": 729,
+      "unresolved_sha256": "2fe4aa326da3ec596200efd43d47ef2418e30caf485a5a2e4ab9beddcbc7bba9",
+      "clearance_claim": false,
+      "detail": "I've deferred source review of this exact terminology set for the current release. Existing notices and unresolved provenance remain recorded. The deferral does not establish rights clearance."
+    }
+  ],
+  "release_scope": {
+    "platforms": [
+      "windows-x64"
+    ],
+    "channel": "stable",
+    "macos": "Under development; excluded from initial Windows release validation and packages",
+    "automatic_publication": false,
+    "operating_systems": [
+      "Windows 10 x64",
+      "Windows 11 x64"
+    ]
+  },
+  "completed": [
+    {
+      "id": "ct2-model-notices",
+      "detail": "48 pinned publisher cards checked. Original licenses, attribution and conversion claims preserved, including CC-BY-4.0 for en-de, ru-en and zh-en. Source checkpoint remains unrecorded and explicitly publisher-declared."
+    },
+    {
+      "id": "ct2-runtime",
+      "detail": "Pinned native Ruy CPU/static-CRT helper uses source-built CPU libraries. Complete nested source notices, source lock, wrapper hashes, actual Windows-only import allowlist and real multilingual/framing tests verified."
+    },
+    {
+      "id": "ollama-runtime",
+      "detail": "Complete official v0.40.13 ZIP SHA/content inventoried twice in hosted Windows. All original notices retained; supplemental LLVM/winpthreads notices and NVIDIA/Microsoft term links preserved. Actual CPU Qwen3 0.6B download/inference passed. Runtime is an explicit publisher-direct optional download, not included or mirrored in project distributions."
+    },
+    {
+      "id": "windows-validation",
+      "detail": "Windows Release build and affected CTest checks passed: provider defaults, settings recovery, theme defaults, UI interaction, real Lua transport and package compliance. The delivered archive passed integrity and isolated startup/restart checks. Field-validation limitations are recorded below."
+    },
+    {
+      "id": "source-review",
+      "detail": "Allowlisted source inspected for integrity, required attribution, personal data exclusion and known secret patterns. The source includes ten README editions, English canonical guides, English source comments and exceptions, multilingual interface resources and bilingual runtime notifications."
+    }
+  ],
+  "known_limitations": [
+    "macOS support is in development; the initial release includes no Mac testing or binaries.",
+    "No Authenticode certificate is configured; Windows package remains unsigned.",
+    "HDR OCR, long real-game FPS, mixed-DPI/multiple monitor and in-game blocklist/SavedVariables acceptance remain field-validation items.",
+    "CT2 conversions use pinned publisher cards; original conversion input checkpoints were not recorded.",
+    "Source review of the exact 729 terminology mappings remains deferred; rights clearance is unconfirmed.",
+    "Hosted Windows CPU runtime smoke does not establish local GPU/driver or gaming performance.",
+    "Windows 11 developer-host and Windows Server CI checks do not substitute for a Windows 10 desktop field validation."
+  ],
+  "approval_kind": "windows-release-engineering-review",
+  "source_review": {
+    "eligible_source_sha256": "d49022160c970fefcffcfffe763b96a59b986ea51e52e45287fd7b3af9ee4de1",
+    "preapproval_archive_sha256": "5ad1ec3dba542ef117a2e24e11a86d1dfc3e39495058be44f9eb4dc8afc9b70a",
+    "files_reviewed": 321,
+    "scope": "Allowlisted source archive checked for contents, pinned provenance/notices, personal data exclusion and known secret patterns. Review metadata is excluded from its own fingerprint. Scope is limited to these checks, not exhaustive legal or security clearance."
+  }
+}

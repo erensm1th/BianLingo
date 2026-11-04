@@ -1,0 +1,116 @@
+Terminology data provenance
+
+WoWTranslator: Pirson, MIT.
+LibBabble tables have separate maintainers and licenses as retained below.
+MIT permission and warranty text applies as declared in each MIT table header.
+The generic LibBabble core declares Public Domain; this does not relicense other tables.
+Full per-entry evidence: resources/data/glossary-provenance.json in project source.
+Historical unmatched entries remain pending review; no article prose is intentionally bundled.
+
+Frozen evidence revision: 32e03a422991861070aeaf4c9bfeba0d51227041
+https://github.com/Pirson-s-Addons/WoW-Translator/blob/32e03a422991861070aeaf4c9bfeba0d51227041/LICENSE
+SHA-256: e8598015b2917dbd8bbf226622024e97ac7a8adfe6b3c4a641e4af414957b856
+
+https://github.com/Pirson-s-Addons/WoW-Translator/blob/32e03a422991861070aeaf4c9bfeba0d51227041/Locales/zhCN.lua
+SHA-256: c07e33798c39fa7bfbaa8d55f1fa97b29b4b342953f3e6d415540554c730b133
+
+https://github.com/Pirson-s-Addons/WoW-Translator/blob/32e03a422991861070aeaf4c9bfeba0d51227041/Libs/LibBabble-3.0/LibBabble-3.0.lua
+SHA-256: 37591ede760a4c3d54756ea245e10fb7a60f3a099fc2043d95a3212b11b45926
+
+https://github.com/Pirson-s-Addons/WoW-Translator/blob/32e03a422991861070aeaf4c9bfeba0d51227041/Libs/LibBabble-Race-3.0/LibBabble-Race-3.0.lua
+SHA-256: 1efd2df4635f3442d0235682dc3bc59126ed8b434c79eddd145578fb86a974c3
+
+https://github.com/Pirson-s-Addons/WoW-Translator/blob/32e03a422991861070aeaf4c9bfeba0d51227041/Libs/LibBabble-ItemSet-3.0/LibBabble-ItemSet-3.0.lua
+SHA-256: bd4e1daaf5877a42234d0d44c35900a5b1780789ca003114c9e52dfb84b36a72
+
+https://github.com/Pirson-s-Addons/WoW-Translator/blob/32e03a422991861070aeaf4c9bfeba0d51227041/Libs/LibBabble-SubZone-3.0/LibBabble-SubZone-3.0.lua
+SHA-256: 6caf8b8b2b3523dd44cda2fd59871faa306ac6f2da1abc8549ec542fea2e8742
+
+https://github.com/Pirson-s-Addons/WoW-Translator/blob/32e03a422991861070aeaf4c9bfeba0d51227041/Libs/LibBabble-SubZone-3.0/LibBabble-SubZone-3.0_zhCN.lua
+SHA-256: ac994989706f3d75b48cd6890147caf1deb2f353d5c9cfc5d86ee6526efd123b
+
+===== LICENSE =====
+MIT License
+
+Copyright (c) 2026 Pirson
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+===== Locales/zhCN.lua =====
+WoWTranslator locale data; repository MIT license above.
+
+===== Libs/LibBabble-3.0/LibBabble-3.0.lua =====
+--[[---------------------------------------------------------------------------
+Notes:
+	* If you try to access a nonexistent key, it will warn but allow the code to pass through.
+Returns:
+	A lookup table for english to localized words.
+Example:
+	local B = LibStub("LibBabble-Module-3.0") -- where Module is what you want.
+	local BL = B:GetLookupTable()
+	assert(BL["Some english word"] == "Some localized word")
+	DoSomething(BL["Some english word that doesn't exist"]) -- warning!
+-----------------------------------------------------------------------------]]
+
+===== Libs/LibBabble-Race-3.0/LibBabble-Race-3.0.lua =====
+--[[
+Name: LibBabble-Race-3.0
+Revision: $Rev: 74 $
+Maintainers: ckknight, nevcairiel, Ackis
+Website: http://www.wowace.com/projects/libbabble-race-3-0/
+Dependencies: None
+License: MIT
+]]
+
+===== Libs/LibBabble-ItemSet-3.0/LibBabble-ItemSet-3.0.lua =====
+--[[
+$Id: LibBabble-ItemSet-3.0.lua 72 2014-10-12 16:17:04Z arith $
+Name: LibBabble-ItemSet-3.0
+Revision: $Rev: 72 $
+Maintainers: arith
+Last updated by: $Author: arith $
+Website: http://www.wowace.com/addons/libbabble-itemset-3-0/
+Dependencies: None
+License: MIT
+]]
+
+===== Libs/LibBabble-SubZone-3.0/LibBabble-SubZone-3.0.lua =====
+--[[
+$Id: LibBabble-SubZone-3.0.lua 166 2014-10-14 14:30:19Z arith $
+Name: LibBabble-SubZone-3.0
+Revision: $Rev: 166 $
+Maintainers: arith, dynaletik
+Last updated by: $Author: arith $
+Website: http://www.wowace.com/addons/libbabble-subzone-3-0/
+Dependencies: None
+License: MIT
+]]
+
+===== Libs/LibBabble-SubZone-3.0/LibBabble-SubZone-3.0_zhCN.lua =====
+--[[
+$Id: LibBabble-SubZone-3.0_zhCN.lua 166 2014-10-14 14:30:19Z arith $
+Name: LibBabble-SubZone-3.0
+Revision: $Rev: 166 $
+Maintainers: arith, dynaletik
+Last updated by: $Author: arith $
+Website: http://www.wowace.com/addons/libbabble-subzone-3-0/
+Dependencies: None
+License: MIT
+]]

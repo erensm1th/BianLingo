@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 2,
+  "kind": "native-cpu",
+  "version": "4.8.4",
+  "protocol": "BLCT3",
+  "source_lock_sha256": "84584f63f9f42e6e23a93a897e134848a867af0837fabe099fe819d67f8fabaa",
+  "notice_revision": 2,
+  "review_status": "reviewed-native-source-build",
+  "artifacts": [],
+  "note": "Built from fixed CPU-only sources with static CRT. No Python, OpenMP, MKL, CUDA or cuDNN runtime is installed. See ct2-native-sources.json and per-binary native-build.json."
+}

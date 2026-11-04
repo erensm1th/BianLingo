@@ -1,0 +1,1565 @@
+{
+  "Invalid balance amount": {
+    "zh": "余额金额格式无效"
+  },
+  "The service returned no valid account balance": {
+    "zh": "服务未返回有效的账户余额信息"
+  },
+  "Invalid balance currency": {
+    "zh": "余额币种格式无效"
+  },
+  "Invalid player name": {
+    "zh": "玩家名字格式无效"
+  },
+  "Realm name cannot be empty": {
+    "zh": "服务器名不能为空"
+  },
+  "Invalid blocklist format": {
+    "zh": "屏蔽名单格式无效"
+  },
+  "Invalid blocklist record": {
+    "zh": "屏蔽名单记录无效"
+  },
+  "The blocklist is full, including removal records": {
+    "zh": "屏蔽名单记录已达上限（含解除记录）"
+  },
+  "Blocklist version is out of range": {
+    "zh": "屏蔽名单版本超出范围"
+  },
+  "Blocklist sync code is too large": {
+    "zh": "屏蔽同步码过大"
+  },
+  "The translation did not preserve item links; please retry": {
+    "zh": "译文未保留物品链接，请重试"
+  },
+  "Invalid tab or channel name": {
+    "zh": "页签名称或频道名称无效"
+  },
+  "Invalid chat tab format": {
+    "zh": "聊天页签格式错误"
+  },
+  "Unknown tab field: ": {
+    "zh": "未知页签字段："
+  },
+  "At most 64 channel conditions are allowed": {
+    "zh": "频道条件最多64项"
+  },
+  "Channel numbers must be between 1 and 999": {
+    "zh": "频道编号需为1–999",
+    "aliases": [
+      "频道编号需为 1–999"
+    ]
+  },
+  "A channel condition must be a number or name": {
+    "zh": "频道条件须为编号或名称"
+  },
+  "Between 1 and 16 chat tabs are required": {
+    "zh": "聊天页签需为1–16个"
+  },
+  "Invalid or duplicate tab ID": {
+    "zh": "页签ID错误或重复"
+  },
+  "Invalid tab message types": {
+    "zh": "页签消息类型错误"
+  },
+  "Unsupported tab message type": {
+    "zh": "不支持的页签消息类型"
+  },
+  "Game chat layout is too large": {
+    "zh": "游戏窗口配置过大"
+  },
+  "Game chat layout is nested too deeply": {
+    "zh": "游戏窗口配置嵌套过深"
+  },
+  "Game chat layout contains duplicate fields": {
+    "zh": "游戏窗口配置有重复字段"
+  },
+  "Unsupported game chat layout version": {
+    "zh": "不支持的游戏窗口配置版本"
+  },
+  "Invalid game window ID": {
+    "zh": "游戏窗口ID错误"
+  },
+  "Could not read local file": {
+    "zh": "无法读取本地文件"
+  },
+  "File is too large": {
+    "zh": "文件过大"
+  },
+  "File read was incomplete": {
+    "zh": "文件读取不完整"
+  },
+  "Could not save local file": {
+    "zh": "无法保存本地文件"
+  },
+  "File write failed": {
+    "zh": "文件写入失败"
+  },
+  "File replacement failed": {
+    "zh": "文件替换失败"
+  },
+  "Could not set file permissions": {
+    "zh": "文件权限设置失败"
+  },
+  "The download URL is not valid UTF-8": {
+    "zh": "下载地址不是 UTF-8"
+  },
+  "Invalid model download limit": {
+    "zh": "模型下载限制无效"
+  },
+  "Could not initialize the model network connection": {
+    "zh": "模型网络初始化失败"
+  },
+  "Model download exceeded its time limit": {
+    "zh": "模型下载总时长超时"
+  },
+  "Model URLs must use HTTPS without embedded credentials": {
+    "zh": "模型地址必须为无凭据的 HTTPS"
+  },
+  "Could not connect to the model server": {
+    "zh": "模型连接失败"
+  },
+  "Could not initialize the network request": {
+    "zh": "网络请求初始化失败"
+  },
+  "Invalid response from the model server": {
+    "zh": "模型服务器响应无效"
+  },
+  "Invalid model redirect URL": {
+    "zh": "模型跳转地址无效"
+  },
+  "Model redirect failed": {
+    "zh": "模型跳转失败"
+  },
+  "Model downloads cannot downgrade to HTTP": {
+    "zh": "模型禁止降级为 HTTP"
+  },
+  "Model HTTP ": {
+    "zh": "模型 HTTP "
+  },
+  "Could not write the model package": {
+    "zh": "无法写入模型包"
+  },
+  "Model download exceeds the size limit": {
+    "zh": "模型下载超过大小限制"
+  },
+  "Model write failed": {
+    "zh": "模型写入失败"
+  },
+  "The model package is empty or could not be saved": {
+    "zh": "模型包为空或保存失败"
+  },
+  "Too many model redirects": {
+    "zh": "模型跳转次数过多"
+  },
+  "Invalid settings format": {
+    "zh": "设置格式错误"
+  },
+  "Invalid setting type: ": {
+    "zh": "设置字段类型错误："
+  },
+  "Invalid window position or size": {
+    "zh": "窗口位置或尺寸无效"
+  },
+  "Log retention must be 0–3650 days": {
+    "zh": "日志保留天数需为 0–3650"
+  },
+  "Prompts must contain 1–6000 characters": {
+    "zh": "提示词必须为 1–6000 字符"
+  },
+  "The output prompt must contain {language}": {
+    "zh": "输出提示词必须包含 {language}"
+  },
+  "Unknown output style": {
+    "zh": "未知输出风格"
+  },
+  "Unsupported chat target language": {
+    "zh": "不支持的聊天目标语言"
+  },
+  "Online API URLs must use HTTPS": {
+    "zh": "云端 API 地址必须使用 HTTPS"
+  },
+  "The model name cannot be empty": {
+    "zh": "模型名称不能为空"
+  },
+  "Invalid channel filter format": {
+    "zh": "频道范围格式错误"
+  },
+  "Invalid channel group format": {
+    "zh": "频道组格式错误"
+  },
+  "Invalid toggle setting": {
+    "zh": "开关设置错误"
+  },
+  "The active tab does not exist": {
+    "zh": "当前页签不存在"
+  },
+  "Appearance settings are out of range": {
+    "zh": "外观设置超出范围"
+  },
+  "Invalid shortcut format": {
+    "zh": "快捷键格式错误"
+  },
+  "Previous message still translating, please wait; current input will be kept.": {
+    "zh": "上一条仍在翻译，请稍候；当前输入会保留。"
+  },
+  "The translation queue is full": {
+    "zh": "翻译队列已满"
+  },
+  "The task queue is full": {
+    "zh": "任务队列已满"
+  },
+  "The task queue is full; refresh the balance later": {
+    "zh": "任务队列已满，请稍后刷新余额"
+  },
+  "Request cancelled.": {
+    "zh": "请求已取消"
+  },
+  "Bergamot is currently available on Windows only": {
+    "zh": "Bergamot 当前只支持 Windows"
+  },
+  "CTranslate2 is currently available on Windows only": {
+    "zh": "CTranslate2 当前只支持 Windows"
+  },
+  "The message is too long": {
+    "zh": "消息过长"
+  },
+  "The connection changed; the previous task was cancelled": {
+    "zh": "连接已切换，旧任务已取消"
+  },
+  "The player is blocked; translation skipped": {
+    "zh": "玩家已屏蔽，跳过翻译"
+  },
+  "Select the native chat text region first": {
+    "zh": "请先框选原生聊天正文区域"
+  },
+  "Install the selected OCR language data; a model is missing or failed verification": {
+    "zh": "请安装所选OCR语言包（模型缺失或校验失败）"
+  },
+  "The log directory cannot be a link": {
+    "zh": "日志目录不能是链接"
+  },
+  "Could not open the log file": {
+    "zh": "无法打开日志文件"
+  },
+  "Could not write the log file": {
+    "zh": "写入日志文件失败"
+  },
+  "Could not flush the log file": {
+    "zh": "刷新日志文件失败"
+  },
+  "OCR download cancelled": {
+    "zh": "OCR下载已取消"
+  },
+  "Unknown OCR language": {
+    "zh": "未知OCR语言"
+  },
+  "OCR language data failed verification": {
+    "zh": "OCR语言包校验失败"
+  },
+  "Invalid OCR settings; select at most three languages": {
+    "zh": "OCR设置无效，最多同时选择三种语言"
+  },
+  "Invalid OCR-only setting": {
+    "zh": "纯OCR开关无效"
+  },
+  "Invalid OCR region": {
+    "zh": "OCR区域无效"
+  },
+  "The OCR region is out of bounds": {
+    "zh": "OCR区域超出范围"
+  },
+  "The OCR region must fit within the client area and contain at most two million pixels": {
+    "zh": "OCR区域须位于客户区内且不超过200万像素"
+  },
+  "OCR fallback capture is not available on this platform": {
+    "zh": "当前平台尚未提供OCR备用捕获"
+  },
+  "OCR recognition is not available on this platform": {
+    "zh": "当前平台尚未提供OCR识别"
+  },
+  "Save an API key for this connection or select no authentication in advanced settings": {
+    "zh": "请保存当前连接的 API Key，或在高级设置中选择无需鉴权"
+  },
+  "The selected connection does not exist": {
+    "zh": "当前连接不存在"
+  },
+  "Local translation connections are currently available on Windows only": {
+    "zh": "本地翻译连接目前只支持 Windows"
+  },
+  "This connection uses a local engine and sends no HTTP requests": {
+    "zh": "此连接使用本地引擎，不发送 HTTP 请求"
+  },
+  "The balance response contains no valid amount; check the field path in advanced settings": {
+    "zh": "余额响应中没有有效的金额字段，请检查高级设置中的字段路径"
+  },
+  "Enter skin colors as #RRGGBB, for example #282828": {
+    "zh": "皮肤颜色请填写 #RRGGBB，例如 #282828"
+  },
+  "Invalid custom color format": {
+    "zh": "自定义配色格式错误"
+  },
+  "Invalid saved background opacity format": {
+    "zh": "背景透明度记忆格式错误"
+  },
+  "Saved background opacity is out of range": {
+    "zh": "背景透明度记忆超出范围"
+  },
+  "Unknown design style": {
+    "zh": "未知设计风格"
+  },
+  "The palette does not match the design": {
+    "zh": "风格配色不匹配"
+  },
+  "Invalid community skin palette": {
+    "zh": "社区皮肤配色格式错误"
+  },
+  "Invalid saved appearance format": {
+    "zh": "风格记忆格式错误"
+  },
+  "Runtime replacement and rollback failed; the previous runtime is retained at ": {
+    "zh": "运行环境替换和回滚失败，旧环境保留在 "
+  },
+  "UserData must stay inside the application folder": {
+    "zh": "UserData 必须位于程序目录内"
+  },
+  "Theme fields must be objects": {
+    "zh": "主题字段必须是对象"
+  },
+  "Unsupported theme field: ": {
+    "zh": "不支持的主题字段："
+  },
+  "Invalid theme text format: ": {
+    "zh": "主题文字格式错误："
+  },
+  "Invalid theme text length or content: ": {
+    "zh": "主题文字长度或内容错误："
+  },
+  "Theme dimensions must be integers: ": {
+    "zh": "主题尺寸必须为整数："
+  },
+  "Theme dimension is out of range: ": {
+    "zh": "主题尺寸超出范围："
+  },
+  "Invalid theme boolean value": {
+    "zh": "主题布尔值错误"
+  },
+  "Could not read the theme file": {
+    "zh": "无法读取主题文件"
+  },
+  "The theme file exceeds 64 KiB": {
+    "zh": "主题文件超过64KiB"
+  },
+  "The theme is nested too deeply": {
+    "zh": "主题嵌套过深"
+  },
+  "The theme contains duplicate fields": {
+    "zh": "主题包含重复字段"
+  },
+  "Skin not found: ": {
+    "zh": "找不到皮肤："
+  },
+  "Unsupported theme schema version": {
+    "zh": "不支持的主题协议版本"
+  },
+  "Theme IDs must use author.name and the name cannot be empty": {
+    "zh": "主题ID需为作者.名称，且名称不能为空"
+  },
+  "Themes can inherit only from built-in bases": {
+    "zh": "主题只能继承内置基础主题"
+  },
+  "Community themes cannot define built-in palette lists": {
+    "zh": "社区主题不接受内置配色表"
+  },
+  "The slider track cannot be thicker than the thumb": {
+    "zh": "轨道不能粗于滑块"
+  },
+  "The font family must be system-sans, system-mono or system-serif": {
+    "zh": "字体类型只能为system-sans、system-mono或system-serif"
+  },
+  "CJK fonts must use the system fallback": {
+    "zh": "中文字体须使用system回退"
+  },
+  "Unknown toggle style": {
+    "zh": "未知开关样式"
+  },
+  "Unknown slider style": {
+    "zh": "未知滑块样式"
+  },
+  "Unknown frame style": {
+    "zh": "未知边框样式"
+  },
+  "Unknown navigation style": {
+    "zh": "未知导航样式"
+  },
+  "Unknown menu marker": {
+    "zh": "未知菜单标记"
+  },
+  "Unknown chat tab style": {
+    "zh": "未知聊天页签样式"
+  },
+  "Invalid theme background opacity format": {
+    "zh": "主题背景透明度格式错误"
+  },
+  "Theme background opacity is out of range": {
+    "zh": "主题背景透明度超出范围"
+  },
+  "The built-in theme has no palette list": {
+    "zh": "内置主题缺少配色表"
+  },
+  "Duplicate palette ID": {
+    "zh": "重复配色ID"
+  },
+  "Linked theme files are not supported": {
+    "zh": "不加载符号链接主题"
+  },
+  "The skin directory name must match its ID": {
+    "zh": "皮肤目录名必须与ID一致"
+  },
+  "Duplicate theme ID": {
+    "zh": "重复主题ID"
+  },
+  "The palette does not match the skin": {
+    "zh": "皮肤与配色不匹配"
+  },
+  "Unknown palette": {
+    "zh": "未知配色"
+  },
+  "No community skin directory is configured": {
+    "zh": "没有配置社区皮肤目录"
+  },
+  "The skin directory cannot be a symbolic link": {
+    "zh": "皮肤目录不允许符号链接",
+    "aliases": [
+      "皮肤目录不能是符号链接"
+    ]
+  },
+  "The skin directory is out of bounds": {
+    "zh": "皮肤目录超出范围"
+  },
+  "The community skin limit has been reached": {
+    "zh": "社区皮肤数量已达上限"
+  },
+  "Could not set the portable temporary directory": {
+    "zh": "无法设置便携临时目录"
+  },
+  "Could not set the portable cache directory": {
+    "zh": "无法设置便携缓存目录"
+  },
+  "Could not locate the application directory": {
+    "zh": "找不到程序目录"
+  },
+  "Windows could not read or save local credentials": {
+    "zh": "Windows 无法读取或保存本机凭据"
+  },
+  "Could not identify this device": {
+    "zh": "无法识别当前设备"
+  },
+  "Could not read the device identifier": {
+    "zh": "无法读取设备标识"
+  },
+  "The device identifier is empty": {
+    "zh": "设备标识为空"
+  },
+  "Plain HTTP is allowed only for the fixed local Ollama address": {
+    "zh": "明文HTTP只允许固定的本机 Ollama 地址"
+  },
+  "Local Ollama requests cannot include keys or custom headers": {
+    "zh": "本地 Ollama 请求不能携带密钥或自定义请求头"
+  },
+  "Invalid API URL; online connections must use HTTPS": {
+    "zh": "API 地址无效，云端连接必须使用 HTTPS"
+  },
+  "Could not initialize networking": {
+    "zh": "网络初始化失败"
+  },
+  "Could not connect to the API": {
+    "zh": "API连接失败"
+  },
+  "Could not initialize the API request": {
+    "zh": "API请求初始化失败"
+  },
+  "Invalid API key format": {
+    "zh": "API Key 格式错误"
+  },
+  "The API request is too large": {
+    "zh": "API 请求过大"
+  },
+  "Invalid API response": {
+    "zh": "API 响应无效"
+  },
+  "The local Ollama request failed (HTTP ": {
+    "zh": "本地 Ollama 请求失败（HTTP "
+  },
+  "); check the model name and Ollama service": {
+    "zh": "），请检查模型名称和 Ollama 服务"
+  },
+  "The API request timed out": {
+    "zh": "API 请求超时"
+  },
+  "The API response is too large": {
+    "zh": "API 响应过大"
+  },
+  "The API returned invalid JSON": {
+    "zh": "API 未返回有效JSON"
+  },
+  "Could not initialize region capture": {
+    "zh": "无法初始化区域截屏"
+  },
+  "Invalid capture region": {
+    "zh": "截屏区域无效"
+  },
+  "Could not create the capture buffer": {
+    "zh": "截屏缓冲区创建失败"
+  },
+  "Could not read the screen region": {
+    "zh": "屏幕区域读取失败"
+  },
+  "A Bergamot model file is missing or too large": {
+    "zh": "Bergamot 模型文件缺失或过大"
+  },
+  "Could not read the Bergamot model": {
+    "zh": "Bergamot 模型读取失败"
+  },
+  "Bergamot input is empty or too long": {
+    "zh": "Bergamot 输入为空或过长"
+  },
+  "Bergamot components are missing. Install the full package with models.": {
+    "zh": "缺少 Bergamot 本地组件，请安装包含模型的完整版本"
+  },
+  "The Bergamot model path contains unsupported characters": {
+    "zh": "Bergamot 模型路径包含不支持的字符"
+  },
+  "The Bergamot model path is too long": {
+    "zh": "Bergamot 模型路径过长"
+  },
+  "Invalid Bergamot response status": {
+    "zh": "Bergamot 响应状态无效"
+  },
+  "The Bergamot response is too long": {
+    "zh": "Bergamot 响应过长"
+  },
+  "Bergamot translation failed: ": {
+    "zh": "Bergamot 翻译失败："
+  },
+  "Bergamot returned no translation": {
+    "zh": "Bergamot 未返回译文"
+  },
+  "Bergamot engine verification failed": {
+    "zh": "Bergamot 引擎文件校验失败"
+  },
+  "Could not create the Bergamot output pipe": {
+    "zh": "无法创建 Bergamot 输出管道"
+  },
+  "Could not create the Bergamot input pipe": {
+    "zh": "无法创建 Bergamot 输入管道"
+  },
+  "Could not prepare the Bergamot log channel": {
+    "zh": "无法准备 Bergamot 日志通道"
+  },
+  "Could not start the local Bergamot engine": {
+    "zh": "无法启动 Bergamot 本地引擎"
+  },
+  "Incompatible Bergamot engine version": {
+    "zh": "Bergamot 引擎版本不兼容"
+  },
+  "The Bergamot input pipe is closed": {
+    "zh": "Bergamot 输入管道已关闭"
+  },
+  "The Bergamot engine exited": {
+    "zh": "Bergamot 引擎已退出"
+  },
+  "Bergamot translation timed out": {
+    "zh": "Bergamot 翻译超时"
+  },
+  "Could not read the Bergamot translation": {
+    "zh": "无法读取 Bergamot 译文"
+  },
+  "The Bergamot response header is too long": {
+    "zh": "Bergamot 响应头过长"
+  },
+  "Model preparation cancelled": {
+    "zh": "模型准备已取消"
+  },
+  "Could not verify the model": {
+    "zh": "无法校验模型"
+  },
+  "Model verification failed": {
+    "zh": "模型校验失败"
+  },
+  "Could not read the model": {
+    "zh": "模型读取失败"
+  },
+  "This local engine has no pack for the selected language": {
+    "zh": "当前本地引擎不支持所选语言"
+  },
+  "CTranslate2 native component verification failed; reinstall the complete package": {
+    "zh": "CTranslate2 原生组件校验失败，请重新安装完整包"
+  },
+  "CTranslate2 file size or SHA-256 verification failed": {
+    "zh": "CTranslate2 文件大小或SHA-256校验失败"
+  },
+  "Invalid CTranslate2 model directory": {
+    "zh": "CTranslate2 模型目录无效"
+  },
+  "Invalid CTranslate2 model source": {
+    "zh": "CTranslate2 模型来源无效"
+  },
+  "The CTranslate2 model files are incomplete": {
+    "zh": "CTranslate2 模型文件不完整"
+  },
+  "Invalid CTranslate2 file manifest": {
+    "zh": "CTranslate2 文件清单无效"
+  },
+  "Invalid CTranslate2 native runtime manifest": {
+    "zh": "CTranslate2 原生组件清单无效"
+  },
+  "CTranslate2 native component is missing; install the complete package": {
+    "zh": "缺少 CTranslate2 原生组件，请安装完整包"
+  },
+  "Select at least one language pack": {
+    "zh": "请至少选择一个语言包"
+  },
+  "A language pack is being prepared. Try again shortly.": {
+    "zh": "语言包正在准备，请稍后重试"
+  },
+  "Prepare the CTranslate2 runtime and language packs in settings": {
+    "zh": "请在设置中准备 CTranslate2 运行环境和语言包"
+  },
+  "Model copy verification failed": {
+    "zh": "模型复制校验失败"
+  },
+  "Language pack missing. Prepare it in Settings before playing.": {
+    "zh": "语言包未准备，请在设置中下载当前语言包"
+  },
+  "Could not commit the language pack file": {
+    "zh": "无法提交语言包文件"
+  },
+  "CTranslate2 input is empty or too long": {
+    "zh": "CTranslate2 输入为空或过长"
+  },
+  "Invalid CTranslate2 response status": {
+    "zh": "CTranslate2 响应状态无效"
+  },
+  "The CTranslate2 response is too long": {
+    "zh": "CTranslate2 响应过长"
+  },
+  "CTranslate2 translation failed: ": {
+    "zh": "CTranslate2 翻译失败："
+  },
+  "CTranslate2 returned no translation": {
+    "zh": "CTranslate2 未返回译文"
+  },
+  "Could not create the CTranslate2 input pipe": {
+    "zh": "无法创建 CTranslate2 输入管道"
+  },
+  "Could not create the CTranslate2 output pipe": {
+    "zh": "无法创建 CTranslate2 输出管道"
+  },
+  "Could not prepare the CTranslate2 log channel": {
+    "zh": "无法准备 CTranslate2 日志通道"
+  },
+  "Could not start the local CTranslate2 engine": {
+    "zh": "无法启动 CTranslate2 本地引擎"
+  },
+  "The CTranslate2 engine version is incompatible or startup failed": {
+    "zh": "CTranslate2 引擎版本不兼容或启动失败"
+  },
+  "The CTranslate2 input pipe is closed": {
+    "zh": "CTranslate2 输入管道已关闭"
+  },
+  "The CTranslate2 engine exited": {
+    "zh": "CTranslate2 引擎已退出"
+  },
+  "CTranslate2 translation timed out": {
+    "zh": "CTranslate2 翻译超时"
+  },
+  "Could not read the CTranslate2 translation": {
+    "zh": "无法读取 CTranslate2 译文"
+  },
+  "The CTranslate2 engine handshake is too long": {
+    "zh": "CTranslate2 引擎握手过长"
+  },
+  "A model file is missing or too large": {
+    "zh": "模型文件缺失或过大"
+  },
+  "Invalid Bergamot model manifest": {
+    "zh": "Bergamot 模型清单无效"
+  },
+  "The Bergamot manifest contains an invalid file": {
+    "zh": "Bergamot 模型清单包含无效文件"
+  },
+  "The Bergamot manifest contains duplicate file roles": {
+    "zh": "Bergamot 模型清单包含重复文件类型"
+  },
+  "The Bergamot model manifest is incomplete": {
+    "zh": "Bergamot 模型清单不完整"
+  },
+  "Compressed Bergamot model verification failed": {
+    "zh": "Bergamot 压缩模型校验失败"
+  },
+  "Bergamot model unpacking failed": {
+    "zh": "Bergamot 模型解压失败"
+  },
+  "Bundled model files are missing. Reinstall the full package.": {
+    "zh": "随包语言文件缺失，请重新安装完整包"
+  },
+  "Bergamot model verification failed": {
+    "zh": "Bergamot 模型校验失败"
+  },
+  "The game size or DPI changed; select the OCR region again": {
+    "zh": "游戏尺寸或DPI变化，请重新框选OCR区域"
+  },
+  "Game-window OCR capture is not supported by this system": {
+    "zh": "系统不支持游戏窗口OCR捕获"
+  },
+  "The OCR region does not match the window image; select it again": {
+    "zh": "OCR选区与窗口画面不一致，请重新框选"
+  },
+  "Could not load the OCR model; install the selected language data": {
+    "zh": "OCR模型加载失败，请安装所选语言包"
+  },
+  "OCR recognition failed or timed out": {
+    "zh": "OCR识别超时或失败"
+  },
+  "Could not read the process environment": {
+    "zh": "无法读取进程环境"
+  },
+  "Could not inspect the local Ollama port": {
+    "zh": "无法检查本地 Ollama 端口"
+  },
+  "Ollama is preparing models. Retry shortly.": {
+    "zh": "Ollama 正在准备模型，请稍后重试"
+  },
+  "Download portable Ollama and the selected model first": {
+    "zh": "请先下载便携 Ollama 和所选模型"
+  },
+  "The portable Ollama port is occupied by another process": {
+    "zh": "便携 Ollama 端口被其他进程占用"
+  },
+  "Could not create the Ollama process container": {
+    "zh": "无法创建 Ollama 进程容器"
+  },
+  "Could not start portable Ollama": {
+    "zh": "无法启动便携 Ollama"
+  },
+  "Could not manage portable Ollama": {
+    "zh": "无法托管便携 Ollama"
+  },
+  "Portable Ollama failed to start. Check the local log.": {
+    "zh": "便携 Ollama 启动失败，请查看本地日志"
+  },
+  "The CTranslate2 runtime is missing": {
+    "zh": "缺少 CTranslate2 运行环境"
+  },
+  "Unable to check CTranslate2 dependencies.": {
+    "zh": "无法检查 CTranslate2 依赖"
+  },
+  "CTranslate2 native component could not start; reinstall the complete package": {
+    "zh": "CTranslate2 原生组件无法启动，请重新安装完整包"
+  },
+  "CTranslate2 dependency check timed out. Check the runtime and retry.": {
+    "zh": "CTranslate2 依赖检查超时；请检查运行环境后重试"
+  },
+  "Failed to initialize UI drawing": {
+    "zh": "无法初始化界面绘图"
+  },
+  "Failed to load system text control": {
+    "zh": "无法加载系统文字控件"
+  },
+  "Failed to create UI control": {
+    "zh": "无法创建界面控件"
+  },
+  "Could not load the BianLingo icon": {
+    "zh": "无法加载 BianLingo 图标"
+  },
+  "Failed to create UI color scheme": {
+    "zh": "无法创建界面配色"
+  },
+  "Enter an integer within the range": {
+    "zh": "请填写范围内的整数"
+  },
+  "Value out of allowed range": {
+    "zh": "数值超出允许范围"
+  },
+  "Select a UI color scheme": {
+    "zh": "请选择界面配色"
+  },
+  "Select a design style": {
+    "zh": "请选择设计风格"
+  },
+  "Failed to create background layer": {
+    "zh": "无法创建背景层"
+  },
+  "Failed to create chat overlay": {
+    "zh": "无法创建聊天浮窗"
+  },
+  "Cannot create message click area": {
+    "zh": "无法创建消息点击区域"
+  },
+  "Failed to create tab hit area": {
+    "zh": "无法创建页签点击区域"
+  },
+  "Failed to create settings button hit area": {
+    "zh": "无法创建设置按钮点击区域"
+  },
+  "Could not create the window resize region": {
+    "zh": "无法创建窗口缩放区域"
+  },
+  "Failed to create chat font": {
+    "zh": "无法创建聊天字体"
+  },
+  "Up to 16 chat tabs": {
+    "zh": "最多16个聊天页签"
+  },
+  "Keep at least one chat tab": {
+    "zh": "至少保留一个聊天页签"
+  },
+  "Run /bl windows in-game first; the receiver will auto-sync and save once complete": {
+    "zh": "请先在游戏执行 /bl windows，接收端收齐后会自动同步并保存"
+  },
+  "Select a chat translation target language": {
+    "zh": "请选择聊天翻译目标语言"
+  },
+  "Invalid channel number format": {
+    "zh": "频道编号格式错误"
+  },
+  "Select a shortcut": {
+    "zh": "请选择快捷键"
+  },
+  "Shortcut in use by another program; please choose another": {
+    "zh": "快捷键被其他程序占用，请重新选择"
+  },
+  "Failed to create output tooltip bubble": {
+    "zh": "无法创建输出提示气泡"
+  },
+  "Save the current connection before refreshing the balance": {
+    "zh": "请先保存当前连接后刷新余额"
+  },
+  "Could not copy the sync code; retry": {
+    "zh": "无法复制同步码，请重试"
+  },
+  "Save the current connection before sending a test request": {
+    "zh": "请先保存当前连接，再发送测试请求"
+  },
+  "Advanced options must contain a valid JSON object": {
+    "zh": "高级选项必须为有效JSON对象"
+  },
+  "Advanced options must be a JSON object": {
+    "zh": "高级选项必须为JSON对象"
+  },
+  "Advanced options contain unknown fields": {
+    "zh": "高级选项包含未知字段"
+  },
+  "Wait for the outgoing translation before querying a level": {
+    "zh": "输出翻译正在处理，请稍后查询等级"
+  },
+  "Could not copy the level-query command; please retry": {
+    "zh": "无法复制等级查询命令，请重试"
+  },
+  "Could not create the message menu": {
+    "zh": "无法创建消息菜单"
+  },
+  "Could not create the blocklist window": {
+    "zh": "无法创建屏蔽名单窗口"
+  },
+  "Could not create the language pack window": {
+    "zh": "无法创建语言包窗口"
+  },
+  "Open and show the World of Warcraft window first": {
+    "zh": "请先打开并显示魔兽游戏窗口"
+  },
+  "Cannot create OCR region selection window": {
+    "zh": "无法创建OCR区域选择窗口"
+  },
+  "Save up to 32 API connections": {
+    "zh": "最多保存32个 API 连接"
+  },
+  "Ollama model name contains characters unsupported by the installer": {
+    "zh": "Ollama 模型名称包含安装流程不支持的字符"
+  },
+  "Failed to launch Ollama installer window": {
+    "zh": "无法启动 Ollama 安装窗口"
+  },
+  "Must be a valid JSON object": {
+    "zh": "必须是有效JSON对象"
+  },
+  "Bubble settings are out of range": {
+    "zh": "提示气泡设置超出范围"
+  },
+  "The network request could not be executed": {
+    "zh": "网络请求无法执行"
+  },
+  "Network request exceeded its total time limit.": {
+    "zh": "网络请求总时长超时"
+  },
+  "Sizes exclude Ollama. Apply uses an installed model; Download fetches and applies it on success.": {
+    "zh": "模型体积不含 Ollama 运行环境。应用使用已安装模型；仅点击下载按钮才会下载，成功后应用。"
+  },
+  "API Key (saved; leave blank to keep current)": {
+    "zh": "API Key（已保存，留空保持原密钥）"
+  },
+  "Ctrl+Alt+F10 unlock hotkey registration failed; use the tray menu": {
+    "zh": "Ctrl+Alt+F10 解锁快捷键注册失败，可使用托盘菜单"
+  },
+  "Ollama and model ready; sending test request…": {
+    "zh": "Ollama 和模型已就绪，正在发送测试请求…"
+  },
+  "Ollama installation failed:": {
+    "zh": "Ollama 安装失败："
+  },
+  "Shared scripts cannot identify a language: English and French names can both use Latin letters.": {
+    "zh": "共用文字无法区分具体语言；例如英文和法文昵称都可能使用拉丁字母。"
+  },
+  "Balance & Usage (Saved Connection)": {
+    "zh": "余额及用量（已保存连接）"
+  },
+  "Refresh Failed": {
+    "zh": "刷新失败"
+  },
+  "Refresh failed:": {
+    "zh": "刷新失败："
+  },
+  "Only recognizes selected chat body; new messages are translated per current API settings, read-only, no replies.": {
+    "zh": "只识别选中的聊天正文；新消息按当前API设置翻译，仅阅读，不支持回复。"
+  },
+  "Copy failed: clipboard busy, please resubmit translation": {
+    "zh": "复制失败：剪贴板被占用，请重新提交翻译"
+  },
+  "Install saved language pack": {
+    "zh": "安装已保存的语言包"
+  },
+  "BianLingo failed to start": {
+    "zh": "BianLingo启动失败"
+  },
+  "API Key not saved": {
+    "zh": "尚未保存 API Key"
+  },
+  "Saved": {
+    "zh": "已保存"
+  },
+  "Switched to": {
+    "zh": "已切换到"
+  },
+  "Copied to clipboard": {
+    "zh": "已复制到剪贴板"
+  },
+  "Failed to connect text scrollbar": {
+    "zh": "无法连接文本滚动条"
+  },
+  "Balance API not configured": {
+    "zh": "未配置余额接口"
+  },
+  "Installing or checking Ollama and models; see the progress window.": {
+    "zh": "正在安装或检查 Ollama 与模型；请查看弹出的进度窗口。"
+  },
+  "Querying…": {
+    "zh": "正在查询…"
+  },
+  "Testing current translation connection…": {
+    "zh": "正在测试当前翻译连接…"
+  },
+  "Game layout sync failed; original layout kept:": {
+    "zh": "游戏布局同步失败，原布局保留："
+  },
+  "UI rendering failed:": {
+    "zh": "界面绘制失败："
+  },
+  "Failed to restore skin preview. Please reopen settings.": {
+    "zh": "皮肤预览恢复失败，请重新打开设置"
+  },
+  "Failed to restore output shortcut. Please re-save it in settings.": {
+    "zh": "输出快捷键恢复失败，请在设置中重新保存"
+  },
+  "Select chats to translate to reduce unnecessary requests.": {
+    "zh": "选择需要翻译的聊天，减少无效请求。"
+  },
+  "; recent export cache failed:": {
+    "zh": "；最近导出缓存失败："
+  },
+  "; settings saved, UI refresh failed:": {
+    "zh": "；设置已保存，界面刷新失败："
+  },
+  "Level query copied. Paste it in game and press Enter; view the result in game.": {
+    "zh": "等级查询命令已复制；切回游戏粘贴并回车，结果在游戏内查看。"
+  },
+  "Installed (verified on use)": {
+    "zh": "已安装（使用时校验）"
+  },
+  "Not started. Installed files will be verified and skipped.": {
+    "zh": "尚未开始；已安装文件会校验并跳过。"
+  },
+  "Verifying and preparing language packs…": {
+    "zh": "正在校验和准备语言包…"
+  },
+  "Cancelling. Completed files are kept for a later retry.": {
+    "zh": "正在取消；已完成的文件保留，可稍后继续。"
+  },
+  "Cancelled. Completed files are kept and skipped on retry.": {
+    "zh": "已取消；已完成的文件保留，重新准备会跳过。"
+  },
+  "Language pack preparation failed: ": {
+    "zh": "语言包准备失败："
+  },
+  "Delete saved chat logs": {
+    "zh": "删除已保存的聊天日志"
+  },
+  "Delete all chat logs? This cannot be undone.": {
+    "zh": "删除全部聊天日志？此操作无法撤销。"
+  },
+  "Saved here. Copy the sync code and import it in the addon’s blocklist window.": {
+    "zh": "接收端已保存；复制同步码到游戏的屏蔽名单窗口导入。"
+  },
+  "Code copied. Paste and import it in /bl blocks to apply in game.": {
+    "zh": "同步码已复制；游戏内 /bl blocks 中粘贴导入后生效。"
+  },
+  "CTranslate2 dependencies failed to load. Install Microsoft Visual C++ v14 x64, then retry.": {
+    "zh": "CTranslate2 依赖无法加载；请安装微软官方 Visual C++ v14 x64 运行库后重试"
+  },
+  "Configuration backup failed. The original will not be overwritten. Check UserData permissions.": {
+    "zh": "设置恢复备份失败，已禁止覆盖原文件；请检查 UserData 写入权限"
+  },
+  "Could not read the blocklist; check blocklist.json": {
+    "zh": "屏蔽名单无法读取，请检查 blocklist.json"
+  },
+  "Invalid appearance settings were repaired": {
+    "zh": "外观设置无效，已单独修复外观"
+  },
+  "Could not read the API key; enter it again": {
+    "zh": "API 密钥无法读取，请重新填写"
+  },
+  "The selected connection is missing; saved connections were retained and an available one was selected": {
+    "zh": "当前连接不存在，已保留连接资料并选择可用连接"
+  },
+  "Could not read saved connections; enter and save the active key again": {
+    "zh": "连接资料无法读取，请重新填写当前连接密钥并保存"
+  },
+  "Some settings were recovered. Original configuration backed up as ": {
+    "zh": "部分设置已恢复；原配置已备份为 "
+  },
+  "Skipped": {
+    "zh": "跳过"
+  },
+  "Application exit": {
+    "zh": "客户端退出"
+  },
+  "Settings changed": {
+    "zh": "设置已更改"
+  },
+  "Settings changed; submit the output translation again": {
+    "zh": "设置已更改，请重新提交输出翻译"
+  },
+  "Player blocked": {
+    "zh": "玩家已屏蔽"
+  },
+  "Channel or translation filter": {
+    "zh": "频道或翻译过滤"
+  },
+  "The translation queue is full; the new message was skipped": {
+    "zh": "翻译队列已满，已跳过新消息"
+  },
+  "Send translation": {
+    "zh": "输出翻译"
+  },
+  "OCR-only mode: game window found": {
+    "zh": "纯OCR模式：游戏窗口已找到"
+  },
+  "OCR-only mode: waiting for the game window": {
+    "zh": "纯OCR模式：等待游戏窗口"
+  },
+  "Idle marker found; waiting for messages": {
+    "zh": "空闲标记已识别，等待消息"
+  },
+  "Pixel bridge connected": {
+    "zh": "数据条已连接"
+  },
+  "Waiting for the game pixel bridge": {
+    "zh": "等待游戏数据条"
+  },
+  "Compact matrix verification keeps failing; switch to Native mode. HDR or color conversion may affect luminance levels.": {
+    "zh": "小矩阵校验持续失败：请切回原生模式；HDR或色彩转换可能影响色阶。"
+  },
+  "Pixel capture recovered": {
+    "zh": "像素数据读取已恢复"
+  },
+  "Invalid game chat layout: ": {
+    "zh": "游戏聊天配置无效："
+  },
+  "Game pixel bridge connected": {
+    "zh": "游戏数据条已连接"
+  },
+  "Capture: ": {
+    "zh": "画面接收："
+  },
+  "Could not start capture: ": {
+    "zh": "画面接收无法启动："
+  },
+  "Connection test passed; the selected model responded": {
+    "zh": "连接测试成功，当前模型可以响应"
+  },
+  "Translation completed": {
+    "zh": "翻译完成"
+  },
+  "Failed": {
+    "zh": "失败"
+  },
+  "Token usage could not be saved; this request result is still available": {
+    "zh": "Token用量暂时无法保存；本次请求结果仍可使用"
+  },
+  "Target-script name; translation skipped": {
+    "zh": "目标语言昵称，未请求翻译"
+  },
+  "Original": {
+    "zh": "原文"
+  },
+  "Glossary": {
+    "zh": "词库"
+  },
+  "Cache": {
+    "zh": "缓存"
+  },
+  "Local Ollama": {
+    "zh": "本地 Ollama"
+  },
+  "Local Bergamot": {
+    "zh": "本地 Bergamot"
+  },
+  "Local CTranslate2": {
+    "zh": "本地 CTranslate2"
+  },
+  "Waiting for the game window to preview local OCR…": {
+    "zh": "等待游戏窗口，准备本地OCR预览…"
+  },
+  "OCR preview timed out; check the game window and selected region": {
+    "zh": "OCR预览超时：请确认游戏窗口可见及选区有效"
+  },
+  "OCR-only mode is idle; enable automatic translation": {
+    "zh": "纯OCR模式待命：请开启自动翻译"
+  },
+  "OCR fallback is idle; chat is readable": {
+    "zh": "OCR备用待命：聊天可读"
+  },
+  "OCR fallback is idle; waiting for the addon restriction status": {
+    "zh": "OCR备用待命：等待插件受限状态"
+  },
+  "OCR fallback is disabled": {
+    "zh": "OCR备用未启用"
+  },
+  "Installing selected OCR language data…": {
+    "zh": "正在安装所选OCR语言包…"
+  },
+  "OCR language data installed; recognition can be tested": {
+    "zh": "OCR语言包已安装，可测试识别"
+  },
+  "OCR language installation failed; check the network and retry. Unverified models will not load.": {
+    "zh": "OCR语言包安装失败：检查网络后重试；未通过校验的模型不会加载"
+  },
+  "No text recognized": {
+    "zh": "未识别到文字"
+  },
+  "Local OCR preview completed without an API request in ": {
+    "zh": "本地OCR预览完成（不请求API），耗时"
+  },
+  " ms": {
+    "zh": "毫秒"
+  },
+  "OCR-only recognition · ": {
+    "zh": "纯OCR识别中 · "
+  },
+  "Chat is restricted; OCR fallback recognition · ": {
+    "zh": "聊天正文受限，OCR备用识别中 · "
+  },
+  " ms · new messages: ": {
+    "zh": "毫秒 · 本次新增"
+  },
+  " messages": {
+    "zh": "条"
+  },
+  "OCR paused: ": {
+    "zh": "OCR暂停："
+  },
+  "OCR paused: system window capture is unavailable or the HDR image could not be read": {
+    "zh": "OCR暂停：系统窗口捕获不可用，或HDR画面无法读取"
+  },
+  "Chat [OCR · first observed]": {
+    "zh": "聊天【OCR·首次观察时间】"
+  },
+  "Chat": {
+    "zh": "聊天"
+  },
+  " [Replay] batch=": {
+    "zh": " 【补发】batch="
+  },
+  "Chat log started; output translations do not mean chat was sent to the game": {
+    "zh": "客户端日志开始（输出翻译不代表已发送到游戏）"
+  },
+  "Chat log ended": {
+    "zh": "客户端日志结束"
+  },
+  "The chat log queue is full; some entries were not written": {
+    "zh": "聊天日志队列已满，部分记录未写入"
+  },
+  " original_time=": {
+    "zh": " 原始时间="
+  },
+  " received_time=": {
+    "zh": " 接收时间="
+  },
+  " channel=": {
+    "zh": " 频道="
+  },
+  " player=": {
+    "zh": " 玩家="
+  },
+  " original=": {
+    "zh": " 原文="
+  },
+  " outcome=": {
+    "zh": " 处理="
+  },
+  " result=": {
+    "zh": " 结果="
+  },
+  "Check log directory permissions and free disk space": {
+    "zh": "请检查日志目录权限和磁盘空间"
+  },
+  "Chat log write failed: ": {
+    "zh": "聊天日志写入失败："
+  },
+  "English": {
+    "zh": "英语"
+  },
+  "Korean": {
+    "zh": "韩语"
+  },
+  "Russian": {
+    "zh": "俄语"
+  },
+  "German": {
+    "zh": "德语"
+  },
+  "French": {
+    "zh": "法语"
+  },
+  "Spanish": {
+    "zh": "西班牙语"
+  },
+  "Brazilian Portuguese": {
+    "zh": "巴西葡语"
+  },
+  "Japanese": {
+    "zh": "日语"
+  },
+  "Italian": {
+    "zh": "意大利语"
+  },
+  "Chinese": {
+    "zh": "中文"
+  },
+  "Translating…": {
+    "zh": "翻译中…"
+  },
+  "Translated": {
+    "zh": "翻译完毕"
+  },
+  "Local Ollama is not running or the model response timed out": {
+    "zh": "本地 Ollama 未运行或模型响应超时"
+  },
+  "The API connection failed, the certificate is invalid or the request timed out": {
+    "zh": "API 连接失败、证书无效或请求超时"
+  },
+  "Invalid key": {
+    "zh": "密钥无效"
+  },
+  "Insufficient balance": {
+    "zh": "余额不足"
+  },
+  "Rate limit reached": {
+    "zh": "请求频率受限"
+  },
+  "Service error": {
+    "zh": "服务错误"
+  },
+  "Unsafe model redirect blocked": {
+    "zh": "模型禁止不安全跳转"
+  },
+  "Model HTTP error or response too large": {
+    "zh": "模型 HTTP 错误或响应过大"
+  },
+  "Could not save the model file": {
+    "zh": "模型文件保存失败",
+    "aliases": [
+      "无法保存模型文件"
+    ]
+  },
+  "The model connection failed, the certificate is invalid or the download was interrupted": {
+    "zh": "模型连接失败、证书无效或下载中断"
+  },
+  "Model download timed out": {
+    "zh": "模型下载超时"
+  },
+  "The model connection timed out or certificate verification failed": {
+    "zh": "模型连接超时或证书校验失败"
+  },
+  "Replay batch ": {
+    "zh": "补发批次 "
+  },
+  ": new ": {
+    "zh": "：新增 "
+  },
+  ", already received ": {
+    "zh": "，已收到 "
+  },
+  ", incomplete ": {
+    "zh": "，未完整接收 "
+  },
+  "Invalid API URL": {
+    "zh": "API 地址格式错误"
+  },
+  "API URLs must use HTTPS": {
+    "zh": "API 地址必须使用 HTTPS"
+  },
+  "API URLs must use HTTPS without embedded credentials": {
+    "zh": "API 地址必须为不含账号密码的 HTTPS 地址"
+  },
+  "Headers must be a JSON object with at most 32 entries": {
+    "zh": "请求头必须为最多32项的JSON对象"
+  },
+  "Invalid custom header format": {
+    "zh": "自定义请求头格式错误"
+  },
+  "Transport-managed HTTP headers cannot be overridden": {
+    "zh": "不能覆盖HTTP传输管理的请求头"
+  },
+  "Between 1 and 35 connections are required": {
+    "zh": "连接数量必须为1–35个"
+  },
+  "Invalid connection format": {
+    "zh": "连接格式错误"
+  },
+  "Invalid connection name or ID": {
+    "zh": "连接名称或标识格式错误"
+  },
+  "Invalid or duplicate connection ID": {
+    "zh": "连接标识重复或无效"
+  },
+  "Local translation connection URLs cannot be changed": {
+    "zh": "本地翻译连接地址不能修改"
+  },
+  "Invalid full-URL option": {
+    "zh": "完整URL选项格式错误"
+  },
+  "Base URLs cannot include a query; enable Full request URL": {
+    "zh": "基础地址不能包含查询参数，请启用完整请求URL"
+  },
+  "The model name cannot be empty or contain control characters": {
+    "zh": "模型名称不能为空或包含控制字符"
+  },
+  "Unknown request protocol": {
+    "zh": "未知接口协议"
+  },
+  "Unknown authentication method": {
+    "zh": "未知鉴权方式"
+  },
+  "Local translation connections cannot contain keys, headers or cloud options": {
+    "zh": "本地翻译连接不能包含密钥、请求头或云端配置"
+  },
+  "Bergamot models are managed by the local component": {
+    "zh": "Bergamot 模型由本地组件固定提供"
+  },
+  "CTranslate2 models are managed by the optional component": {
+    "zh": "CTranslate2 模型由可选组件固定提供"
+  },
+  "Extra parameters must be a JSON object of at most 64 KiB": {
+    "zh": "额外参数必须为JSON对象，且不超过64KiB"
+  },
+  "Extra parameters cannot replace the model, input or streaming mode": {
+    "zh": "额外参数不能覆盖模型、译文输入或流式模式"
+  },
+  "Balance settings must be a JSON object": {
+    "zh": "余额配置必须为JSON对象"
+  },
+  "Unknown balance API type": {
+    "zh": "未知余额接口类型"
+  },
+  "Invalid balance amount path or currency": {
+    "zh": "余额金额路径或币种格式错误"
+  },
+  "Currency must be three uppercase letters, such as USD or CNY": {
+    "zh": "币种需为CNY、USD等三个大写字母"
+  },
+  "Encrypted connection data is too large": {
+    "zh": "加密连接资料过大"
+  },
+  "Invalid connection data version": {
+    "zh": "连接资料版本无效"
+  },
+  "No balance API is configured; add one in advanced settings": {
+    "zh": "当前连接未配置余额接口，可在高级设置中添加"
+  },
+  "The local model returned an incomplete translation; try shorter text or a larger model": {
+    "zh": "本地模型未返回完整译文，请换用更短消息或更大模型"
+  },
+  "The model returned an incomplete translation; check the output limit or parameters": {
+    "zh": "AI 未返回完整译文，请检查输出上限或模型参数"
+  },
+  "The model returned incomplete text or the provider blocked it": {
+    "zh": "AI 未返回完整译文或内容被服务商拦截"
+  },
+  "The model returned no translation; check the protocol, model or thinking options": {
+    "zh": "AI 未返回译文，请检查协议、模型或思考参数"
+  },
+  "The response does not match the selected protocol": {
+    "zh": "接口响应格式与所选协议不匹配"
+  },
+  "Only the first 64 community skins are loaded": {
+    "zh": "仅加载前64个社区皮肤"
+  },
+  "Could not scan the skin directory: ": {
+    "zh": "无法扫描皮肤目录："
+  },
+  "Could not load the skin; a built-in appearance was selected: ": {
+    "zh": "皮肤加载失败，已回退内置外观："
+  },
+  "The API connection failed or the request timed out": {
+    "zh": "API 连接失败或请求超时"
+  },
+  "Invalid Keychain key": {
+    "zh": "钥匙串密钥无效"
+  },
+  "Could not access the system Keychain": {
+    "zh": "无法访问系统钥匙串"
+  },
+  "Could not save the system Keychain key": {
+    "zh": "无法保存系统钥匙串密钥"
+  },
+  "Could not decrypt local credentials": {
+    "zh": "本机凭据解密失败"
+  },
+  "Local credential verification failed": {
+    "zh": "本机凭据校验失败"
+  },
+  "Could not encrypt local credentials": {
+    "zh": "本机凭据加密失败"
+  },
+  "Could not identify this Mac": {
+    "zh": "无法识别当前 Mac"
+  },
+  "Could not read the Mac device identifier": {
+    "zh": "无法读取 Mac 设备标识"
+  },
+  "Invalid Mac device identifier": {
+    "zh": "Mac 设备标识无效"
+  },
+  "Screen capture setup timed out": {
+    "zh": "屏幕录制配置超时"
+  },
+  "Allow screen recording in system settings, then restart BianLingo": {
+    "zh": "请在系统设置中允许屏幕录制，然后重新启动翻译器"
+  },
+  "The display layout changed; restart BianLingo": {
+    "zh": "屏幕布局已变化，请重启翻译器"
+  },
+  "Could not create the screen capture stream": {
+    "zh": "无法建立屏幕录制流"
+  },
+  "No valid screen capture frame is available": {
+    "zh": "屏幕录制尚无有效帧"
+  },
+  "Run /bl windows in game; the complete layout will be synchronized and saved automatically": {
+    "zh": "请先在游戏执行 /bl windows，收齐后会自动同步保存"
+  },
+  "Skin imported; save settings to keep it": {
+    "zh": "皮肤已导入，保存设置后生效"
+  },
+  "Skin exported": {
+    "zh": "皮肤已导出"
+  },
+  "Skins reloaded; save settings to keep the selection": {
+    "zh": "皮肤已重新加载，保存后生效"
+  },
+  "The shortcut is in use; choose another": {
+    "zh": "快捷键被占用，请重新选择"
+  },
+  "Default output prompts restored; save settings to apply": {
+    "zh": "已填入两种风格默认提示词，点击保存设置后生效"
+  },
+  "Connection selection changed; save settings to apply": {
+    "zh": "连接选择已修改，保存设置后生效"
+  },
+  "At most 32 connections can be saved": {
+    "zh": "最多保存32个连接"
+  },
+  "Keep at least one connection": {
+    "zh": "至少保留一个连接"
+  },
+  "Sending a short connection test…": {
+    "zh": "正在发送一条简短测试请求…"
+  },
+  "Advanced options added to the draft; save settings to apply": {
+    "zh": "高级选项已应用到草稿，保存设置后生效"
+  },
+  "The model was downloaded, but settings could not be saved: ": {
+    "zh": "模型已下载，但配置保存失败："
+  },
+  "Reply ": {
+    "zh": "回复 "
+  },
+  "Whisper ": {
+    "zh": "密语 "
+  },
+  "Channel ": {
+    "zh": "频道 "
+  },
+  "Account available": {
+    "zh": "账户可调用"
+  },
+  "Account unavailable": {
+    "zh": "账户不可调用"
+  },
+  "Balance retrieved": {
+    "zh": "余额已查询"
+  },
+  "No balance details": {
+    "zh": "暂无余额明细"
+  },
+  "Updated at ": {
+    "zh": "更新于 "
+  },
+  "Replay batch {0}: new {1}, already received {2}, incomplete {3}": {
+    "zh": "补发批次 {0}：新增 {1}，已收到 {2}，未完整接收 {3}",
+    "format": true
+  },
+  "Local OCR preview completed without an API request in {0} ms": {
+    "zh": "本地 OCR 预览完成（未请求 API），耗时 {0} 毫秒",
+    "format": true
+  },
+  "OCR-only recognition · {0} ms · new messages: {1} messages": {
+    "zh": "纯 OCR 识别中 · {0} 毫秒 · 本次新增 {1} 条",
+    "format": true
+  },
+  "Chat is restricted; OCR fallback recognition · {0} ms · new messages: {1} messages": {
+    "zh": "聊天正文受限，OCR 备用识别中 · {0} 毫秒 · 本次新增 {1} 条",
+    "format": true
+  },
+  "The local Ollama request failed (HTTP {0}); check the model name and Ollama service": {
+    "zh": "本地 Ollama 请求失败（HTTP {0}），请检查模型名称和 Ollama 服务",
+    "format": true
+  },
+  "Model HTTP {0}": {
+    "zh": "模型 HTTP {0}",
+    "format": true
+  },
+  "[Test]": {
+    "zh": "【测试】"
+  },
+  "[Resend]": {
+    "zh": "【补发】"
+  },
+  "Invalid embedded package": {
+    "zh": "内置资源包无效，请重新下载安装包"
+  },
+  "The embedded package directory cannot use links": {
+    "zh": "内置资源目录不能使用符号链接或目录联接"
+  }
+}
