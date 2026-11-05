@@ -37,11 +37,14 @@ Die automatische Chatzuordnung von Bergamot/CTranslate2 nimmt englischen Text an
 
 ### Benchmark · AMD Ryzen 7 9700X
 
-| Verfahren | Median pro Aufruf | CPU bei 1 Nachricht/s | Lokaler Arbeitssatz |
-|---|---:|---:|---:|
-| Bergamot | 20.9 ms | 0.10% | 337.5 MiB |
-| CTranslate2 · Ruy CPU INT8 | 67.2 ms | 1.36% | 157.3 MiB |
-| DeepSeek · `deepseek-chat` | 708.2 ms | 0.01% | 23.4 MiB |
+| Verfahren | Median EN→ZH / ZH→EN | Spitzen-RAM | CPU unter Dauerlast | Gültige Antworten | Beobachtungen |
+|---|---:|---:|---:|---:|---|
+| **Bergamot** | **13 / 19 ms** | **439 MiB** | **3.3%** | 72/72 | Geringste Latenz; Fehler bei einigen Spielabkürzungen und Begriffen |
+| CTranslate2 | 64 / 90 ms | 450 MiB | 18.1% | 72/72 | Geringe Latenz; Fehler bei Spielbegriffen |
+| Qwen3 0.6B | 181 / 99 ms | 1.09 GiB | 49.6% | 69/72 | Auslassungen und kopierte Prompt-Beispiele |
+| Qwen3 1.7B | 479 / 515 ms | 1.89 GiB | 49.6% | 72/72 | Vollständige Antworten, aber deutliche Übersetzungsfehler |
+
+CPU-Messungen der Übersetzungsengines für Englisch ↔ vereinfachtes Chinesisch. CPU bezeichnet kontinuierliche Übersetzungslast, nicht Leerlauf. Gültige Antworten sind keine Genauigkeitswertung. Bilderfassung, OCR, Oberfläche und direkte Lexikonzuordnungen sind ausgeschlossen.
 
 ### API-Startkonfigurationen
 

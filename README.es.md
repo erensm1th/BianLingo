@@ -37,11 +37,14 @@ El enrutamiento automático de Bergamot/CTranslate2 supone texto en inglés, o s
 
 ### Benchmark · AMD Ryzen 7 9700X
 
-| Método | Mediana por llamada | CPU a 1 mensaje/s | Memoria residente local |
-|---|---:|---:|---:|
-| Bergamot | 20.9 ms | 0.10% | 337.5 MiB |
-| CTranslate2 · Ruy CPU INT8 | 67.2 ms | 1.36% | 157.3 MiB |
-| DeepSeek · `deepseek-chat` | 708.2 ms | 0.01% | 23.4 MiB |
+| Método | Mediana EN→ZH / ZH→EN | RAM máxima | CPU en continuo | Respuestas válidas | Observaciones |
+|---|---:|---:|---:|---:|---|
+| **Bergamot** | **13 / 19 ms** | **439 MiB** | **3.3%** | 72/72 | Menor latencia; errores en algunas abreviaturas y términos del juego |
+| CTranslate2 | 64 / 90 ms | 450 MiB | 18.1% | 72/72 | Baja latencia; errores de terminología del juego |
+| Qwen3 0.6B | 181 / 99 ms | 1.09 GiB | 49.6% | 69/72 | Omisiones y copia de ejemplos del prompt |
+| Qwen3 1.7B | 479 / 515 ms | 1.89 GiB | 49.6% | 72/72 | Respuestas completas, pero errores de traducción importantes |
+
+Mediciones de motores en CPU para inglés ↔ chino simplificado. La CPU refleja traducción continua, no uso en reposo. Las respuestas válidas no indican precisión. Se excluyen captura, OCR, interfaz y coincidencias directas del glosario.
 
 ### Configuración inicial de API
 

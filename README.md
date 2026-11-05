@@ -37,11 +37,14 @@ Bergamot and CTranslate2 automatic chat routing assumes English input, or Chines
 
 ### Benchmark · AMD Ryzen 7 9700X
 
-| Backend | Median call | CPU at 1 message/s | Local working set |
-|---|---:|---:|---:|
-| Bergamot | 20.9 ms | 0.10% | 337.5 MiB |
-| CTranslate2 · Ruy CPU INT8 | 67.2 ms | 1.36% | 157.3 MiB |
-| DeepSeek · `deepseek-chat` | 708.2 ms | 0.01% | 23.4 MiB |
+| Backend | EN→ZH / ZH→EN median | Peak RAM | Sustained CPU | Valid responses | Output observations |
+|---|---:|---:|---:|---:|---|
+| **Bergamot** | **13 / 19 ms** | **439 MiB** | **3.3%** | 72/72 | Lowest latency; some game abbreviations and terms mistranslated |
+| CTranslate2 | 64 / 90 ms | 450 MiB | 18.1% | 72/72 | Low latency; game terminology errors |
+| Qwen3 0.6B | 181 / 99 ms | 1.09 GiB | 49.6% | 69/72 | Omissions and copied prompt examples |
+| Qwen3 1.7B | 479 / 515 ms | 1.89 GiB | 49.6% | 72/72 | Complete responses, but substantial mistranslations |
+
+CPU-only English ↔ Simplified Chinese engine benchmarks. CPU shows sustained translation load, not idle usage. Valid responses are not accuracy scores. Capture, OCR, UI and terminology shortcuts are excluded.
 
 ### API starting configurations
 
