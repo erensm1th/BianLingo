@@ -182,6 +182,17 @@ jobs:
             & build/Release/bianlingo_ctranslate2_integration_tests.exe
             if ($LASTEXITCODE) { throw 'Native CT2 app-to-worker integration failed' }
           }
+      - name: Upload failed test diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-test-diagnostics
+          path: |
+            build/Release/ui-tests-*.log
+            build/Testing/Temporary/LastTest.log
+            .local/qa/*.json
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Package
         run: |
           cmake --install build --config Release --prefix dist/${{ matrix.name }}

@@ -3879,9 +3879,27 @@ class App {
         require(chosen_reply && chosen_reply->prefix == "/w NewPlayer " && GetFocus() == input,
                 "Confirmed same-realm right click retained the realm or lost focus");
         messages.back().message.same_realm = false;
-        // A stationary pointer must retain our wheel target through gaps, long scrolls and both ends.
-        RECT viewport{};
+        // Reply tests leave the composer visible. On small desktops it legitimately
+        // covers the gutter. Verify that occlusion, then isolate wheel hit testing.
+        RECT viewport{}, composer_bounds{};
         GetClientRect(reply_surface, &viewport);
+        GetWindowRect(output, &composer_bounds);
+        POINT composer_probe{int(viewport.right) - scale(3), int(viewport.bottom / 2)};
+        ClientToScreen(reply_surface, &composer_probe);
+        SetWindowPos(output, HWND_TOPMOST,
+                     composer_probe.x - (composer_bounds.right - composer_bounds.left) / 2,
+                     composer_probe.y - (composer_bounds.bottom - composer_bounds.top) / 2,
+                     0, 0, SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW);
+        auto composer_owner = WindowFromPoint(composer_probe);
+        require(composer_owner == output || IsChild(output, composer_owner),
+                "Foreground reply composer did not own its covered viewport point");
+        hide_output();
+        SetWindowPos(output, nullptr, composer_bounds.left, composer_bounds.top, 0, 0,
+                     SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+        require(!IsWindowVisible(output), "Composer remained visible during wheel routing test");
+        SetWindowPos(main, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        refresh_reply_surface();
+        // A stationary pointer must retain our wheel target through gaps, long scrolls and both ends.
         for (int step = 0; step < 120; ++step) {
             SendMessageW(reply_surface, WM_MOUSEWHEEL, MAKEWPARAM(0, step < 60 ? WHEEL_DELTA : -WHEEL_DELTA),
                          0);
@@ -3891,8 +3909,16 @@ class App {
                 auto screen = probe;
                 ClientToScreen(chat, &screen);
                 auto owner = WindowFromPoint(screen);
-                require(owner == reply_surface || owner == scrollbar,
-                        "Repeated wheel scrolling exposed the underlying game window");
+                if (owner != reply_surface && owner != scrollbar) {
+                    wchar_t owner_class[128]{};
+                    GetClassNameW(owner, owner_class, 128);
+                    RECT plane{}; GetWindowRect(reply_surface, &plane);
+                    throw std::runtime_error("Wheel viewport hit mismatch: owner=" + narrow(owner_class) +
+                        ", step=" + std::to_string(step) + ", point=" + std::to_string(screen.x) + "," +
+                        std::to_string(screen.y) + ", plane=" + std::to_string(plane.left) + "," +
+                        std::to_string(plane.top) + "," + std::to_string(plane.right) + "," +
+                        std::to_string(plane.bottom));
+                }
             }
         }
         auto retained_reply = chosen_reply;

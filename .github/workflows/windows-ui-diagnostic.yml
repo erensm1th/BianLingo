@@ -45,7 +45,7 @@ jobs:
         run: |
           cmake --build build --config Release --target bianlingo_ui_tests --parallel 3
           if ($LASTEXITCODE) { throw 'UI test build failed' }
-      - name: Test all five UI languages
+      - name: Test all UI languages
         run: |
           ctest --test-dir build -C Release -R '^windows_chat_ui' --output-on-failure
           $result = $LASTEXITCODE
