@@ -3,6 +3,7 @@
 #include "bianlingo/core.hpp"
 #include "bianlingo/ctranslate2.hpp"
 #include "bianlingo/provider.hpp"
+#include "bianlingo/prompts.hpp"
 #include <windows.h>
 #include <chrono>
 #include <iostream>
@@ -40,9 +41,10 @@ Json saved_api() {
 int main(int argc, char **argv) {
     using namespace bl;
     try {
-        if (argc != 2)
+        if (argc < 2 || argc > 3)
             return 2;
         const std::string backend = argv[1];
+        if (argc == 3 && backend != "ollama") return 2;
         Json profile;
         if (backend == "inventory") {
             auto api = saved_api();
@@ -58,10 +60,12 @@ int main(int argc, char **argv) {
                 throw std::runtime_error("No saved API connection");
         } else if (backend == "ollama") {
             profile = new_local_ollama_connection("benchmark-local");
+            if (argc == 3) profile["model"] = argv[2];
         } else if (backend != "bergamot" && backend != "ctranslate2") {
             return 2;
         }
-        const auto defaults = default_settings();
+        auto defaults = default_settings();
+        defaults["target_language"] = "zh-Hans";
         std::cout << Json{{"ready", true}, {"pid", GetCurrentProcessId()},
                           {"model", profile.is_null() ? backend : profile.value("model", "")}}
                          .dump() << std::endl;
@@ -81,8 +85,8 @@ int main(int argc, char **argv) {
                 else if (backend == "ctranslate2")
                     result = ctranslate2_translate(text, incoming, incoming ? "" : "English", "zh-Hans");
                 else {
-                    const auto system = incoming ? defaults.at("incoming_prompt").get<std::string>()
-                                                 : outbound_prompt(defaults, "short", "English");
+                    const auto system = translation_prompt(defaults, incoming, "short", "English",
+                                                           ProtectedLinks{text, {}}, {}, Json::object());
                     const auto outgoing = provider_request(profile, system, text);
                     const auto response = platform::http_json(outgoing.url, outgoing.body, {}, false, outgoing.headers);
                     const auto parsed = provider_result(profile, response);
