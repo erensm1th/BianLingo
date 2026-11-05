@@ -117,6 +117,8 @@ Select **Show test messages** to display 16 local examples using the real chat r
 
 Previews honor saved font size, time/original-text display and class/race/gender switches. Theme and palette changes update the preview. Select **Exit test preview** or close settings to restore real history and its reading position. Real messages continue to be received, translated and logged during preview, subject to the normal history limit.
 
+On Windows, **Show original text too** groups each message into a small channel/player header, the primary translation and a smaller original in the theme's `muted` text color. All three share the same left edge, with compact spacing inside a group and a small gap between messages. Item-link colors are preserved. Identical plain text is displayed once. The whole group belongs to one message for scrolling and reply actions. Translation and metadata retain their channel and class colors. Turning the option off uses the compact single-line chat layout.
+
 Examples are not received chat: they produce no API requests or chat-log entries, and cannot be replied to. They intentionally have no reply cursor. Scrolling works over transparent whitespace and respects the selected tab. Preview mode is not retained after restart.
 
 ## Extension boundaries

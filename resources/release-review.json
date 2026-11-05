@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedDate": "2026-11-05",
+  "checkedDate": "2026-11-06",
   "releaseStatus": "approved",
   "pending": [],
   "deferred": [
@@ -58,8 +58,8 @@
   ],
   "approval_kind": "windows-release-engineering-review",
   "source_review": {
-    "eligible_source_sha256": "90fa9a8e99988727b8c3046648120d29540eb9a20e70b53742b1d615075a665c",
-    "preapproval_archive_sha256": "bb65428debdb62aa7ba6ddef3127b2146e6736d54216ca51d66eccd6503c06a4",
+    "eligible_source_sha256": "3430b076c5013c8c4957fcbff954e053667c90681f6bf22db79955138b4747e2",
+    "preapproval_archive_sha256": "58e07a5fdc9e8c7a8a4ae2a547cd8adea42ae23d21fa6f5a875ed9796a6e0d2f",
     "files_reviewed": 321,
     "scope": "Allowlisted source archive checked for contents, pinned provenance/notices, personal data exclusion and known secret patterns. Review metadata is excluded from its own fingerprint. Scope is limited to these checks, not exhaustive legal or security clearance."
   }

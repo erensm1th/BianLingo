@@ -222,7 +222,8 @@ class App {
          balance_state = nullptr, balance_updated = nullptr, usage_total = nullptr, usage_detail = nullptr;
     HFONT font = nullptr, chat_font = nullptr;
     std::map<HWND, std::unique_ptr<widgets::Buffer>> paint_buffers;
-    int applied_chat_font_size = 0, chat_line_height = 1, chat_wheel_remainder = 0;
+    int applied_chat_font_size = 0, chat_line_height = 1, chat_secondary_line_height = 1,
+        chat_tail_line_height = 1, chat_wheel_remainder = 0;
     UINT applied_chat_dpi = 0;
     RECT last_chat_thumb{};
     bool chat_thumb_valid = false;
@@ -2576,6 +2577,18 @@ class App {
             TEXTMETRICW metrics{};
             GetTextMetricsW(dc, &metrics);
             chat_line_height = std::max(1, int(metrics.tmHeight));
+            chat_tail_line_height = chat_line_height;
+            chat_secondary_line_height = chat_line_height;
+            LOGFONTW small_face{};
+            GetObjectW(chat_font, sizeof(small_face), &small_face);
+            small_face.lfHeight = -MulDiv(chat_twips(true), dpi, 1440);
+            if (auto small_font = CreateFontIndirectW(&small_face)) {
+                SelectObject(dc, small_font);
+                if (GetTextMetricsW(dc, &metrics))
+                    chat_secondary_line_height = std::max(1, int(metrics.tmHeight));
+                SelectObject(dc, chat_font);
+                DeleteObject(small_font);
+            }
             SelectObject(dc, old);
             ReleaseDC(chat, dc);
         }
@@ -2644,11 +2657,16 @@ class App {
         auto i = colors.find(std::string(c));
         return i == colors.end() ? fg : i->second;
     }
-    void append(std::string_view s, COLORREF color) {
+    int chat_twips(bool secondary = false) const {
+        const int height = std::max(1, applied_chat_font_size) * 15; // Logical px to twips.
+        return secondary ? std::min(height, std::max(135, MulDiv(height, 85, 100))) : height;
+    }
+    void append(std::string_view s, COLORREF color, bool secondary = false) {
         CHARFORMAT2W format{};
         format.cbSize = sizeof(format);
-        format.dwMask = CFM_COLOR;
+        format.dwMask = CFM_COLOR | CFM_SIZE;
         format.crTextColor = color;
+        format.yHeight = chat_twips(secondary);
         SendMessageW(chat, EM_SETCHARFORMAT, SCF_SELECTION, reinterpret_cast<LPARAM>(&format));
         auto w = wide(s);
         SendMessageW(chat, EM_REPLACESEL, FALSE, reinterpret_cast<LPARAM>(w.c_str()));
@@ -2656,9 +2674,9 @@ class App {
     static COLORREF rgb(uint32_t c) {
         return RGB((c >> 16) & 255, (c >> 8) & 255, c & 255);
     }
-    void append_chat(std::string_view value, uint32_t base) {
+    void append_chat(std::string_view value, uint32_t base, bool secondary = false) {
         for (const auto &span : chat_spans(value, base))
-            append(span.text, rgb(span.color));
+            append(span.text, rgb(span.color), secondary);
     }
     long chat_length() const {
         GETTEXTLENGTHEX options{GTL_NUMCHARS | GTL_PRECISE, 1200};
@@ -2679,7 +2697,7 @@ class App {
         POINT end{};
         SendMessageW(chat, EM_POSFROMCHAR, reinterpret_cast<WPARAM>(&end), std::max(0L, length - 1));
         state.line_height = chat_line_height;
-        state.maximum = std::max(0, int(end.y + state.position.y + chat_line_height - area.bottom));
+        state.maximum = std::max(0, int(end.y + state.position.y + chat_tail_line_height - area.bottom));
         state.bottom = state.position.y >= state.maximum - 2;
         return state;
     }
@@ -3242,6 +3260,23 @@ class App {
         SendMessageW(chat, WM_SETREDRAW, FALSE, 0);
         SetWindowTextW(chat, L"");
         chat_rows.clear();
+        chat_tail_line_height = chat_line_height;
+        const bool show_original = config.value("show_original", false);
+        bool previous_original = false;
+        auto paragraph = [&](int before, bool secondary = false) {
+            PARAFORMAT2 format{};
+            format.cbSize = sizeof(format);
+            format.dwMask = PFM_STARTINDENT | PFM_OFFSET | PFM_SPACEBEFORE | PFM_SPACEAFTER |
+                            PFM_LINESPACING;
+            format.dySpaceBefore = before;
+            if (show_original) {
+                format.bLineSpacingRule = 4;
+                const int height = secondary ? chat_secondary_line_height : chat_line_height;
+                format.dyLineSpacing = MulDiv(height + 1, 1440, std::max(1u, applied_chat_dpi));
+            }
+            SendMessageW(chat, EM_SETPARAFORMAT, 0, reinterpret_cast<LPARAM>(&format));
+            SendMessageW(chat, EM_SETSEL, WPARAM(-1), LPARAM(-1));
+        };
         for (size_t message_index = 0; message_index < visible_messages.size(); ++message_index) {
             const auto &item = visible_messages[message_index];
             const auto &m = item.message;
@@ -3249,32 +3284,47 @@ class App {
                 continue;
             }
             if (!chat_rows.empty())
-                append("\n", fg);
+                append("\n", fg, previous_original);
             long row_start = chat_length();
+            if (show_original || chat_rows.empty())
+                paragraph(show_original && !chat_rows.empty() ? std::max(3, applied_chat_font_size / 3) * 15 : 0,
+                          show_original);
             if (message_preview)
-                append(ui_text("[Test]"), accent);
+                append(ui_text("[Test]"), accent, show_original);
             if (m.replay_batch)
-                append(ui_text("[Resend]"), accent);
+                append(ui_text("[Resend]"), accent, show_original);
             if (config.value("show_time", false) && m.sent) {
                 std::time_t t = m.sent;
                 std::tm tm{};
                 localtime_s(&tm, &t);
                 char stamp[16];
                 std::strftime(stamp, sizeof(stamp), "[%H:%M] ", &tm);
-                append(stamp, mix(fg, panel));
+                append(stamp, mix(fg, panel), show_original);
             }
             auto channel = chat_color(m);
-            append(chat_channel_label(m), rgb(channel));
+            append(chat_channel_label(m), rgb(channel), show_original);
             auto name = player_display_name(m);
             auto meta = player_badges(m, config);
             if (!name.empty())
-                append(meta + "[" + name + "]: ",
+                append(meta + "[" + name + "]" + (show_original ? "" : ": "),
                        config.value("class_colors", true) && !m.player_class.empty()
                            ? player_color(m.player_class)
-                           : rgb(channel));
+                           : rgb(channel), show_original);
+            if (show_original && chat_length() > row_start) {
+                append("\n", rgb(channel), true);
+                paragraph(0);
+            }
             append_chat(item.translation, channel);
-            if (config.value("show_original", false))
-                append_chat("  " + m.text, channel);
+            previous_original = show_original && !m.text.empty() &&
+                                clean_chat(item.translation) != clean_chat(m.text);
+            if (previous_original) {
+                append("\n", rgb(channel));
+                paragraph(0, true);
+                append_chat(m.text, active_theme.colors.muted, true);
+            }
+            chat_tail_line_height = show_original
+                                        ? (previous_original ? chat_secondary_line_height : chat_line_height) + 1
+                                        : chat_line_height;
             chat_rows.push_back({row_start, chat_length(), message_index, m.session, m.seq});
         }
         // RichEdit only settles its viewport after redraw/layout is enabled.
@@ -3464,6 +3514,73 @@ class App {
         require(color_at(L"[Blue Item]") == rgb(0x0070dd) && color_at(L"free") == rgb(0x123456) &&
                     color_at(wide("[" + ui_text("Party") + "]")) == rgb(0x123456),
                 "RichEdit lost exact item color or native channel color");
+        config["show_original"] = true;
+        messages.front().message.text = "Original source text";
+        auto following = sample;
+        following.translation = following.message.text = "Next translation";
+        messages.push_back(following);
+        render();
+        rendered = wide(text(chat));
+        auto character_at = [&](std::wstring_view token) {
+            auto pos = rendered.find(token);
+            require(pos != rendered.npos, "Bilingual message text missing");
+            SendMessageW(chat, EM_SETSEL, pos, pos + 1);
+            CHARFORMAT2W format{};
+            format.cbSize = sizeof(format);
+            SendMessageW(chat, EM_GETCHARFORMAT, SCF_SELECTION, reinterpret_cast<LPARAM>(&format));
+            return format;
+        };
+        auto primary = character_at(L"free"), secondary = character_at(L"Original source text"),
+             next_primary = character_at(L"Next translation");
+        require(secondary.yHeight < primary.yHeight && secondary.yHeight >= 135 &&
+                    secondary.crTextColor == rgb(active_theme.colors.muted) &&
+                    next_primary.yHeight == primary.yHeight && next_primary.crTextColor == rgb(0x123456),
+                "Original text is not secondary or its formatting leaked into the next translation");
+        const auto header_label = wide("[" + ui_text("Party") + "]");
+        require(character_at(header_label).yHeight == secondary.yHeight &&
+                    character_at(header_label).crTextColor == rgb(0x123456) &&
+                    SendMessageW(chat, EM_LINEFROMCHAR, rendered.find(L"free"), 0) >
+                        SendMessageW(chat, EM_LINEFROMCHAR, rendered.find(header_label), 0),
+                "Bilingual message metadata is not a smaller header above the translation");
+        auto paragraph_at = [&](std::wstring_view token) {
+            auto pos = rendered.find(token);
+            SendMessageW(chat, EM_SETSEL, pos, pos + 1);
+            PARAFORMAT2 paragraph{};
+            paragraph.cbSize = sizeof(paragraph);
+            SendMessageW(chat, EM_GETPARAFORMAT, 0, reinterpret_cast<LPARAM>(&paragraph));
+            return paragraph;
+        };
+        const auto source_pos = rendered.find(L"Original source text");
+        require(paragraph_at(L"Original source text").dxStartIndent == 0 &&
+                    paragraph_at(L"Next translation").dxStartIndent == 0 &&
+                    paragraph_at(L"Original source text").dySpaceBefore == 0 &&
+                    paragraph_at(L"Original source text").dySpaceAfter == 0 &&
+                    SendMessageW(chat, EM_LINEFROMCHAR, source_pos, 0) >
+                        SendMessageW(chat, EM_LINEFROMCHAR, rendered.find(L"free"), 0) &&
+                    chat_rows.size() == 2 && source_pos >= size_t(chat_rows.front().start) &&
+                    source_pos < size_t(chat_rows.front().end),
+                "Original text lost its aligned compact paragraph or message interaction range");
+        const auto next_pos = rendered.find(L"Next translation");
+        require(rendered.find(L"Next translation", next_pos + 1) == rendered.npos,
+                "Unchanged original text was displayed twice");
+        for (uint32_t sequence = 1; sequence <= 30; ++sequence) {
+            auto overflow = sample;
+            overflow.message.seq = sequence;
+            overflow.message.text = "Source line " + std::to_string(sequence);
+            overflow.translation = "Translated line " + std::to_string(sequence);
+            messages.push_back(std::move(overflow));
+        }
+        render(ChatBookmark{});
+        require(scroll_state().maximum > 0 && scroll_state().bottom,
+                "Bilingual paragraphs do not recognize the bottom of overflowing history");
+        auto bilingual_tail = messages.back();
+        bilingual_tail.message.seq = 31;
+        messages.push_back(std::move(bilingual_tail));
+        render();
+        require(scroll_state().bottom, "Bilingual history stopped following new messages at the bottom");
+        config["show_original"] = false;
+        messages.resize(1);
+        render();
         open_settings();
         int numeric_left = -1, previous_top = -1, numeric_rows = 0;
         for (auto setting_key : {"__background_transparency", "__font", "__limit"}) {
@@ -4659,6 +4776,23 @@ class App {
         RedrawWindow(main, nullptr, nullptr, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_UPDATENOW);
         snapshot(main, "ui-chat-tabs.bmp");
         auto qa_appearance = appearance_preview;
+        const auto saved_original = config.at("show_original");
+        config["show_original"] = true;
+        for (const auto *style : {"ios", "terminal", "classic"}) {
+            preview_theme_id(style);
+            render(ChatBookmark{});
+            POINT top{};
+            SendMessageW(chat, EM_SETSCROLLPOS, 0, reinterpret_cast<LPARAM>(&top));
+            RedrawWindow(main, nullptr, nullptr, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_UPDATENOW);
+            snapshot(main, ("ui-original-text-" + std::string(style) + ".bmp").c_str());
+        }
+        config["show_original"] = saved_original;
+        appearance_transaction([&] {
+            appearance_preview = qa_appearance;
+            fill_design_choices(appearance());
+            fill_skin_choices(appearance());
+            fill_skin_fields(appearance());
+        });
         preview_theme_id("classic");
         sync_tab_flash();
         for (auto [offset, name] : {std::pair{0, "ui-classic-chat-dim.bmp"},
@@ -4713,6 +4847,16 @@ class App {
                              RDW_INVALIDATE | RDW_ERASE | RDW_ALLCHILDREN | RDW_UPDATENOW);
                 DwmFlush();
                 snapshot(main, "preview-classic-composited.bmp", true);
+                config["show_original"] = true;
+                render(ChatBookmark{});
+                POINT top{};
+                SendMessageW(chat, EM_SETSCROLLPOS, 0, reinterpret_cast<LPARAM>(&top));
+                RedrawWindow(main, nullptr, nullptr,
+                             RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_UPDATENOW);
+                DwmFlush();
+                snapshot(main, "preview-original-text-classic-composited.bmp", true);
+                config["show_original"] = saved_original;
+                render(ChatBookmark{});
             } catch (...) {
                 restore();
                 throw;

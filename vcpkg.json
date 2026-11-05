@@ -1,6 +1,6 @@
 {
   "name": "bianlingo",
-  "version-string": "0.2.8",
+  "version-string": "0.2.9",
   "dependencies": [
     "openssl",
     "nlohmann-json",
