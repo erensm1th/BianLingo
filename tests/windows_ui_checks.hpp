@@ -118,6 +118,9 @@ template <class App> void verify_widgets(App &app) {
     app.switch_page(0);
     ShowWindow(app.settings, SW_SHOW);
     SetForegroundWindow(app.settings);
+    // Live-pixel comparisons must not sample another running topmost overlay.
+    const bool was_topmost = (GetWindowLongPtrW(app.settings, GWL_EXSTYLE) & WS_EX_TOPMOST) != 0;
+    SetWindowPos(app.settings, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     RedrawWindow(app.settings, nullptr, nullptr, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_UPDATENOW);
     auto automatic =
         std::find_if(app.checks.begin(), app.checks.end(), [](const auto &c) { return c.key == "auto"; });
@@ -416,5 +419,7 @@ template <class App> void verify_widgets(App &app) {
                 {"chat_font_recreated", false},
                 {"chat_reflows_from_style_preview", 0}}
                .dump(2);
+    if (!was_topmost)
+        SetWindowPos(app.settings, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 }
 } // namespace bl::ui_checks

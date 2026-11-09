@@ -198,11 +198,11 @@ def realm_fixtures():
 def layout_export_fixtures():
     output=[]
     setup=r"""
-layout_calls=0;NUM_CHAT_WINDOWS=4
+layout_calls=0;NUM_CHAT_WINDOWS=5
 ChatTypeGroup={SAY={"CHAT_MSG_SAY"},PARTY={"CHAT_MSG_PARTY","CHAT_MSG_PARTY_LEADER"},WHISPER={"CHAT_MSG_WHISPER","CHAT_MSG_WHISPER_INFORM"},GUILD={"CHAT_MSG_GUILD","CHAT_MSG_OFFICER"},COMBAT={"CHAT_MSG_COMBAT_LOG"},CHANNEL={"CHAT_MSG_CHANNEL"}}
 function GetChatWindowInfo(index)
  layout_calls=layout_calls+1
- local names={"综合"..string.char(34).."测试"..string.char(92).." éΩ😀","私聊","战斗记录","交易"}
+ local names={"综合"..string.char(34).."测试"..string.char(92).." éΩ😀","私聊","战斗记录","交易","Community"}
  return names[index],14,0,0,0,0,true
 end
 function GetChatWindowMessages(index)
@@ -216,6 +216,7 @@ function GetChatWindowChannels(index)
  layout_calls=layout_calls+1
  if index==1 then return "General",1,"Trade - Westfall",2 end
  if index==4 then return "Trade - Westfall",2 end
+ if index==5 then return "Community:504426851:1",0 end
 end
 """
     for mode in [b'native',b'compact']:
@@ -223,7 +224,7 @@ end
         sender.lua.execute(setup.encode());sender.packets=[]
         queries=sender.g.queries;sender.command('windows');sender.tick()
         calls=sender.g.layout_calls
-        assert calls==12 and sender.g.queries==queries
+        assert calls==15 and sender.g.queries==queries
         sender.command('windows')
         assert sender.g.layout_calls==calls # No duplicate active snapshot.
         sender.chat('live priority during layout')
@@ -235,10 +236,12 @@ end
         body=b''.join(unique[i]['body'] for i in sorted(unique))
         assert body[:1]==b'\0'
         layout=json.loads(body[1:])
-        assert [t['id'] for t in layout['windows']]==['wow-1','wow-2','wow-4']
+        assert [t['id'] for t in layout['windows']]==['wow-1','wow-2','wow-4','wow-5']
         assert layout['windows'][0]['name']=='综合"测试'+chr(92)+' éΩ😀'
         assert layout['windows'][1]['events']==['CHAT_MSG_WHISPER','CHAT_MSG_WHISPER_INFORM']
         assert layout['windows'][2]['channels']==['Trade - Westfall']
+        assert layout['windows'][3]['channels']==['Community:504426851:1']
+        assert layout['windows'][3]['events']==['CHAT_MSG_COMMUNITIES_CHANNEL']
         output.append(dict(packets=[unique[i]['raw'] for i in sorted(unique)],expected=layout))
         sender.packets=[];sender.command('replay');sender.drain()
         assert not any(p['event']==22 for p in sender.packets) # Layout is not chat history.
@@ -250,6 +253,24 @@ end
         assert not any(p['event']==22 for p in sender.packets)
         sender.g.GetChatWindowChannels=None;sender.command('windows');sender.drain()
         assert not any(p['event']==22 for p in sender.packets)
+    return output
+
+def community_fixtures():
+    output=[]
+    for mode in [b'native',b'compact']:
+        sender=boot({b'mode':mode},uptime=123470)
+        sender.drain();sender.packets=[]
+        sender.lua.execute(b'''frames.BianLingoBridgeFrame.scripts.OnEvent(frames.BianLingoBridgeFrame,
+          "CHAT_MSG_COMMUNITIES_CHANNEL", "Looking for a healer", "Sender-Realm", "", "5. Community:504426851:1",
+          "", "", 0, 5, "Community:504426851:1", 0, 123, "Player-0-123")''')
+        sender.drain()
+        live=next(p for p in sender.packets if p['event']==24)
+        queries=sender.g.queries
+        sender.packets=[];sender.command('replay');sender.drain()
+        replay=next(p for p in sender.packets if p['event']==24 and p['batch'])
+        assert live['body']==replay['body'] and live['player']==replay['player']
+        assert sender.g.queries==queries
+        output.append(dict(raw=live['raw'],replay_raw=replay['raw']))
     return output
 
 def crc8(data):
@@ -506,12 +527,13 @@ def run(output=None):
             markers.append(dict(raw=short.marker_raw().hex(),corner=['tl','tr','bl','br'].index(corner),cell=cell,active=False,compact=True))
     assert not any(short.frame[b'textures'][i][b'shown'] for i in range(402,1154))
     layouts=layout_export_fixtures()
+    communities=community_fixtures()
     realms=realm_fixtures()
     for fixture in realms:
         if 'image' in fixture: images.append(fixture.pop('image'))
     if output:
         clean=[{k:v for k,v in p.items() if k!='body'} for p in fixtures]
-        Path(output).write_text(json.dumps(dict(packets=clean,markers=markers,images=images,colors=colors,layouts=layouts,realms=realms)),encoding='utf-8')
+        Path(output).write_text(json.dumps(dict(packets=clean,markers=markers,images=images,colors=colors,layouts=layouts,realms=realms,communities=communities)),encoding='utf-8')
     print('PASS real Lua 5.1: defaults/persistence, whole cache eviction, immutable replay, live priority, overflow recovery, filters, four corners/cells, idle wake/hide, no idle redraw')
 def notification_languages():
     for language in ['enUS', 'frFR', 'deDE', 'jaJP', 'koKR', 'zhCN', 'zhTW']:

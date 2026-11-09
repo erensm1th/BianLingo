@@ -120,11 +120,79 @@ bool ChatTab::matches(const Message &m) const {
         return true;
     if (!events.contains(m.event))
         return false;
-    if (m.event != "CHAT_MSG_CHANNEL")
+    if (m.event != "CHAT_MSG_CHANNEL" && m.event != "CHAT_MSG_COMMUNITIES_CHANNEL")
         return true;
     if (channel_hit(m, excluded_channels, excluded_channel_names))
         return false;
     return channels.empty() && channel_names.empty() || channel_hit(m, channels, channel_names);
+}
+namespace {
+std::vector<bool> retained_rows(const std::deque<DisplayMessage> &history, size_t limit,
+                                const std::vector<ChatTab> &tabs) {
+    std::vector<bool> keep(history.size(), false);
+    for (const auto &tab : tabs) {
+        size_t count = 0;
+        for (size_t i = history.size(); i > 0 && count < limit; --i)
+            if (tab.matches(history[i - 1].message)) {
+                keep[i - 1] = true;
+                ++count;
+            }
+    }
+    return keep;
+}
+}
+TabHistoryChange update_tab_history(std::deque<DisplayMessage> &history, DisplayMessage value,
+                                    size_t limit, const std::vector<ChatTab> &tabs) {
+    const auto old_size = history.size();
+    const auto inserted = update_history(history, std::move(value), history.size() + 1).position;
+    const auto keep = retained_rows(history, limit, tabs);
+    TabHistoryChange result{keep[inserted], std::vector<size_t>(old_size, history_index_removed)};
+    size_t destination = 0;
+    for (size_t i = 0; i < history.size(); ++i) {
+        if (!keep[i]) continue;
+        if (i != inserted) result.old_to_new[i < inserted ? i : i - 1] = destination;
+        if (destination != i) history[destination] = std::move(history[i]);
+        ++destination;
+    }
+    history.resize(destination);
+    return result;
+}
+void trim_tab_history(std::deque<DisplayMessage> &history, size_t limit,
+                      const std::vector<ChatTab> &tabs) {
+    const auto keep = retained_rows(history, limit, tabs);
+    size_t destination = 0;
+    for (size_t i = 0; i < history.size(); ++i)
+        if (keep[i]) {
+            if (destination != i) history[destination] = std::move(history[i]);
+            ++destination;
+        }
+    history.resize(destination);
+}
+std::string chat_scope_warning(const Json &settings, const std::vector<ChatTab> &tabs) {
+    if (!settings.value("auto", true)) return ui_text("Automatic translation is disabled.");
+    std::string excluded;
+    for (const auto &[event, title] : chat_event_options()) {
+        if (event == "OCR_CHAT" || std::none_of(tabs.begin(), tabs.end(),
+                [&](const ChatTab &tab) { return tab.events.contains(event); })) continue;
+        Message probe;
+        probe.event = event;
+        const auto channels = settings.value("channels", Json::array());
+        if (!channels.empty()) probe.channel_number = channels.front().get<int>();
+        if (!allows(settings, probe)) {
+            if (!excluded.empty()) excluded += ", ";
+            excluded += ui_text(title);
+        }
+    }
+    std::string warning;
+    if (!excluded.empty()) warning = ui_text("Disabled in Translation scope: ") + excluded;
+    if (!settings.value("channels", Json::array()).empty() &&
+        std::any_of(tabs.begin(), tabs.end(), [](const ChatTab &tab) {
+            return tab.events.contains("CHAT_MSG_CHANNEL");
+        })) {
+        if (!warning.empty()) warning += "\n";
+        warning += ui_text("Public channel numbers are restricted in Translation scope.");
+    }
+    return warning;
 }
 bool normalize_chat_tabs(Json &s) {
     auto old = s;

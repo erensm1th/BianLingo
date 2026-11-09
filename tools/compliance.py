@@ -122,10 +122,15 @@ def validate_sources(root=ROOT):
     branding=load(root/'resources/branding/manifest.json')
     if branding['source']!='resources/branding/logo.png' or digest(root/branding['source'])!=branding['source_sha256']:
         raise ValueError('Original brand artwork changed without review')
-    if set(branding['derivatives'])!={'resources/bianlingo.ico','resources/settings-icon.ico','addon/BianLingo/Textures/Logo.tga'}:
+    if set(branding['derivatives'])!={'resources/bianlingo.ico','resources/settings-icon.ico','addon/BianLingo/Textures/Logo.tga',
+                                    'resources/duanduan.ico','addon/BianLingo/Textures/Duanduan.tga','resources/bianbian.ico'}:
         raise ValueError('Brand icon/texture inventory is incomplete')
     if branding.get('settings_source') != 'resources/branding/settings-icon.png' or digest(root/branding['settings_source']) != branding.get('settings_source_sha256'):
         raise ValueError('Pixel settings artwork changed without review')
+    if branding.get('duanduan_source') != 'resources/branding/duanduan.png' or digest(root/branding['duanduan_source']) != branding.get('duanduan_source_sha256'):
+        raise ValueError('Duanduan artwork changed without review')
+    if branding.get('bianbian_source') != 'resources/branding/bianbian.png' or digest(root/branding['bianbian_source']) != branding.get('bianbian_source_sha256'):
+        raise ValueError('Bianbian artwork changed without review')
     for name,expected in branding['derivatives'].items():
         if digest(root/name)!=expected:raise ValueError('Brand derivative changed: '+name)
 

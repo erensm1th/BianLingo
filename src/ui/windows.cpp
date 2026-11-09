@@ -276,7 +276,7 @@ class App {
     HWND page_title = nullptr, page_description = nullptr, brand = nullptr, brand_detail = nullptr,
          version_label = nullptr;
     std::map<std::pair<UINT, int>, HFONT> ui_fonts;
-    std::map<int, HICON> brand_icons;
+    std::map<std::pair<int, int>, HICON> brand_icons;
     std::set<HWND> muted_controls;
     std::map<HWND, Rect> body_positions;
     std::map<HWND, Rect> body_seeds;
@@ -308,7 +308,7 @@ class App {
     HWND tab_input_surface = nullptr, gear_input_surface = nullptr, resize_input_surface = nullptr;
     int resize_input_edge = 0;
     HWND chat_tab_bar = nullptr, tab_editor = nullptr, tab_name = nullptr, tab_channels = nullptr,
-         tab_excluded = nullptr;
+         tab_excluded = nullptr, tab_scope_status = nullptr;
     std::vector<std::pair<HWND, std::string>> tab_checks;
     size_t active_tab = 0, editing_tab = 0;
     bool tab_sync = false;
@@ -649,12 +649,16 @@ class App {
         }
         return f;
     }
-    void draw_brand_icon(HDC dc, RECT bounds, bool pressed) {
-        const int size = std::max(1, int(std::min(bounds.right - bounds.left, bounds.bottom - bounds.top)));
-        auto &icon = brand_icons[size];
+    HICON brand_icon(int resource, int size) {
+        auto &icon = brand_icons[{resource, size}];
         if (!icon)
-            icon = reinterpret_cast<HICON>(LoadImageW(instance, MAKEINTRESOURCEW(102), IMAGE_ICON, size, size, LR_DEFAULTCOLOR));
+            icon = reinterpret_cast<HICON>(LoadImageW(instance, MAKEINTRESOURCEW(resource), IMAGE_ICON, size, size, LR_DEFAULTCOLOR));
         if (!icon) throw std::runtime_error("Could not load the BianLingo icon");
+        return icon;
+    }
+    void draw_brand_icon(HDC dc, RECT bounds, bool pressed, int resource = 102) {
+        const int size = std::max(1, int(std::min(bounds.right - bounds.left, bounds.bottom - bounds.top)));
+        auto icon = brand_icon(resource, size);
         int x = (bounds.left + bounds.right - size) / 2, y = (bounds.top + bounds.bottom - size) / 2;
         if (pressed) { x += scale(1, gear); y += scale(1, gear); }
         DrawIconEx(dc, x, y, icon, size, size, 0, nullptr, DI_NORMAL);
@@ -830,6 +834,36 @@ class App {
     }
     void paint_settings(HDC dc) {
         paint_control_background(settings, dc);
+        if (body && page_title) {
+            RECT area{}, heading{}, content{};
+            GetClientRect(settings, &area);
+            GetWindowRect(page_title, &heading);
+            GetWindowRect(body, &content);
+            MapWindowPoints(nullptr, settings, reinterpret_cast<POINT *>(&heading), 2);
+            MapWindowPoints(nullptr, settings, reinterpret_cast<POINT *>(&content), 2);
+            const int side = std::min(scale(64, settings), int(content.top - heading.top) - scale(8, settings));
+            if (side >= scale(32, settings)) {
+                const int right = area.right - scale(32, settings);
+                draw_brand_icon(dc, {right - side, heading.top, right, heading.top + side}, false, 103);
+            }
+        }
+        if (!version_label) return;
+        RECT version{};
+        GetWindowRect(version_label, &version);
+        MapWindowPoints(nullptr, settings, reinterpret_cast<POINT *>(&version), 2);
+        int navigation_bottom = 0;
+        for (auto button : navigation) {
+            RECT bounds{};
+            GetWindowRect(button, &bounds);
+            MapWindowPoints(nullptr, settings, reinterpret_cast<POINT *>(&bounds), 2);
+            navigation_bottom = std::max(navigation_bottom, int(bounds.bottom));
+        }
+        const int gap = scale(12, settings);
+        const int bottom = version.top - gap;
+        const int side = std::min(scale(64, settings), bottom - navigation_bottom - gap);
+        if (side < scale(32, settings)) return;
+        const int left = version.left;
+        draw_brand_icon(dc, {left, bottom - side, left + side, bottom}, false, 104);
     }
     void paint_body(HDC dc) {
         paint_control_background(body, dc);
@@ -884,6 +918,8 @@ class App {
         RECT r{};
         GetClientRect(h, &r);
         FillRect(dc, &r, brush);
+        if (h == output)
+            draw_brand_icon(dc, {scale(8, h), scale(5, h), scale(32, h), scale(29, h)}, false, 103);
     }
     void paint_hotkey(HWND h, HDC dc) {
         paint_control_background(h, dc);
@@ -1519,17 +1555,18 @@ class App {
         const int body_x = 208;
         int x = scale(body_x, settings);
         int width = std::max(1, std::min(scale(650, settings), int(r.right) - x - scale(24, settings)));
-        int description_width = std::max(1, MulDiv(width, 96, int(GetDpiForWindow(settings))) - 22);
+        const int portrait_reserve = 76;
+        int description_width = std::max(1, MulDiv(width, 96, int(GetDpiForWindow(settings))) - 22 - portrait_reserve);
         int description_height = std::max(22, settings_caption_height(page_description, description_width, measure_dc));
         int description_top = metal ? 92 : 59;
         int y = scale(std::max(metal ? 118 : 90, description_top + description_height + 14), settings);
         int height = std::max(1, int(r.bottom) - y - scale(64, settings));
         MoveWindow(body, x, y, width, height, TRUE);
         MoveWindow(body_scrollbar, x + width + scale(3, settings), y, scale(4, settings), height, TRUE);
-        MoveWindow(page_title, x + scale(20, settings), scale(20, settings), width - scale(20, settings),
+        MoveWindow(page_title, x + scale(20, settings), scale(20, settings), width - scale(20 + portrait_reserve, settings),
                    scale(32, settings), TRUE);
         MoveWindow(page_description, x + scale(22, settings), scale(58, settings),
-                   width - scale(22, settings), scale(description_height, settings), TRUE);
+                   width - scale(22 + portrait_reserve, settings), scale(description_height, settings), TRUE);
         MoveWindow(GetDlgItem(settings, id_save), r.right - scale(166, settings),
                    r.bottom - scale(44, settings), scale(142, settings), scale(32, settings), TRUE);
         MoveWindow(GetDlgItem(settings, id_exit), scale(22, settings), r.bottom - scale(44, settings),
@@ -1567,10 +1604,10 @@ class App {
         ShowWindow(brand, metal ? SW_HIDE : SW_SHOWNOACTIVATE);
         ShowWindow(brand_detail, metal ? SW_HIDE : SW_SHOWNOACTIVATE);
         if (metal) {
-            MoveWindow(page_title, scale(230, settings), scale(61, settings), r.right - scale(260, settings),
+            MoveWindow(page_title, scale(230, settings), scale(61, settings), r.right - scale(260 + portrait_reserve, settings),
                        scale(30, settings), TRUE);
             MoveWindow(page_description, scale(230, settings), scale(92, settings),
-                       r.right - scale(260, settings), scale(description_height, settings), TRUE);
+                       r.right - scale(260 + portrait_reserve, settings), scale(description_height, settings), TRUE);
             int category_y = 70;
             auto category = [&](size_t index, std::initializer_list<int> items) {
                 settings_category_y[index] = category_y;
@@ -1587,10 +1624,10 @@ class App {
             category(1, {1, 2, 3});
             category(2, {4});
         } else {
-            MoveWindow(page_title, scale(228, settings), scale(22, settings), r.right - scale(260, settings),
+            MoveWindow(page_title, scale(228, settings), scale(22, settings), r.right - scale(260 + portrait_reserve, settings),
                        scale(32, settings), TRUE);
             MoveWindow(page_description, scale(230, settings), scale(59, settings),
-                       r.right - scale(260, settings), scale(description_height, settings), TRUE);
+                       r.right - scale(260 + portrait_reserve, settings), scale(description_height, settings), TRUE);
         }
         ReleaseDC(settings, measure_dc);
         layout_body();
@@ -1604,6 +1641,11 @@ class App {
     void theme_caption() {
         if (!settings)
             return;
+        for (auto [kind, size] : {std::pair{ICON_SMALL, 16}, std::pair{ICON_BIG, 32}}) {
+            auto icon = brand_icon(101, scale(size, settings));
+            if (reinterpret_cast<HICON>(SendMessageW(settings, WM_GETICON, kind, 0)) != icon)
+                SendMessageW(settings, WM_SETICON, kind, reinterpret_cast<LPARAM>(icon));
+        }
         BOOL dark = GetRValue(bg) + GetGValue(bg) + GetBValue(bg) < 450;
         DwmSetWindowAttribute(settings, DWMWA_USE_IMMERSIVE_DARK_MODE, &dark, sizeof(dark));
         DwmSetWindowAttribute(settings, DWMWA_CAPTION_COLOR, &bg, sizeof(bg));
@@ -1662,6 +1704,7 @@ class App {
                                       GetParent(decoration->edit()) == ocr_window,
                                   rgb(active_theme.colors.track), rgb(active_theme.colors.thumb),
                                   rgb(active_theme.colors.border));
+        resize_main();
         sync_tab_input_surface();
         sync_gear_input_surface();
         sync_resize_input_surface();
@@ -2634,14 +2677,16 @@ class App {
             return;
         RECT r{};
         GetClientRect(main, &r);
-        MoveWindow(chat, scale(5), scale(24), std::max(1, int(r.right) - scale(18)),
-                   std::max(1, int(r.bottom) - scale(28)), TRUE);
-        MoveWindow(gear, std::max(0, int(r.right) - scale(32)), 0, scale(27), scale(24), TRUE);
+        const int title_inset = active_theme.chat.tabs == ChatTabVisual::Classic ? 0 : scale(4);
+        const int chat_top = title_inset + scale(24);
+        MoveWindow(chat, scale(5), chat_top, std::max(1, int(r.right) - scale(18)),
+                   std::max(1, int(r.bottom) - chat_top - scale(4)), TRUE);
+        MoveWindow(gear, std::max(0, int(r.right) - scale(32)), title_inset, scale(27), scale(24), TRUE);
         if (chat_tab_bar)
-            MoveWindow(chat_tab_bar, scale(5), 0, std::max(1, int(r.right) - scale(42)), scale(24), TRUE);
+            MoveWindow(chat_tab_bar, scale(5), title_inset, std::max(1, int(r.right) - scale(42)), scale(24), TRUE);
         if (scrollbar)
-            MoveWindow(scrollbar, std::max(0, int(r.right) - scale(12)), scale(26), scale(7),
-                       std::max(1, int(r.bottom) - scale(30)), TRUE);
+            MoveWindow(scrollbar, std::max(0, int(r.right) - scale(12)), chat_top + scale(2), scale(7),
+                       std::max(1, int(r.bottom) - chat_top - scale(6)), TRUE);
         update_scrollbar();
         refresh_reply_surface();
     }
@@ -2819,6 +2864,7 @@ class App {
         for (size_t i = 0; i < display_tabs.size(); ++i)
             if (display_tabs[i].id == config.value("active_chat_tab", std::string("main")))
                 active_tab = i;
+        trim_tab_history(messages, size_t(config.value("max_messages", 20)), display_tabs);
         tab_first = std::clamp(tab_first, 0, int(display_tabs.size()) - 1);
         if (chat_tab_bar) {
             bool visible = display_tabs.size() > 1 || display_tabs.front().id != "main" ||
@@ -3114,7 +3160,14 @@ class App {
         set(tab_channels, format_channel_filter(tab.value("channels", Json::array())));
         set(tab_excluded, format_channel_filter(tab.value("exclude_channels", Json::array())));
         EnableWindow(GetDlgItem(body, id_tab_delete), tab_draft.size() > 1);
+        if (tab_scope_status) {
+            auto warning = chat_scope_warning(config, parse_chat_tabs(Json::array({tab})));
+            set(tab_scope_status, warning.empty()
+                ? ui_text("Tabs filter display independently; each tab keeps its own history limit.")
+                : warning);
+        }
         tab_sync = false;
+        if (settings && active_page == 5) resize_settings();
     }
     void select_tab_editor() {
         if (tab_sync)
@@ -3157,6 +3210,8 @@ class App {
         game_layout = layout;
         std::string note = changed ? "Game chat windows synced and saved:" : "Game chat windows already match:";
         note += std::to_string(config["chat_tabs"].size()) + "tabs";
+        auto scope_warning = chat_scope_warning(config, parse_chat_tabs(config.at("chat_tabs")));
+        if (!scope_warning.empty()) note += "\n" + scope_warning;
         try {
             sync_chat_tabs();
             tab_draft = config["chat_tabs"];
@@ -3194,27 +3249,21 @@ class App {
         }
         if (!any)
             return false;
-        size_t limit = size_t(config.value("max_messages", 200));
-        size_t removed = messages.size() + 1 > limit ? messages.size() + 1 - limit : 0;
-        bool lost_visible = false;
-        for (size_t i = 0; i < std::min(removed, messages.size()); ++i)
-            lost_visible = lost_visible || display_tabs[active_tab].matches(messages[i].message);
-        auto change = update_history(messages, std::move(value), limit);
-        if (!change.retained)
-            return false;
-        bool redraw = matches[active_tab] || lost_visible;
+        auto change = update_tab_history(messages, std::move(value),
+                                         size_t(config.value("max_messages", 20)), display_tabs);
+        bool redraw = change.retained && matches[active_tab];
         if (!message_preview && !redraw) {
             for (auto &row : chat_rows) {
-                size_t shifted = row.index + (row.index >= change.position ? 1 : 0);
-                if (shifted < change.removed) {
+                if (row.index >= change.old_to_new.size() ||
+                    change.old_to_new[row.index] == history_index_removed) {
                     redraw = true;
                     break;
                 }
-                row.index = shifted - change.removed;
+                row.index = change.old_to_new[row.index];
             }
         }
         for (size_t i = 0; i < display_tabs.size(); ++i)
-            if ((i != active_tab || message_preview) && matches[i])
+            if (change.retained && (i != active_tab || message_preview) && matches[i])
                 tab_unread[display_tabs[i].id] = std::min(9999u, tab_unread[display_tabs[i].id] + 1);
         if (chat_tab_bar)
             InvalidateRect(chat_tab_bar, nullptr, FALSE);
@@ -4518,6 +4567,44 @@ class App {
         require(rejected && tab_draft == valid_draft && config == valid_config &&
                     game_layout == last_valid_snapshot,
                 "Invalid auto sync damaged the draft, active layout or cached snapshot");
+        config["max_messages"] = 10;
+        config["chat_tabs"] = Json::array({party_tab, whisper_tab});
+        config["active_chat_tab"] = "party";
+        sync_chat_tabs();
+        messages.clear();
+        auto tab_sample = [&](uint32_t seq, const char *event) {
+            DisplayMessage value;
+            value.message.session = 1001;
+            value.message.seq = value.message.sent = seq;
+            value.message.event = event;
+            value.message.author = "RetainedSender-Westfall";
+            value.translation = "independent tab history " + std::to_string(seq);
+            receive_chat(std::move(value));
+        };
+        tab_sample(1, "CHAT_MSG_WHISPER");
+        for (uint32_t sequence = 2; sequence <= 80; ++sequence)
+            tab_sample(sequence, "CHAT_MSG_PARTY");
+        render(ChatBookmark{});
+        require(messages.size() == 11 && chat_rows.size() == 10,
+                "Busy party tab evicted an inactive whisper or exceeded its own display limit");
+        switch_chat_tab(1);
+        require(chat_rows.size() == 1 && messages[chat_rows[0].index].message.seq == 1,
+                "Inactive whisper tab became empty after unrelated traffic");
+        tab_sample(81, "CHAT_MSG_PARTY");
+        for (const auto &row : chat_rows)
+            require(messages.at(row.index).message.seq == row.seq,
+                    "Per-tab eviction left a stale reply index in an inactive message group");
+        pick_reply(chat_rows.front().start, true);
+        require(chosen_reply && chosen_reply->prefix == "/w RetainedSender-Westfall ",
+                "Per-tab history changed the retained whisper reply target");
+        auto disabled_scope = config;
+        disabled_scope["groups"] = {"public"};
+        config = disabled_scope;
+        tab_draft = config["chat_tabs"];
+        fill_tab_editor(0);
+        require(text(tab_scope_status).find(ui_text("Party")) != std::string::npos && config == disabled_scope,
+                "Imported tab did not explain its disabled global scope or changed global switches");
+        switch_page(5);
         set(url_control->h, old_url_text);
         require(engine->usage() == usage_before_tabs, "Tab operations consumed API tokens");
         config = original_config;
@@ -4866,10 +4953,23 @@ class App {
         switch_page(0);
         RedrawWindow(settings, nullptr, nullptr, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_UPDATENOW);
         snapshot(settings, "ui-classic-settings.bmp");
+        open_output();
+        RedrawWindow(output, nullptr, nullptr, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_UPDATENOW);
+        snapshot(output, "ui-duanduan-output.bmp");
+        hide_output();
         for (int page = 1; page < int(pages.size()); ++page) {
             switch_page(page);
             RedrawWindow(settings, nullptr, nullptr, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_UPDATENOW);
             snapshot(settings, ("ui-classic-page" + std::to_string(page) + ".bmp").c_str());
+            if (page == 5) {
+                const auto enabled_groups = config["groups"];
+                config["groups"] = {"public"};
+                fill_tab_editor(active_tab);
+                RedrawWindow(settings, nullptr, nullptr, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_UPDATENOW);
+                snapshot(settings, "ui-disabled-chat-scope.bmp");
+                config["groups"] = enabled_groups;
+                fill_tab_editor(active_tab);
+            }
         }
         switch_page(0);
         open_picker(skin_select);
@@ -5171,7 +5271,7 @@ class App {
         page_control(4, L"BUTTON", "Delete saved chat logs", 20, 651, 300, 30, BS_PUSHBUTTON, id_logs_clear);
         label(4, "Cloud connections send text to the selected service; local engines process it on this computer.", 20, 705, 600);
         tab_draft = config.at("chat_tabs");
-        label(5, "Tabs only affect display; translation scope follows original settings; history limit is shared.", 20, 58, 600);
+        tab_scope_status = label(5, "Tabs filter display independently; each tab keeps its own history limit.", 20, 58, 600);
         label(5, "Chat tabs", 20, 92, 100);
         tab_editor =
             page_control(5, L"COMBOBOX", "", 125, 87, 285, 200, CBS_DROPDOWNLIST | WS_TABSTOP, id_tab_editor);
@@ -5436,7 +5536,7 @@ class App {
                 WS_EX_TOPMOST | WS_EX_TOOLWINDOW, L"BianLingo.Window", wide(ui_text("BianLingo · Output translation")).c_str(),
                 WS_POPUP | WS_BORDER, bubble_area.left + (bubble_area.right - bubble_area.left - width) / 2,
                 bubble_area.bottom - height - scale(90), width, height, nullptr, nullptr, instance, nullptr);
-            output_heading = control(output, L"STATIC", "Send translation", 10, 9, 190, 22, SS_LEFT);
+            output_heading = control(output, L"STATIC", "Send translation", 38, 9, 162, 22, SS_LEFT | SS_ENDELLIPSIS);
             output_style = control(output, WC_COMBOBOXW, "", 202, 5, 94, 200, CBS_DROPDOWNLIST | WS_VSCROLL,
                                    id_output_style);
             SendMessageW(output_style, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(wide(ui_text("Short")).c_str()));

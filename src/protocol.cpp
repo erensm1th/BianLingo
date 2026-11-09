@@ -27,7 +27,7 @@ std::optional<Packet> decode_packet(std::span<const uint8_t> raw) {
     auto len = u16(raw, 20);
     if (!p.part || p.part > p.count || p.count > 45 || len > capacity || raw.size() < 28 + size_t(len) ||
         p.event >= events.size() || (p.player & player_class_mask) >= classes.size() ||
-        (!p.event && p.player) || ((p.player & (64 | player_same_realm)) && (p.event < 1 || p.event > 17)))
+        (!p.event && p.player) || ((p.player & (64 | player_same_realm)) && !is_chat_packet(p.event)))
         return {};
     Bytes check(raw.begin(), raw.begin() + 24);
     check.insert(check.end(), raw.begin() + 28, raw.begin() + 28 + len);
@@ -35,7 +35,7 @@ std::optional<Packet> decode_packet(std::span<const uint8_t> raw) {
         return {};
     p.payload.assign(raw.begin() + 28, raw.begin() + 28 + len);
     if (raw[22] & 128) {
-        if (len < 2 || p.event < 1 || p.event > 17)
+        if (len < 2 || !is_chat_packet(p.event))
             return {};
         p.replay_batch = u16(p.payload, 0);
         if (!p.replay_batch)
@@ -390,7 +390,7 @@ void Assembler::remember(const Packet &p) {
 std::optional<Message> Assembler::accept(const Packet &p) {
     if (!p.part || p.part > p.count || p.count > 45 || p.payload.size() > capacity ||
         p.event >= events.size() || (p.player & player_class_mask) >= classes.size() ||
-        ((p.player & (64 | player_same_realm)) && (p.event < 1 || p.event > 17)))
+        ((p.player & (64 | player_same_realm)) && !is_chat_packet(p.event)))
         return {};
     uint64_t identity = (uint64_t(p.session) << 32) | p.seq;
     Key key{identity, p.replay_batch};
@@ -436,8 +436,9 @@ std::optional<Message> Assembler::accept(const Packet &p) {
         utf32(in); // Color prefix is binary; all remaining fields must be UTF-8.
         if (p.event) {
             m.event = events[p.event];
+            if (p.event == community_channel_event) m.event = "CHAT_MSG_COMMUNITIES_CHANNEL";
             m.player_class = classes[p.player & player_class_mask];
-            if (m.event == "CHAT_MSG_CHANNEL") {
+            if (m.event == "CHAT_MSG_CHANNEL" || p.event == community_channel_event) {
                 auto channel = take(in);
                 auto tab = channel.find('\t');
                 if (tab != std::string::npos) {

@@ -24,4 +24,15 @@ Json synchronize_chat_layout(const Json &settings, const Json &layout,
                              const std::function<void(const Json &)> &persist);
 Json parse_channel_filter(std::string_view); // Number or name, separated by comma/semicolon/space.
 std::string format_channel_filter(const Json &);
+std::string chat_scope_warning(const Json &, const std::vector<ChatTab> &);
+struct TabHistoryChange {
+    bool retained;
+    // Old row index -> new row index; history_index_removed marks an evicted row.
+    std::vector<size_t> old_to_new;
+};
+inline constexpr size_t history_index_removed = size_t(-1);
+// Keep the latest limit matches for each tab in one deduplicated, ordered history.
+TabHistoryChange update_tab_history(std::deque<DisplayMessage> &, DisplayMessage, size_t limit,
+                                    const std::vector<ChatTab> &);
+void trim_tab_history(std::deque<DisplayMessage> &, size_t limit, const std::vector<ChatTab> &);
 } // namespace bl

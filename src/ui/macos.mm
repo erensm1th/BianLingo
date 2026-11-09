@@ -92,7 +92,7 @@ struct MacChatBookmark {
     NSScrollView *chatTabScroll;
     NSSegmentedControl *chatTabBar;
     NSPopUpButton *chatTabEditor;
-    NSTextField *chatTabName, *chatTabChannels, *chatTabExcluded;
+    NSTextField *chatTabName, *chatTabChannels, *chatTabExcluded, *chatTabScopeStatus;
     NSMutableArray<NSButton *> *chatTabChecks;
     std::optional<MacChatBookmark> previewLiveView, nextRenderView;
     NSButton *previewButton;
@@ -524,6 +524,7 @@ OSStatus keyEvent(EventHandlerCallRef, EventRef event, void *context) {
 }
 - (void)syncChatTabs {
     displayTabs = parse_chat_tabs(config.at("chat_tabs"));
+    trim_tab_history(messages, size_t(config.value("max_messages", 20)), displayTabs);
     activeChatTab = 0;
     for (size_t i = 0; i < displayTabs.size(); ++i)
         if (displayTabs[i].id == config.value("active_chat_tab", std::string("main")))
@@ -616,6 +617,8 @@ OSStatus keyEvent(EventHandlerCallRef, EventRef event, void *context) {
                                      : NSControlStateValueOff;
     chatTabChannels.stringValue = ns(format_channel_filter(tab.value("channels", Json::array())));
     chatTabExcluded.stringValue = ns(format_channel_filter(tab.value("exclude_channels", Json::array())));
+    if (chatTabScopeStatus)
+        chatTabScopeStatus.stringValue = ns(chat_scope_warning(config, parse_chat_tabs(Json::array({tab}))));
 }
 - (void)selectChatTabEditor:(id)sender {
     (void)sender;
@@ -668,6 +671,8 @@ OSStatus keyEvent(EventHandlerCallRef, EventRef event, void *context) {
     gameLayout = layout;
     std::string note = changed ? "Game chat windows synced and saved:" : "Game chat windows already match:";
     note += std::to_string(config["chat_tabs"].size()) + "tabs";
+    auto scopeWarning = chat_scope_warning(config, parse_chat_tabs(config.at("chat_tabs")));
+    if (!scopeWarning.empty()) note += "\n" + scopeWarning;
     try {
         [self syncChatTabs];
         chatTabDraft = config["chat_tabs"];
@@ -1249,7 +1254,9 @@ OSStatus keyEvent(EventHandlerCallRef, EventRef event, void *context) {
     [runtime addArrangedSubview:button("Delete saved chat logs", @selector(clearChatLogs:))];
     [runtime addArrangedSubview:label("Cloud connections send text to the selected service; local engines process it on this computer.")];
     auto tabPage = page(tabs, "Chat tabs");
-    [tabPage addArrangedSubview:label("Each tab filters shared history independently; global translation filters and the history limit still apply.")];
+    [tabPage addArrangedSubview:label("Tabs filter display independently; each tab keeps its own history limit.")];
+    chatTabScopeStatus = label(chat_scope_warning(config, displayTabs));
+    [tabPage addArrangedSubview:chatTabScopeStatus];
     chatTabDraft = config.at("chat_tabs");
     editingChatTab = activeChatTab;
     chatTabEditor = [[NSPopUpButton alloc] initWithFrame:NSZeroRect pullsDown:NO];
@@ -1890,25 +1897,21 @@ OSStatus keyEvent(EventHandlerCallRef, EventRef event, void *context) {
             }
             if (!any)
                 continue;
-            size_t limit = size_t(config.value("max_messages", 20)),
-                   removed = messages.size() + 1 > limit ? messages.size() + 1 - limit : 0;
-            bool lost = false;
-            for (size_t i = 0; i < std::min(removed, messages.size()); ++i)
-                lost = lost || displayTabs[activeChatTab].matches(messages[i].message);
-            auto change = update_history(messages, std::move(n.chat), limit);
-            if (change.retained) {
-                bool redraw = matches[activeChatTab] || lost;
+            auto change = update_tab_history(messages, std::move(n.chat),
+                                             size_t(config.value("max_messages", 20)), displayTabs);
+            {
+                bool redraw = change.retained && matches[activeChatTab];
                 if (!messagePreview && !redraw)
                     for (auto &row : chatRows) {
-                        size_t shifted = row.index + (row.index >= change.position ? 1 : 0);
-                        if (shifted < change.removed) {
+                        if (row.index >= change.old_to_new.size() ||
+                            change.old_to_new[row.index] == history_index_removed) {
                             redraw = true;
                             break;
                         }
-                        row.index = shifted - change.removed;
+                        row.index = change.old_to_new[row.index];
                     }
                 for (size_t i = 0; i < displayTabs.size(); ++i)
-                    if ((i != activeChatTab || messagePreview) && matches[i])
+                    if (change.retained && (i != activeChatTab || messagePreview) && matches[i])
                         chatTabUnread[displayTabs[i].id] =
                             std::min(9999u, chatTabUnread[displayTabs[i].id] + 1);
                 dirty = redraw || dirty;

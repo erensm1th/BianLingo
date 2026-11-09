@@ -481,6 +481,23 @@ void lua_fixture(const char *file) {
         require(parse_chat_layout(complete->text) == layout.at("expected"),
                 "Lua layout escaping/metadata differs from C++");
     }
+    for (const auto &fixture : data.value("communities", Json::array())) {
+        for (auto key : {"raw", "replay_raw"}) {
+            const auto hex = fixture.at(key).get<std::string>();
+            Bytes raw;
+            for (size_t i = 0; i < hex.size(); i += 2)
+                raw.push_back(uint8_t(std::stoul(hex.substr(i, 2), nullptr, 16)));
+            auto packet = decode_packet(raw);
+            require(packet && packet->event == community_channel_event, "Community metadata packet rejected");
+            Assembler assembler;
+            auto message = assembler.accept(*packet);
+            require(message && message->event == "CHAT_MSG_COMMUNITIES_CHANNEL" &&
+                        message->channel_number == 5 && message->channel_name == "Community:504426851:1" &&
+                        message->text == "Looking for a healer" && message->author == "Sender-Realm" &&
+                        message->player_class == "HUNTER",
+                    "Community stream, player metadata or text lost during reassembly/replay");
+        }
+    }
     for (const auto &fixture : data.value("realms", Json::array())) {
         for (auto key : {"raw", "replay_raw"}) {
             auto hex = fixture.at(key).get<std::string>();

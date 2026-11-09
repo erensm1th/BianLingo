@@ -170,6 +170,64 @@ int main() {
                     business["incoming_prompt"] == "kept-prompt" && business["groups"] == settings["groups"],
                 "Normalization damages translation settings");
         require(!normalize_chat_tabs(business), "Normalization not idempotent");
+        auto guild = new_chat_tab("guild", "Guild");
+        guild["events"] = {"CHAT_MSG_GUILD"};
+        auto community = new_chat_tab("community", "Community");
+        community["events"] = {"CHAT_MSG_COMMUNITIES_CHANNEL"};
+        community["channels"] = {"Community:504426851:1"};
+        auto filtered = settings;
+        filtered["groups"] = {"public", "party"};
+        auto before_warning = filtered;
+        auto warning = chat_scope_warning(filtered, parse_chat_tabs(Json::array({guild, community})));
+        require(warning.find(ui_text("Guild")) != warning.npos &&
+                    warning.find(ui_text("Community")) != warning.npos && filtered == before_warning,
+                "Scope warning failed to identify disabled imported tabs or changed global switches");
+        auto community_tab = parse_chat_tabs(Json::array({community})).front();
+        require(community_tab.matches(chat("CHAT_MSG_COMMUNITIES_CHANNEL", 5, "Community:504426851:1")) &&
+                    !community_tab.matches(chat("CHAT_MSG_COMMUNITIES_CHANNEL", 5, "Community:999:1")) &&
+                    !community_tab.matches(chat("CHAT_MSG_COMMUNITIES_CHANNEL", 5, "")) &&
+                    !community_tab.matches(chat("CHAT_MSG_CHANNEL", 5, "Community:504426851:1")),
+                "Community tab lost its stream condition or leaked another stream/public channel");
+        auto party = new_chat_tab("party", "Party");
+        party["events"] = {"CHAT_MSG_PARTY"};
+        auto public_tab = new_chat_tab("public", "Public");
+        public_tab["events"] = {"CHAT_MSG_CHANNEL"};
+        auto separate_tabs = parse_chat_tabs(Json::array({party, public_tab}));
+        std::deque<DisplayMessage> separate_history;
+        auto message = [](uint32_t seq, const char *event) {
+            DisplayMessage m;
+            m.message.seq = m.message.sent = seq;
+            m.message.event = event;
+            m.translation = std::to_string(seq);
+            return m;
+        };
+        update_tab_history(separate_history, message(1, "CHAT_MSG_PARTY"), 10, separate_tabs);
+        for (uint32_t i = 2; i < 80; ++i)
+            update_tab_history(separate_history, message(i, "CHAT_MSG_CHANNEL"), 10, separate_tabs);
+        require(separate_history.size() == 11 && separate_history.front().message.seq == 1,
+                "Public traffic evicted the inactive party tab's history");
+        auto old_insert = update_tab_history(separate_history, message(3, "CHAT_MSG_CHANNEL"), 10, separate_tabs);
+        require(!old_insert.retained && separate_history.size() == 11 && old_insert.old_to_new.front() == 0 &&
+                    old_insert.old_to_new.back() == 10,
+                "An immediately evicted replay damaged existing row indices");
+        auto middle_insert = update_tab_history(separate_history, message(4, "CHAT_MSG_PARTY"), 10, separate_tabs);
+        require(middle_insert.retained && middle_insert.old_to_new.front() == 0 &&
+                    middle_insert.old_to_new[1] == 2 && middle_insert.old_to_new.back() == 11,
+                "A retained replay did not remap independent tab reply indices");
+        auto eviction = update_tab_history(separate_history, message(80, "CHAT_MSG_CHANNEL"), 10, separate_tabs);
+        require(eviction.retained && separate_history.size() == 12 &&
+                    eviction.old_to_new[2] == history_index_removed && eviction.old_to_new[1] == 1 &&
+                    eviction.old_to_new[3] == 2,
+                "Non-prefix eviction failed to preserve party messages or repair public rows");
+        auto overlapping_tabs = separate_tabs;
+        overlapping_tabs.push_back(parse_chat_tabs(Json::array({new_chat_tab("all", "All")})).front());
+        update_tab_history(separate_history, message(81, "CHAT_MSG_CHANNEL"), 10, overlapping_tabs);
+        require(separate_history.size() == 12,
+                "Overlapping tabs duplicated shared messages or lost an independent history");
+        trim_tab_history(separate_history, 1, separate_tabs);
+        require(separate_history.size() == 2 && separate_history[0].message.seq == 4 &&
+                    separate_history[1].message.seq == 81,
+                "Reducing history did not keep each tab's latest message");
         std::deque<DisplayMessage> history;
         for (uint32_t seq : {10, 20, 30}) {
             DisplayMessage d;

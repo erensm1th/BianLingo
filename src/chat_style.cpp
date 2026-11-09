@@ -31,6 +31,8 @@ uint32_t chat_color(const Message &m) {
 std::string chat_channel_label(const Message &m) {
     if (m.event == "OCR_CHAT")
         return "【OCR】 ";
+    if (m.event == "CHAT_MSG_COMMUNITIES_CHANNEL")
+        return "[" + ui_text("Community") + "] ";
     if (!m.channel_name.empty())
         return "[" + (m.channel_number > 0 ? std::to_string(m.channel_number) + ". " : "") + m.channel_name +
                "] ";

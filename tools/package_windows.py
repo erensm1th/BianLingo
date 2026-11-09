@@ -37,6 +37,7 @@ def main() -> None:
         "BianLingo/TraditionalMarkers.lua",
         "BianLingo/Blocklist.lua",
         "BianLingo/Textures/Logo.tga",
+        "BianLingo/Textures/Duanduan.tga",
         "data/bergamot/models.json",
         "data/bergamot/BianLingoBergamot.exe",
         "data/bergamot/engine.sha256",
@@ -53,6 +54,7 @@ def main() -> None:
                               ('PROJECT_NOTICE.md','PROJECT_NOTICE.md'),('PRIVACY.md','PRIVACY.md'),('SOURCE_ACCESS.md','SOURCE_ACCESS.md'),
                               ('RELEASE_REVIEW.json','resources/release-review.json'),
                               ('BianLingo/Textures/Logo.tga','addon/BianLingo/Textures/Logo.tga'),
+                              ('BianLingo/Textures/Duanduan.tga','addon/BianLingo/Textures/Duanduan.tga'),
                               ('data/bergamot/models.json','resources/bergamot-models.json')]:
         if (args.root/installed).read_bytes()!=(ROOT/source).read_bytes():
             raise ValueError('Stale package source/notice/review file: '+installed)

@@ -356,6 +356,7 @@ eventIDs.BRIDGE_REPLAY_BEGIN = #events + 3
 eventIDs.BRIDGE_REPLAY_END = #events + 4
 eventIDs.BRIDGE_CHAT_LAYOUT = #events + 5
 eventIDs.BRIDGE_BLOCKLIST = #events + 6
+eventIDs.CHAT_MSG_COMMUNITIES_CHANNEL_META = #events + 7
 for id, name in ipairs({"WARRIOR", "PALADIN", "HUNTER", "ROGUE", "PRIEST", "DEATHKNIGHT",
     "SHAMAN", "MAGE", "WARLOCK", "MONK", "DRUID", "DEMONHUNTER", "EVOKER"}) do classIDs[name] = id end
 -- Cache our own realm once on login. No per-chat realm API or additional player lookup.
@@ -434,17 +435,20 @@ local function Enqueue(event, text, author, guid)
         end
     end
     if event:sub(1, 9) == "CHAT_MSG_" and event:sub(1, 12) ~= "CHAT_MSG_BN_" and
-        event ~= "CHAT_MSG_COMMUNITIES_CHANNEL" and BLGBlocklist.IsBlocked(Config(), author, knownRealm) then
+        not event:find("CHAT_MSG_COMMUNITIES_CHANNEL", 1, true) and BLGBlocklist.IsBlocked(Config(), author, knownRealm) then
         filtered = filtered + 1; return
     end
     local kind, channelData = event:match("^([^\t]+)\t(.*)$")
     kind = kind or event
     local eventID = eventIDs[kind]
+    if kind == "CHAT_MSG_COMMUNITIES_CHANNEL" and channelData then
+        eventID = eventIDs.CHAT_MSG_COMMUNITIES_CHANNEL_META
+    end
     if not eventID then return end
     -- Read the same color table as native chat. No player or item lookup.
     local rgb = ""
     local colorKey = kind:sub(10)
-    if kind == "CHAT_MSG_CHANNEL" and channelData then
+    if (kind == "CHAT_MSG_CHANNEL" or kind == "CHAT_MSG_COMMUNITIES_CHANNEL") and channelData then
         local index = channelData:match("^(%d+)\t")
         if index then colorKey = "CHANNEL" .. index end
     end
@@ -458,7 +462,8 @@ local function Enqueue(event, text, author, guid)
         end
         if #parts == 3 then rgb = string.char(unpack(parts)) end
     end
-    local body = (kind == "CHAT_MSG_CHANNEL" and ((channelData or "\t") .. "\0") or "")
+    local body = ((kind == "CHAT_MSG_CHANNEL" or eventID == eventIDs.CHAT_MSG_COMMUNITIES_CHANNEL_META)
+        and ((channelData or "\t") .. "\0") or "")
         .. (details or "") .. author .. "\0" .. text
     body = rgb .. body
     if #body > 16384 then dropped = dropped + 1; return end
@@ -524,12 +529,15 @@ local function ExportChatWindows()
                         end
                     elseif eventIDs["CHAT_MSG_" .. group] then selected["CHAT_MSG_" .. group] = true end
                 end
-                local raw, channels = {GetChatWindowChannels(index)}, {}
+                local raw, channels, hasPublic, hasCommunity = {GetChatWindowChannels(index)}, {}, false, false
                 for i = 1, #raw, 2 do
                     if #channels >= 64 then error(BLGText("Too many channels")) end
-                    channels[#channels + 1] = Short(raw[i], 128)
+                    local channel = Short(raw[i], 128)
+                    channels[#channels + 1] = channel
+                    if channel:match("^Community:%d+:%d+$") then hasCommunity = true else hasPublic = true end
                 end
-                selected.CHAT_MSG_CHANNEL = #channels > 0 and true or nil
+                selected.CHAT_MSG_CHANNEL = hasPublic and true or nil
+                selected.CHAT_MSG_COMMUNITIES_CHANNEL = hasCommunity and true or nil
                 for i = 1, 17 do if selected[events[i]] then kinds[#kinds + 1] = events[i] end end
                 if #kinds > 0 then
                     if name == "" then name = index == 1 and BLGText("General") or (BLGText("Window") .. index) end
@@ -807,9 +815,12 @@ local function BuildSettings(parent, prefix)
     local view = {frame = parent}
     settingsViews[#settingsViews + 1] = view
     local title = parent:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
-    title:SetPoint("TOPLEFT", 18, -18); title:SetText(BLGText("BianLingo · Chat bridge"))
+    local mascot = parent:CreateTexture(nil, "ARTWORK")
+    mascot:SetTexture("Interface/AddOns/BianLingo/Textures/Duanduan", "CLAMP", "CLAMP", "NEAREST")
+    mascot:SetSize(28, 28); mascot:SetPoint("TOPLEFT", 16, -10)
+    title:SetPoint("LEFT", mascot, "RIGHT", 7, 0); title:SetText(BLGText("BianLingo · Chat bridge"))
     view.enabled = CreateFrame("CheckButton", prefix .. "Enabled", parent, "UICheckButtonTemplate")
-    view.enabled:SetPoint("TOPLEFT", 250, -14)
+    view.enabled:SetPoint("TOPLEFT", 360, -14)
     local enabledLabel = parent:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
     enabledLabel:SetPoint("LEFT", view.enabled, "RIGHT", 3, 0); enabledLabel:SetText(BLGText("Enable addon"))
     view.enabled:SetScript("OnClick", function(self) SetEnabled(not not self:GetChecked()) end)
@@ -1032,7 +1043,7 @@ frame:SetScript("OnEvent", function(_, event, text, author, language, channelNam
     elseif event == "UI_SCALE_CHANGED" or event == "DISPLAY_SIZE_CHANGED" then
         Layout(); PositionReplayButton()
     else
-        if event == "CHAT_MSG_CHANNEL" then
+        if event == "CHAT_MSG_CHANNEL" or event == "CHAT_MSG_COMMUNITIES_CHANNEL" then
             local number, name = "", ""
             if not Secret(channelIndex) and type(channelIndex) == "number" then
                 number = tostring(channelIndex)

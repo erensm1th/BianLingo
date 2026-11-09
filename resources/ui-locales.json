@@ -5663,5 +5663,49 @@
     "es": "Árabe",
     "pt-BR": "Árabe",
     "ru": "Арабский"
+  },
+  "Tabs filter display independently; each tab keeps its own history limit.": {
+    "en": "Tabs filter display independently; each tab keeps its own history limit.",
+    "fr": "Chaque onglet filtre les messages et conserve sa propre limite d’historique.",
+    "de": "Jeder Tab filtert separat und behält sein eigenes Nachrichtenlimit.",
+    "es": "Cada pestaña filtra por separado y conserva su propio límite de historial.",
+    "ja": "タブごとに表示を絞り込み、それぞれの履歴上限を適用します。",
+    "ko": "각 탭은 메시지를 별도로 필터링하며 기록 제한도 개별 적용됩니다.",
+    "pt-BR": "Cada aba filtra separadamente e mantém seu próprio limite de histórico.",
+    "ru": "Каждая вкладка фильтрует сообщения отдельно и имеет свой лимит истории.",
+    "zh": "各页签独立筛选消息，并分别保留设定条数的历史记录。"
+  },
+  "Disabled in Translation scope: ": {
+    "en": "Disabled in Translation scope: ",
+    "fr": "Désactivé dans la portée de traduction : ",
+    "de": "Im Übersetzungsumfang deaktiviert: ",
+    "es": "Desactivado en el alcance de traducción: ",
+    "ja": "翻訳範囲で無効：",
+    "ko": "번역 범위에서 비활성화됨: ",
+    "pt-BR": "Desativado no escopo de tradução: ",
+    "ru": "Отключено в области перевода: ",
+    "zh": "已在“翻译范围”关闭："
+  },
+  "Automatic translation is disabled.": {
+    "en": "Automatic translation is disabled.",
+    "fr": "La traduction automatique est désactivée.",
+    "de": "Die automatische Übersetzung ist deaktiviert.",
+    "es": "La traducción automática está desactivada.",
+    "ja": "自動翻訳が無効です。",
+    "ko": "자동 번역이 비활성화되어 있습니다.",
+    "pt-BR": "A tradução automática está desativada.",
+    "ru": "Автоматический перевод отключён.",
+    "zh": "自动翻译已关闭。"
+  },
+  "Public channel numbers are restricted in Translation scope.": {
+    "en": "Public channel numbers are restricted in Translation scope.",
+    "fr": "Les numéros de canaux publics sont limités dans la portée de traduction.",
+    "de": "Öffentliche Kanalnummern sind im Übersetzungsumfang eingeschränkt.",
+    "es": "Los números de canales públicos están restringidos en el alcance de traducción.",
+    "ja": "翻訳範囲で公開チャンネル番号が制限されています。",
+    "ko": "번역 범위에서 공개 채널 번호가 제한되어 있습니다.",
+    "pt-BR": "Os números de canais públicos estão restritos no escopo de tradução.",
+    "ru": "Номера общих каналов ограничены в области перевода.",
+    "zh": "“翻译范围”限制了允许的公共频道编号。"
   }
 }

@@ -20,7 +20,7 @@ def package(output):
     if not re.search(r'project\(BianLingo VERSION ' + re.escape(version) + r'\b', project):
         raise ValueError('Addon and desktop versions differ')
     files = ['BianLingo.toc', 'LocaleMessages.lua', 'TraditionalMarkers.lua',
-             'Blocklist.lua', 'PixelBridge.lua', 'Textures/Logo.tga']
+             'Blocklist.lua', 'PixelBridge.lua', 'Textures/Logo.tga', 'Textures/Duanduan.tga']
     for flavor, interface in FLAVORS.items():
         name = f'BianLingo_{flavor}.toc'
         lines = (addon / name).read_text(encoding='utf8').splitlines()

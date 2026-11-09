@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedDate": "2026-11-06",
+  "checkedDate": "2026-11-10",
   "releaseStatus": "approved",
   "pending": [],
   "deferred": [
@@ -40,7 +40,7 @@
     },
     {
       "id": "windows-validation",
-      "detail": "Windows Release build and affected CTest checks passed: provider defaults, settings recovery, theme defaults, UI interaction, real Lua transport and package compliance. The delivered archive passed integrity and isolated startup/restart checks. Field-validation limitations are recorded below."
+      "detail": "Chat routing and per-tab history changes passed targeted CTest checks before later artwork/layout changes. Windows Release compilation and packaging completed for the final artwork/layout build. Automated test suites and executable smoke were not rerun for this release build."
     },
     {
       "id": "source-review",
@@ -54,13 +54,14 @@
     "CT2 conversions use pinned publisher cards; original conversion input checkpoints were not recorded.",
     "Source review of the exact 729 terminology mappings remains deferred; rights clearance is unconfirmed.",
     "Hosted Windows CPU runtime smoke does not establish local GPU/driver or gaming performance.",
-    "Windows 11 developer-host and Windows Server CI checks do not substitute for a Windows 10 desktop field validation."
+    "Windows 11 developer-host and Windows Server CI checks do not substitute for a Windows 10 desktop field validation.",
+    "Final 0.2.10 artwork/layout and version build has not rerun automated tests or executable smoke."
   ],
   "approval_kind": "windows-release-engineering-review",
   "source_review": {
-    "eligible_source_sha256": "3430b076c5013c8c4957fcbff954e053667c90681f6bf22db79955138b4747e2",
-    "preapproval_archive_sha256": "58e07a5fdc9e8c7a8a4ae2a547cd8adea42ae23d21fa6f5a875ed9796a6e0d2f",
-    "files_reviewed": 321,
+    "eligible_source_sha256": "c3bb6843e4912954edc24269ca10827a2cc1a5cebc0d404d4a0dd10a2f34fbf7",
+    "preapproval_archive_sha256": "90f68713eba9e66458c363c05c01627ffe9aa76c79e609eb659eb3f326af60b8",
+    "files_reviewed": 326,
     "scope": "Allowlisted source archive checked for contents, pinned provenance/notices, personal data exclusion and known secret patterns. Review metadata is excluded from its own fingerprint. Scope is limited to these checks, not exhaustive legal or security clearance."
   }
 }

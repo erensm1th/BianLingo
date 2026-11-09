@@ -82,7 +82,7 @@ inline int grid_rows(bool compact) {
 }
 inline constexpr std::string_view sync_bits =
     "111100001010110011001010001111010101001110000101110010100110101011110000110101001001011000111001";
-inline constexpr std::array<std::string_view, 24> events = {"",
+inline constexpr std::array<std::string_view, 25> events = {"",
                                                             "CHAT_MSG_SAY",
                                                             "CHAT_MSG_YELL",
                                                             "CHAT_MSG_WHISPER",
@@ -105,7 +105,12 @@ inline constexpr std::array<std::string_view, 24> events = {"",
                                                             "BRIDGE_REPLAY_BEGIN",
                                                             "BRIDGE_REPLAY_END",
                                                             "BRIDGE_CHAT_LAYOUT",
-                                                            "BRIDGE_BLOCKLIST"};
+                                                            "BRIDGE_BLOCKLIST",
+                                                            "CHAT_MSG_COMMUNITIES_CHANNEL_META"};
+inline constexpr uint8_t community_channel_event = 24;
+inline constexpr bool is_chat_packet(uint8_t event) {
+    return (event >= 1 && event <= 17) || event == community_channel_event;
+}
 inline constexpr std::array<std::string_view, 14> classes = {
     "",       "WARRIOR", "PALADIN", "HUNTER", "ROGUE", "PRIEST",      "DEATHKNIGHT",
     "SHAMAN", "MAGE",    "WARLOCK", "MONK",   "DRUID", "DEMONHUNTER", "EVOKER"};

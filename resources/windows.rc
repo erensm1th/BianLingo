@@ -3,6 +3,8 @@
 #pragma code_page(65001)
 101 ICON "bianlingo.ico"
 102 ICON "settings-icon.ico"
+103 ICON "duanduan.ico"
+104 ICON "bianbian.ico"
 1 VERSIONINFO
  FILEVERSION BL_VERSION_RESOURCE
  PRODUCTVERSION BL_VERSION_RESOURCE
