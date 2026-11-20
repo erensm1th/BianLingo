@@ -1561,5 +1561,53 @@
   },
   "The embedded package directory cannot use links": {
     "zh": "内置资源目录不能使用符号链接或目录联接"
+  },
+  "Addon compatibility not confirmed. Run /bl version in-game while the game is visible.": {
+    "zh": "尚未确认插件兼容性。请保持游戏可见，并在游戏中执行 /bl version。"
+  },
+  "Addon version could not be confirmed. Run /bl version; update the addon if no version appears. Older chat formats remain available.": {
+    "zh": "无法确认插件版本。请执行 /bl version；若无版本信息请更新插件，旧聊天格式仍可使用。"
+  },
+  "Invalid or unsupported addon compatibility message. Update both components; pixel chat is paused.": {
+    "zh": "插件兼容信息无效或版本不受支持。请更新插件和接收端；像素聊天翻译已暂停。"
+  },
+  "Game-side version check failed; pixel chat is paused. Update both components or reset the manual confirmation.": {
+    "zh": "游戏端版本检查未通过，像素聊天翻译已暂停。请更新两端，或在插件设置中重置手动确认。"
+  },
+  "Game-side version confirmation received for this desktop session.": {
+    "zh": "已收到插件对当前接收端会话的版本确认。"
+  },
+  "Receive a compatible addon version first; run /bl version in-game.": {
+    "zh": "请先接收兼容插件的版本信息；在游戏中执行 /bl version。"
+  },
+  "Could not copy the compatibility code; retry": {
+    "zh": "无法复制兼容码，请重试"
+  },
+  "Compatibility command copied. Paste it into game chat to confirm the desktop version.": {
+    "zh": "兼容命令已复制。请粘贴到游戏聊天输入框，确认接收端版本。"
+  },
+  "Addon bridge protocol is newer than this desktop supports. Update the desktop app; pixel chat is paused.": {
+    "zh": "插件通信协议比当前接收端更新。请升级接收端；像素聊天翻译已暂停。"
+  },
+  "Addon bridge protocol is too old for this desktop. Update the addon; pixel chat is paused.": {
+    "zh": "插件通信协议过旧。请更新插件；像素聊天翻译已暂停。"
+  },
+  "Invalid compatibility version field": {
+    "zh": "兼容版本信息格式无效"
+  },
+  "Incompatible addon": {
+    "zh": "插件版本不兼容"
+  },
+  "Compatible: desktop {0}, addon {1}.": {
+    "zh": "兼容检查通过：接收端 {0}，插件 {1}。",
+    "format": true
+  },
+  "Addon {0} requires a newer desktop app (minimum {1}). Update the desktop app; pixel chat is paused.": {
+    "zh": "插件 {0} 需要接收端 {1} 或更高版本。请更新接收端；像素聊天翻译已暂停。",
+    "format": true
+  },
+  "Desktop app requires addon {0} or newer. Update the addon; pixel chat is paused.": {
+    "zh": "接收端需要插件 {0} 或更高版本。请更新插件；像素聊天翻译已暂停。",
+    "format": true
   }
 }

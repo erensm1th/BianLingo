@@ -5707,5 +5707,27 @@
     "pt-BR": "Os números de canais públicos estão restritos no escopo de tradução.",
     "ru": "Номера общих каналов ограничены в области перевода.",
     "zh": "“翻译范围”限制了允许的公共频道编号。"
+  },
+  "Copy compatibility code": {
+    "en": "Copy compatibility code",
+    "fr": "Copier le code de compatibilité",
+    "de": "Kompatibilitätscode kopieren",
+    "es": "Copiar código de compatibilidad",
+    "ja": "互換性コードをコピー",
+    "ko": "호환성 코드 복사",
+    "pt-BR": "Copiar código de compatibilidade",
+    "ru": "Копировать код совместимости",
+    "zh": "复制兼容码"
+  },
+  "Run /bl version in-game first. Paste the copied command into game chat to confirm the desktop version in the addon.": {
+    "en": "Run /bl version in-game first. Paste the copied command into game chat to confirm the desktop version in the addon.",
+    "zh": "先在游戏中执行 /bl version，再复制兼容码并粘贴到游戏聊天输入框，让插件确认接收端版本。",
+    "ja": "先にゲーム内で /bl version を実行してください。コピーしたコマンドをゲームのチャットに貼り付けて確認します。",
+    "ko": "먼저 게임에서 /bl version을 실행하세요. 복사한 명령을 게임 채팅에 붙여넣어 앱 버전을 확인합니다。",
+    "fr": "Exécutez /bl version en jeu, puis collez la commande copiée dans le chat pour confirmer la version de l’application.",
+    "de": "Zuerst /bl version im Spiel ausführen. Danach den kopierten Befehl im Spielchat einfügen, um die App-Version zu bestätigen.",
+    "es": "Ejecuta /bl version en el juego y pega el comando copiado en el chat para confirmar la versión de la aplicación.",
+    "pt-BR": "Execute /bl version no jogo e cole o comando copiado no chat para confirmar a versão do aplicativo.",
+    "ru": "Выполните /bl version в игре и вставьте скопированную команду в чат для подтверждения версии приложения."
   }
 }

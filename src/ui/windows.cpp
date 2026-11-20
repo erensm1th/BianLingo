@@ -58,6 +58,15 @@ std::filesystem::path settings_data_directory() {
     return platform::app_data();
 #endif
 }
+HWND output_return_window(HWND foreground, HWND captured_game) {
+    DWORD pid = 0;
+    if (foreground) GetWindowThreadProcessId(foreground, &pid);
+    // Native popup menus activate their owner. Keep that activation from
+    // replacing the game as the destination after a message reply.
+    if (pid == GetCurrentProcessId() && captured_game && IsWindow(captured_game))
+        return captured_game;
+    return foreground;
+}
 // Align the initial overlay's right/bottom edges with the centered settings window.
 // Smaller work areas keep the overlay visible even when side-by-side space is limited.
 RECT initial_overlay_rect(const RECT &work, SIZE overlay, SIZE settings) {
@@ -92,7 +101,8 @@ constexpr int id_gear = 10, id_save = 11, id_exit = 12, id_balance = 15, id_tran
               id_blocks_sync = 114, id_models_open = 120, id_models_now = 121,
               id_models_current = 122, id_models_all = 123, id_models_prepare = 124, id_models_cancel = 125,
               id_models_folder = 126, id_models_search = 128, id_models_pair = 129,
-              id_models_add = 130, id_models_remove = 131, id_logs_clear = 132, id_privacy = 133;
+              id_models_add = 130, id_models_remove = 131, id_logs_clear = 132, id_privacy = 133,
+              id_compatibility_copy = 134;
 constexpr std::array<std::string_view, 26> chat_targets{
     "en-US", "en-GB", "es", "pt-BR", "pt-PT", "fr", "de", "it", "ru", "uk", "pl", "nl",
     "sv", "da", "nb", "fi", "cs", "tr", "el", "hu", "ro", "zh-Hans", "zh-Hant", "ja", "ko", "ar"};
@@ -3403,11 +3413,43 @@ class App {
         refresh_reply_surface();
     }
 #ifdef BL_UI_TESTS
+    void prepare_message_actions_preview() {
+        // An isolated native-menu fixture: no capture, network or user settings.
+        KillTimer(main, 99);
+        messages.clear();
+        for (const auto &[name, event] : {
+                 std::pair{"Fizzleton Frostfuse", "CHAT_MSG_PARTY"},
+                 std::pair{"Maris Adenayer", "CHAT_MSG_WHISPER"},
+                 std::pair{"Runga-WestFall", "CHAT_MSG_PARTY"}}) {
+            DisplayMessage entry;
+            entry.message.author = name;
+            entry.message.event = event;
+            entry.message.realm = "WestFall";
+            entry.message.session = 1;
+            entry.message.seq = uint32_t(messages.size() + 1);
+            entry.message.sent = 1;
+            entry.message.text = "Looking for a healer";
+            entry.translation = "Looking for a healer";
+            messages.push_back(std::move(entry));
+        }
+        render();
+        SetWindowTextW(main, L"BianLingo - Message actions preview");
+        smoke = false; // Exercise TrackPopupMenu instead of its smoke-test shortcut.
+    }
     void verify_bridge_ui() {
         auto require = [](bool ok, const std::string &why) {
             if (!ok)
                 throw std::runtime_error(why);
         };
+        auto game_stub = CreateWindowExW(0, L"STATIC", L"Reply focus fixture", WS_POPUP,
+                                         0, 0, 1, 1, nullptr, nullptr, instance, nullptr);
+        require(game_stub && output_return_window(main, game_stub) == game_stub,
+                "Popup-menu activation replaced the game reply return target");
+        require(output_return_window(main, nullptr) == main,
+                "Missing capture target discarded the existing foreground window");
+        DestroyWindow(game_stub);
+        require(output_return_window(main, game_stub) == main,
+                "Reply return target retained a closed game window");
         config["ui_style"] = "ios";
         COLORREF key = 0;
         BYTE alpha = 0;
@@ -4018,14 +4060,28 @@ class App {
         auto fullrow = reply_at(blank);
         require(fullrow && fullrow->seq == bottom_hit.seq,
                 "End-of-row blank area does not resolve to message");
+        RECT viewport{}, chat_client{}, region_bounds{};
+        require(GetClientRect(reply_surface, &viewport) && GetClientRect(chat, &chat_client),
+                "Could not measure the chat viewport");
+        chat_client.right += scale(8); // The wheel region includes the scrollbar gutter.
         HRGN click_region = CreateRectRgn(0, 0, 0, 0);
-        GetWindowRgn(reply_surface, click_region);
-        require(PtInRegion(click_region, blank.x, blank.y),
-                "Transparent blank row has no physical hit region");
-        if (bottom_hit.bounds.bottom + 1 < client.bottom - scale(28))
-            require(PtInRegion(click_region, blank.x, bottom_hit.bounds.bottom + 1),
-                    "Viewport blank pixels still pass wheel input through to the game");
+        require(click_region != nullptr, "Could not inspect the chat input region");
+        const int region_type = GetWindowRgn(reply_surface, click_region);
+        GetRgnBox(click_region, &region_bounds);
         DeleteObject(click_region);
+        require(EqualRect(&viewport, &chat_client) && region_type == SIMPLEREGION &&
+                    EqualRect(&region_bounds, &chat_client),
+                "Chat input region does not cover the complete viewport and scrollbar gutter");
+        const POINT below_row{blank.x, bottom_hit.bounds.bottom};
+        // Row bounds are in chat coordinates. There may be no gap below a row
+        // clipped at the bottom. The fixed gutter probes below still cover the edge.
+        if (PtInRect(&viewport, below_row)) {
+            auto screen = below_row;
+            ClientToScreen(chat, &screen);
+            const HWND owner = WindowFromPoint(screen);
+            require((owner == reply_surface || owner == chat) && !reply_at(below_row),
+                    "The blank space below the last visible row lost wheel input or selected a reply");
+        }
         LPARAM blank_point = MAKELPARAM(blank.x, blank.y);
         SendMessageW(reply_surface, WM_LBUTTONDOWN, MK_LBUTTON, blank_point);
         render(); // A translation redraw of the same message must not cancel a click.
@@ -4045,10 +4101,23 @@ class App {
         require(chosen_reply && chosen_reply->prefix == "/w NewPlayer " && GetFocus() == input,
                 "Confirmed same-realm right click retained the realm or lost focus");
         messages.back().message.same_realm = false;
+        auto original_identity = messages.back().message;
+        messages.back().message.author = "Fizzleton Frostfuse";
+        messages.back().message.realm = "Frostfuse";
+        messages.back().message.same_realm = true;
+        show_message_menu(chat_rows.back().start, {});
+        require(message_menu_items.size() == 3 &&
+                    std::all_of(message_menu_items.begin(), message_menu_items.end(),
+                                [](const auto &item) { return item.enabled; }) &&
+                    !(GetMenuState(message_menu, 1, MF_BYCOMMAND) & (MF_DISABLED | MF_GRAYED)),
+                "Forever two-part names disable the native message menu");
+        message_action(1);
+        require(chosen_reply && chosen_reply->prefix == "/cw Fizzleton Frostfuse " && GetFocus() == input,
+                "Forever context menu whisper lost its surname or input focus");
+        messages.back().message = std::move(original_identity);
         // Reply tests leave the composer visible. On small desktops it legitimately
         // covers the gutter. Verify that occlusion, then isolate wheel hit testing.
-        RECT viewport{}, composer_bounds{};
-        GetClientRect(reply_surface, &viewport);
+        RECT composer_bounds{};
         GetWindowRect(output, &composer_bounds);
         POINT composer_probe{int(viewport.right) - scale(3), int(viewport.bottom / 2)};
         ClientToScreen(reply_surface, &composer_probe);
@@ -4065,26 +4134,39 @@ class App {
         require(!IsWindowVisible(output), "Composer remained visible during wheel routing test");
         SetWindowPos(main, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         refresh_reply_surface();
+        auto wheel_target_at = [&](POINT screen, int step) {
+            const HWND owner = WindowFromPoint(screen);
+            if (owner != reply_surface && owner != scrollbar) {
+                wchar_t owner_class[128]{};
+                GetClassNameW(owner, owner_class, 128);
+                RECT plane{};
+                GetWindowRect(reply_surface, &plane);
+                throw std::runtime_error("Wheel viewport hit mismatch: owner=" + narrow(owner_class) +
+                    ", step=" + std::to_string(step) + ", point=" + std::to_string(screen.x) + "," +
+                    std::to_string(screen.y) + ", plane=" + std::to_string(plane.left) + "," +
+                    std::to_string(plane.top) + "," + std::to_string(plane.right) + "," +
+                    std::to_string(plane.bottom));
+            }
+            return owner;
+        };
+        POINT wheel_screen{int(viewport.right) - scale(3), int(viewport.bottom / 2)};
+        ClientToScreen(reply_surface, &wheel_screen);
+        UINT wheel_lines = 3;
+        SystemParametersInfoW(SPI_GETWHEELSCROLLLINES, 0, &wheel_lines, 0);
+        auto wheel_start = scroll_state().position.y;
         // A stationary pointer must retain our wheel target through gaps, long scrolls and both ends.
         for (int step = 0; step < 120; ++step) {
-            SendMessageW(reply_surface, WM_MOUSEWHEEL, MAKEWPARAM(0, step < 60 ? WHEEL_DELTA : -WHEEL_DELTA),
-                         0);
+            SendMessageW(wheel_target_at(wheel_screen, step), WM_MOUSEWHEEL,
+                         MAKEWPARAM(0, step < 60 ? WHEEL_DELTA : -WHEEL_DELTA),
+                         MAKELPARAM(wheel_screen.x, wheel_screen.y));
+            if (step == 0 && wheel_lines && wheel_start > 0)
+                require(scroll_state().position.y < wheel_start, "The hit-tested window did not scroll chat");
             for (int y : {1, int(viewport.bottom / 2), int(viewport.bottom - 1)}) {
                 POINT probe{int(viewport.right) - scale(3), y};
                 require(!reply_at(probe), "Gutter blank space incorrectly selected a reply target");
                 auto screen = probe;
                 ClientToScreen(chat, &screen);
-                auto owner = WindowFromPoint(screen);
-                if (owner != reply_surface && owner != scrollbar) {
-                    wchar_t owner_class[128]{};
-                    GetClassNameW(owner, owner_class, 128);
-                    RECT plane{}; GetWindowRect(reply_surface, &plane);
-                    throw std::runtime_error("Wheel viewport hit mismatch: owner=" + narrow(owner_class) +
-                        ", step=" + std::to_string(step) + ", point=" + std::to_string(screen.x) + "," +
-                        std::to_string(screen.y) + ", plane=" + std::to_string(plane.left) + "," +
-                        std::to_string(plane.top) + "," + std::to_string(plane.right) + "," +
-                        std::to_string(plane.bottom));
-                }
+                wheel_target_at(screen, step);
             }
         }
         auto retained_reply = chosen_reply;
@@ -5257,6 +5339,8 @@ class App {
 
         run_status = page_control(4, L"EDIT", "", 20, 65, 600, 180,
                                   ES_MULTILINE | ES_READONLY | WS_VSCROLL | WS_BORDER);
+        page_control(4, L"BUTTON", "Copy compatibility code", 20, 270, 300, 30, BS_PUSHBUTTON, id_compatibility_copy);
+        label(4, "Run /bl version in-game first. Paste the copied command into game chat to confirm the desktop version in the addon.", 20, 315, 600);
         settings_section(4);
         page_control(4, L"BUTTON", "Notes and component notices", 20, 465, 210, 30, BS_PUSHBUTTON, id_notices);
         page_control(4, L"BUTTON", "Open log directory", 250, 465, 180, 30, BS_PUSHBUTTON, id_logs);
@@ -5524,6 +5608,7 @@ class App {
             chosen_reply.reset();
         auto foreground = GetForegroundWindow();
         if (foreground != output) {
+            foreground = output_return_window(foreground, reinterpret_cast<HWND>(engine->game_window()));
             previous_foreground = foreground;
             GetWindowThreadProcessId(foreground, &previous_pid);
             MONITORINFO monitor{sizeof(monitor)};
@@ -5856,6 +5941,7 @@ class App {
         std::string value = std::string("BianLingo ") + BL_VERSION + "\n" +
                             engine->ocr_status() + "\n\n" + engine->status() +
                             "\n\n" + status_note + "\n";
+        value = notification_text(value);
         // Native EDIT controls use CRLF. Compare the displayed representation so
         // the whole status control is not repainted on every 100 ms UI tick.
         std::string lines;
@@ -5869,7 +5955,7 @@ class App {
             set(run_status, value);
         if (settings_status && last_status_note != status_note) {
             last_status_note = status_note;
-            set(settings_status, status_note);
+            set(settings_status, notification_text(status_note));
         }
         if (active_page == 2)
             update_account_view();
@@ -5883,7 +5969,18 @@ class App {
         update_scrollbar();
         bool dirty = false;
         for (auto &n : engine->drain()) {
-            if (n.kind == Notice::ChatLayout && n.layout) {
+            if (n.kind == Notice::BridgeCompatibility) {
+                status_note = n.text;
+                if (!smoke && n.layout && n.layout->value("notify", false)) {
+                    auto alert = tray;
+                    alert.uFlags = NIF_INFO;
+                    alert.dwInfoFlags = NIIF_WARNING | NIIF_NOSOUND;
+                    wcscpy_s(alert.szInfoTitle, L"BianLingo");
+                    const auto detail = wide(notification_text(n.text));
+                    wcsncpy_s(alert.szInfo, detail.c_str(), _TRUNCATE);
+                    Shell_NotifyIconW(NIM_MODIFY, &alert);
+                }
+            } else if (n.kind == Notice::ChatLayout && n.layout) {
                 try {
                     if (apply_game_tabs(*n.layout))
                         dirty = false; // Includes earlier chat notices in this batch.
@@ -6275,6 +6372,11 @@ LRESULT CALLBACK procedure(HWND h, UINT message, WPARAM w, LPARAM l) {
             }
             case id_blocks_sync:
                 app->copy_block_code(); return 0;
+            case id_compatibility_copy:
+                if (!app->smoke && !app->copy_clipboard(app->engine->compatibility_receipt()))
+                    throw std::runtime_error("Could not copy the compatibility code; retry");
+                app->status_note = "Compatibility command copied. Paste it into game chat to confirm the desktop version.";
+                app->update_status(); return 0;
             case IDOK:
                 if (h == app->block_window) { app->change_block(text(app->block_name), true); return 0; }
                 break;
@@ -6701,10 +6803,17 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR command, int) {
         App application(instance);
         app = &application;
         application.smoke = std::wstring_view(command).find(L"--smoke-test") != std::wstring_view::npos;
+#ifdef BL_UI_TESTS
+        const bool message_preview = std::wstring_view(command) == L"--message-actions-preview";
+        if (message_preview) application.smoke = true;
+#endif
         application.create();
 #ifdef BL_UI_TESTS
-        application.verify_bridge_ui();
-        DestroyWindow(application.main);
+        if (message_preview) application.prepare_message_actions_preview();
+        else {
+            application.verify_bridge_ui();
+            DestroyWindow(application.main);
+        }
 #endif
         MSG msg{};
         while (GetMessageW(&msg, nullptr, 0, 0) > 0) {

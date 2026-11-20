@@ -90,7 +90,7 @@ class Screen final : public platform::Capture {
         image_ = {r.w, r.h, r.w * 4, Bytes(size_t(r.w) * r.h * 4, 0)};
         Bytes marker{252,
                      177,
-                     uint8_t((compact ? 48 : 16) + (marker_active ? 4 : 0) + (compact ? 8 : 0) + cell - 2),
+                     uint8_t((compact ? 64 : 16) + (marker_active ? 4 : 0) + (compact ? 8 : 0) + cell - (compact ? 1 : 2)),
                      uint8_t(marker_corner << 6),
                      123,
                      0};
@@ -211,8 +211,49 @@ int main() {
             auto missing = searching.poll(blank, now + std::chrono::seconds(i));
             require(!missing.connected && !missing.packet, "Missing addon produced a packet");
         }
-        require(blank.reads.size() == 52 && !blank.monitor_queries,
+        require(std::count_if(blank.reads.begin(), blank.reads.end(),
+                             [](Rect r) { return r.w > 4 || r.h > 4; }) == 52 &&
+                    blank.reads.size() == 244 && !blank.monitor_queries,
                 "Missing addon caused an unbounded search or full-screen fallback");
+        // A one-shot synchronization can start just after a failed discovery.
+        // Discover its marker without waiting for the five-second large scan.
+        Screen first_sync(bytes);
+        first_sync.visible_strip = false;
+        BridgeCapture first_sync_reader;
+        require(!first_sync_reader.poll(first_sync, now).packet, "Cold sync fixture was already visible");
+        first_sync.reads.clear();
+        first_sync.marker_visible = first_sync.marker_active = first_sync.visible_strip = true;
+        first_sync.left = first_sync.top = 8;
+        auto first_sync_step = first_sync_reader.poll(first_sync, now + std::chrono::milliseconds(250));
+        require(first_sync_step.packet && first_sync_step.connected,
+                "First synchronization was missed during discovery backoff");
+        require(first_sync.reads.size() == 2 && first_sync.reads.front().w == 4 &&
+                    first_sync.reads.front().h == 4 && first_sync.reads.back().w == cols * 2,
+                "Cold synchronization retried a large scan instead of probing the marker");
+        for (bool dense : {false, true})
+            for (int cell : {1, 2, 3, 4}) {
+                if (!dense && cell == 1) continue;
+                for (int corner = 0; corner < 4; ++corner) {
+                    Screen cold(bytes);
+                    cold.dense(dense); cold.cell = cell; cold.marker_corner = corner;
+                    cold.visible_strip = false;
+                    BridgeCapture receiver;
+                    require(!receiver.poll(cold, now).connected, "Cold marker fixture was already connected");
+                    cold.visible_strip = cold.marker_visible = cold.marker_active = true;
+                    Marker marker;
+                    marker.cell = cell; marker.compact = dense; marker.corner = corner;
+                    marker.x = corner & 1 ? cold.window->client.w - 5 : 1;
+                    marker.y = corner & 2 ? cold.window->client.h - 5 : 1;
+                    auto position = marker_location(marker);
+                    cold.left = int(position.x); cold.top = int(position.y); cold.reads.clear();
+                    auto awake = receiver.poll(cold, now + std::chrono::milliseconds(250));
+                    require(awake.connected && awake.packet && cold.reads.size() == size_t(corner + 2),
+                            "Cold marker discovery failed for a corner, mode or cell size");
+                    require(std::all_of(cold.reads.begin(), cold.reads.end() - 1,
+                                        [](Rect r) { return r.w == 4 && r.h == 4; }),
+                            "Cold wake used large discovery reads between throttled scans");
+                }
+            }
         blank.window->client = {0, 0, 100, 20};
         blank.reads.clear();
         require(!searching.poll(blank, now + std::chrono::seconds(61)).connected && blank.reads.empty(),

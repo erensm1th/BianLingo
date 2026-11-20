@@ -119,3 +119,7 @@ Local translation runs on your PC. An online connection sends submitted text to 
 Project code is licensed under [MIT](LICENSE). Dependencies, models, and terminology retain their own terms and attribution; see [Third-party notices](THIRD_PARTY_NOTICES.md). World of Warcraft and Blizzard Entertainment are trademarks of their respective owners.
 
 All public downloads and features are available without donating. Contact for project, privacy or licensing questions: [@erensm1th](https://github.com/erensm1th).
+
+### Component compatibility
+
+The Status page checks addon/desktop compatibility. Run `/bl version` in-game to send version information. Optional reverse confirmation uses **Copy compatibility code** and a pasted in-game command. See [Compatibility checks](docs/BRIDGE_COMPATIBILITY.md).

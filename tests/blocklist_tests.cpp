@@ -27,7 +27,9 @@ int main(int argc, char **argv) {
             require(chunks >= 3, "Large Lua blocklist did not cross independent control messages");
             merged.merge(fixture.at("original"));
             require(!merged.blocks(player("Alice-Westfall")) && merged.blocks(player("Bob-Other")) &&
-                        merged.blocks(player("玩家-比格沃斯")), "Roundtrip resurrected a removed block or lost a player");
+                        merged.blocks(player("玩家-比格沃斯")) &&
+                        merged.blocks(player("Fizzleton Frostfuse", "Frostfuse")),
+                    "Roundtrip resurrected a removed block or lost a player");
             std::cout << "PASS C++ export -> real Lua import/edit -> real BLG2 -> C++ merge\n";
             return 0;
         }
@@ -38,6 +40,18 @@ int main(int argc, char **argv) {
                     !list.blocks(player("Alice-Other")), "Realm-aware block identity differs");
         list.set("Other-Quel'Thalas", true);
         require(list.blocks(player("Other", "Quel'Thalas")), "Apostrophe in a real realm name was rejected");
+        list.set("Fizzleton Frostfuse", true);
+        require(block_player_name(player("Fizzleton Frostfuse", "Frostfuse")) == "Fizzleton Frostfuse" &&
+                    list.blocks(player("Fizzleton Frostfuse", "OtherRealm")) &&
+                    list.blocks(player("Fizzleton Frostfuse-LegacyRealm")) &&
+                    !list.blocks(player("Fizzleton Other")),
+                "Forever block identity lost its surname or acquired an artificial realm");
+        require(block_name_key("Fizzleton Frostfuse-LegacyRealm") == "fizzleton frostfuse",
+                "Regional identity normalization differs between incoming and imported names");
+        list.set("Fizzleton Frostfuse", false);
+        require(!list.blocks(player("Fizzleton Frostfuse")), "Forever player could not be unblocked");
+        for (const auto *invalid : {"First  Last", "First Last Extra", "First Last/unsafe", "First\tLast"})
+            rejects([&] { list.set(invalid, true); });
         auto old = list.snapshot();
         list.set("Alice-Westfall", false); list.merge(old);
         require(!list.blocks(player("Alice-Westfall")), "An old snapshot resurrects an unblocked player");
@@ -86,6 +100,7 @@ int main(int argc, char **argv) {
         require(std::any_of(notices.begin(), notices.end(), [](auto &n) { return n.kind == Notice::Blocklist; }), "Blocklist change notice missing");
         PlayerBlocklist exported;
         exported.set("Alice-Westfall", true); exported.set("玩家-比格沃斯", true); exported.set("Removed-Realm", false);
+        exported.set("Fizzleton Frostfuse", true);
         auto code = blocklist_import_code(exported);
         require(code.starts_with("BLGB1|") && code.size() <= max_block_import_bytes, "Invalid data-only code");
         require(!std::filesystem::exists(root / "BlocklistSync.lua"), "Block action wrote game Lua");

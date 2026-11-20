@@ -4,6 +4,7 @@
 #include "bianlingo/ctranslate2.hpp"
 #include "bianlingo/bundle.hpp"
 #include "bianlingo/capture.hpp"
+#include "bianlingo/bridge_compatibility.hpp"
 #include "bianlingo/chat_style.hpp"
 #include "bianlingo/chat_tabs.hpp"
 #include "bianlingo/core.hpp"
@@ -251,6 +252,8 @@ Engine::Engine(std::filesystem::path directory)
         }
     }
     output_session_ = uint32_t(std::time(nullptr));
+    for (auto byte : random_bytes(4)) bridge_receipt_nonce_ = (bridge_receipt_nonce_ << 8) | byte;
+    if (!bridge_receipt_nonce_) bridge_receipt_nonce_ = 1;
 }
 Engine::~Engine() {
     stop();
@@ -408,6 +411,7 @@ void Engine::configure(Json s, std::optional<std::string> key, std::optional<Jso
 }
 void Engine::notice(Notice n, std::optional<uint64_t> generation) {
     std::lock_guard lock(mutex_);
+    if (n.kind == Notice::Chat && n.chat.message.event != "OCR_CHAT" && bridge_incompatible_.load()) return;
     if (generation && *generation != generation_)
         return;
     if (notices_.size() >= 1024)
@@ -462,6 +466,7 @@ void Engine::set_player_blocked(std::string name, bool blocked) {
     update_blocklist([&](PlayerBlocklist &list) { return list.set(std::move(name), blocked); });
 }
 void Engine::submit(Message m) {
+    if (m.event != "OCR_CHAT" && bridge_incompatible_.load()) return;
     bool pure = ocr_pure_.load();
     if (pure && m.event != "OCR_CHAT")
         return;
@@ -555,12 +560,49 @@ std::string Engine::status() const {
                               : (connected_ ? (idle_ ? "Idle marker found; waiting for messages" : "Pixel bridge connected")
                                             : "Waiting for the game pixel bridge");
     std::string value = capture;
+    if (!ocr_pure_.load()) {
+        std::lock_guard lock(mutex_);
+        value += "\n" + (bridge_status_.empty() ? waiting_bridge_report().text : bridge_status_);
+    }
     if (journal_) {
         auto error = journal_->error();
         if (!error.empty())
             value += "\n" + error;
     }
     return value;
+}
+std::string Engine::compatibility_receipt() const {
+    std::lock_guard lock(mutex_);
+    if (ocr_pure_.load() || !connected_.load() || !bridge_checked_ || bridge_incompatible_.load())
+        throw std::runtime_error("Receive a compatible addon version first; run /bl version in-game.");
+    return desktop_compatibility_receipt(bridge_session_, bridge_receipt_nonce_);
+}
+void Engine::update_bridge_compatibility(const BridgeCompatibilityReport &report, uint32_t session) {
+    std::lock_guard lock(mutex_);
+    const bool changed = bridge_session_ != session || bridge_status_ != report.text;
+    bridge_session_ = session;
+    bridge_checked_ = report.kind == BridgeCompatibilityKind::Compatible;
+    bridge_incompatible_ = report.blocking();
+    bridge_status_ = report.text;
+    if (report.blocking()) {
+        std::erase_if(jobs_, [&](const Job &job) {
+            const bool pixel = job.target.empty() && job.message.event != "OCR_CHAT";
+            if (pixel && journal_) journal_->result(job.message, "Skipped", "Incompatible addon");
+            return pixel;
+        });
+        std::erase_if(notices_, [](const Notice &n) {
+            return n.kind == Notice::Chat && n.chat.message.event != "OCR_CHAT";
+        });
+    }
+    if (changed && report.kind != BridgeCompatibilityKind::Waiting) {
+        if (notices_.size() >= 1024) notices_.pop_front();
+        Notice n;
+        n.kind = Notice::BridgeCompatibility;
+        n.text = report.text;
+        n.layout = std::make_shared<const Json>(Json{{"blocking", report.blocking()},
+            {"notify", report.kind != BridgeCompatibilityKind::Compatible}});
+        notices_.push_back(std::move(n));
+    }
 }
 void Engine::capture_loop(StopToken stop) {
     BridgeCapture reader;
@@ -571,6 +613,9 @@ void Engine::capture_loop(StopToken stop) {
     uintptr_t window_id = 0;
     bool color_warning = false, was_pure = false;
     std::string last_error;
+    std::optional<uint32_t> version_session;
+    auto version_wait_started = Clock::now();
+    bool version_seen = false;
     try {
         auto screen = platform::make_capture();
         while (!stop.stop_requested()) {
@@ -582,6 +627,8 @@ void Engine::capture_loop(StopToken stop) {
                         reader.reset();
                         assembler.clear_partial();
                         window_id = 0;
+                        version_session.reset();
+                        update_bridge_compatibility(waiting_bridge_report(), 0);
                         color_warning = false;
                         was_pure = true;
                         connected_ = false;
@@ -618,9 +665,22 @@ void Engine::capture_loop(StopToken stop) {
                     assembler
                         .clear_partial(); // Preserve completed identities when switching back to a window.
                     window_id = step.window_id;
+                    version_session.reset();
+                    update_bridge_compatibility(waiting_bridge_report(), 0);
                 }
                 if (step.packet) {
-                    auto m = assembler.accept(*step.packet);
+                    if (version_session != step.packet->session) {
+                        version_session = step.packet->session;
+                        version_wait_started = started;
+                        version_seen = false;
+                        update_bridge_compatibility(waiting_bridge_report(), *version_session);
+                    }
+                    auto m = (!bridge_incompatible_.load() || step.packet->event == 18)
+                                 ? assembler.accept(*step.packet) : std::optional<Message>{};
+                    if (!m && step.packet->event == 18 && !version_seen) {
+                        Assembler initial_version;
+                        m = initial_version.accept(*step.packet);
+                    }
                     if (auto summary = replays.observe(*step.packet, m, assembler))
                         notice({Notice::Status, {}, *summary});
                     if (m) {
@@ -637,9 +697,10 @@ void Engine::capture_loop(StopToken stop) {
                         } else if (m->event == "BRIDGE_BLOCKLIST") {
                             try { merge_blocklist(Json::parse(m->text)); }
                             catch (const std::exception &e) { notice({Notice::Status, {}, e.what()}); }
-                        } else if (m->event == "BRIDGE_READY")
-                            notice({Notice::Status, {}, "Game pixel bridge connected"});
-                        else if (m->event.rfind("BRIDGE_REPLAY_", 0) != 0) {
+                        } else if (m->event == "BRIDGE_READY") {
+                            version_seen = true;
+                            update_bridge_compatibility(assess_bridge_hello(m->text, bridge_receipt_nonce_), m->session);
+                        } else if (m->event.rfind("BRIDGE_REPLAY_", 0) != 0) {
                             if (!sessions.contains(m->session))
                                 sessions[m->session] = ++session_order;
                             m->session_order = sessions.at(m->session);
@@ -650,6 +711,10 @@ void Engine::capture_loop(StopToken stop) {
                     }
                 }
                 idle_ = step.idle;
+                if (version_session && !version_seen && step.connected && started - version_wait_started > std::chrono::seconds(20)) {
+                    version_seen = true;
+                    update_bridge_compatibility(legacy_bridge_report(), *version_session);
+                }
                 if (step.connected != connected_.exchange(step.connected))
                     notice({Notice::Status, {}, step.connected ? "Game pixel bridge connected" : "Waiting for the game pixel bridge"});
                 last_error.clear();
@@ -682,6 +747,8 @@ void Engine::worker(StopToken stop) {
             job = std::move(jobs_.front());
             jobs_.pop_front();
             if (job.generation != generation_)
+                continue;
+            if (job.target.empty() && job.message.event != "OCR_CHAT" && bridge_incompatible_.load())
                 continue;
         }
         try {
@@ -722,6 +789,8 @@ void Engine::worker(StopToken stop) {
             {
                 std::lock_guard lock(mutex_);
                 if (job.generation != generation_)
+                    continue;
+                if (job.target.empty() && job.message.event != "OCR_CHAT" && bridge_incompatible_.load())
                     continue;
             }
             if (job.target.empty())

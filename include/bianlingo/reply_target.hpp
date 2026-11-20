@@ -1,5 +1,5 @@
 #pragma once
-#include "bianlingo/core.hpp"
+#include "bianlingo/blocklist.hpp"
 #include <algorithm>
 #include <optional>
 
@@ -15,13 +15,13 @@ inline std::optional<ReplyTarget> whisper_target(const Message &m) {
         return {};
     if (m.event.rfind("CHAT_MSG_BN_", 0) == 0 || m.event == "CHAT_MSG_COMMUNITIES_CHANNEL")
         return {};
-    std::string name = m.author.empty() ? m.player_name : m.author;
-    if (name.empty())
+    std::string name = block_player_name(m);
+    if (name.empty() || trim(name) != name)
         return {};
-    if (name.find('-') == std::string::npos && !m.realm.empty())
-        name += "-" + m.realm;
-    if (name.find_first_of(" /\\|;") != std::string::npos ||
-        std::any_of(name.begin(), name.end(), [](unsigned char c) { return c < 0x20 || c == 0x7f; }))
+    const auto player = trim(name.substr(0, name.find('-')));
+    if (player.find(' ') != player.npos)
+        return ReplyTarget{"/cw " + player + " ", "Whisper " + player};
+    if (name.find(' ') != name.npos)
         return {};
     if (m.same_realm) {
         auto suffix = name.find('-');

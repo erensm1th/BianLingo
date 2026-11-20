@@ -13,13 +13,16 @@ FLAVORS = {
 
 
 def package(output):
+    from generate_bridge_compatibility import render
+    if (ROOT/'addon/BianLingo/Compatibility.lua').read_text(encoding='utf8') != render(ROOT):
+        raise ValueError('Stale compatibility metadata')
     addon = ROOT / 'addon/BianLingo'
     base = (addon / 'BianLingo.toc').read_text(encoding='utf8').splitlines()
     version = re.search(r'^## Version: (.+)$', '\n'.join(base), re.M).group(1)
     project = (ROOT / 'CMakeLists.txt').read_text(encoding='utf8')
     if not re.search(r'project\(BianLingo VERSION ' + re.escape(version) + r'\b', project):
         raise ValueError('Addon and desktop versions differ')
-    files = ['BianLingo.toc', 'LocaleMessages.lua', 'TraditionalMarkers.lua',
+    files = ['BianLingo.toc', 'LocaleMessages.lua', 'Compatibility.lua', 'TraditionalMarkers.lua',
              'Blocklist.lua', 'PixelBridge.lua', 'Textures/Logo.tga', 'Textures/Duanduan.tga']
     for flavor, interface in FLAVORS.items():
         name = f'BianLingo_{flavor}.toc'

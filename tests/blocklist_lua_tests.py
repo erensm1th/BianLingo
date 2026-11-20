@@ -17,10 +17,12 @@ def run(source, output):
     assert b.error is None, 'Successful import kept a stale warning'
     assert b.IsBlocked(db, b"Alice-Westfall", b"")
     assert b.IsBlocked(db, "玩家-比格沃斯".encode(), b"")
+    assert b.IsBlocked(db, b"Fizzleton Frostfuse", b"Frostfuse")
     sender.packets = []
     queries = sender.g.queries
     sender.chat("need healer for BRD", "Alice-Westfall")
     sender.chat("need healer for BRD", "Alice")
+    sender.chat("need healer for BRD", "Fizzleton Frostfuse")
     sender.drain()
     assert sender.g.queries == queries, "Blocked chat performed a player lookup"
     assert not sender.packets, "Blocked chat reached the pixel queue"
@@ -73,6 +75,7 @@ def run(source, output):
     snapshot = {b'schemaVersion':1, b'entries':[[r[j] for j in range(1,5)] for _,r in b.Snapshot(db)[b'entries'].items()]}
     restarted = boot(saved={b'blocklistState': snapshot, b'blocklistNode': db[b'blocklistNode']})
     assert restarted.g.BLGBlocklist.IsBlocked(restarted.g.BianLingoDB, b'Bob-Other', b'')
+    assert restarted.g.BLGBlocklist.IsBlocked(restarted.g.BianLingoDB, b'Fizzleton Frostfuse', b'OtherRealm')
     def raw_code(body, count):
         return f'BLGB1|{zlib.adler32(body):08x}|{count}\n'.encode() + body
     before = len(b.Snapshot(db)[b'entries'])

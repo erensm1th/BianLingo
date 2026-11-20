@@ -34,6 +34,7 @@ def main() -> None:
         *("BianLingo/" + p.name for p in (ROOT / "addon/BianLingo").glob("*.toc")),
         "BianLingo/PixelBridge.lua",
         "BianLingo/LocaleMessages.lua",
+        "BianLingo/Compatibility.lua",
         "BianLingo/TraditionalMarkers.lua",
         "BianLingo/Blocklist.lua",
         "BianLingo/Textures/Logo.tga",
@@ -55,6 +56,7 @@ def main() -> None:
                               ('RELEASE_REVIEW.json','resources/release-review.json'),
                               ('BianLingo/Textures/Logo.tga','addon/BianLingo/Textures/Logo.tga'),
                               ('BianLingo/Textures/Duanduan.tga','addon/BianLingo/Textures/Duanduan.tga'),
+                              ('BianLingo/Compatibility.lua','addon/BianLingo/Compatibility.lua'),
                               ('data/bergamot/models.json','resources/bergamot-models.json')]:
         if (args.root/installed).read_bytes()!=(ROOT/source).read_bytes():
             raise ValueError('Stale package source/notice/review file: '+installed)

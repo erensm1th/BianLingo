@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "protocolMin": 2,
+  "protocolMax": 2,
+  "minimumDesktop": "0.2.11",
+  "minimumAddon": "0.2.11"
+}
