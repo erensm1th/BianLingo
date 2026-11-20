@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
-project(BianLingo VERSION 0.2.10 LANGUAGES CXX)
+project(BianLingo VERSION 0.2.11 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -26,7 +26,7 @@ configure_file(src/resources.hpp.in generated/resources.hpp @ONLY)
 include(cmake/BundleResources.cmake)
 add_library(bianlingo_core STATIC
   src/localization.cpp src/prompts.cpp src/ocr.cpp src/engine_ocr.cpp src/provider.cpp src/protocol.cpp src/text.cpp src/blocklist.cpp src/chat_style.cpp src/chat_preview.cpp src/chat_tabs.cpp src/skin.cpp src/theme.cpp src/crypto.cpp src/engine.cpp src/capture.cpp src/journal.cpp src/account.cpp
-  src/storage.cpp src/bundle.cpp "${bundle_source}")
+  src/storage.cpp src/bundle.cpp src/bridge_compatibility.cpp "${bundle_source}")
 target_include_directories(bianlingo_core PUBLIC include PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/generated")
 target_link_libraries(bianlingo_core PUBLIC nlohmann_json::nlohmann_json OpenSSL::SSL OpenSSL::Crypto)
 if(WIN32)
@@ -112,6 +112,9 @@ add_test(NAME themes COMMAND bianlingo_theme_tests)
 add_executable(bianlingo_chat_tabs_tests tests/chat_tabs_tests.cpp)
 target_link_libraries(bianlingo_chat_tabs_tests PRIVATE bianlingo_core)
 add_test(NAME chat_tabs COMMAND bianlingo_chat_tabs_tests)
+add_executable(bianlingo_bridge_compatibility_tests tests/bridge_compatibility_tests.cpp)
+target_link_libraries(bianlingo_bridge_compatibility_tests PRIVATE bianlingo_core)
+add_test(NAME bridge_compatibility COMMAND bianlingo_bridge_compatibility_tests)
 # These golden assertions exercise Chinese resources; localized UI/default
 # expansion has separate tests. Never let the runner's language change fixtures.
 set_tests_properties(core chat_tabs PROPERTIES ENVIRONMENT "BIANLINGO_UI_LANGUAGE=zh")

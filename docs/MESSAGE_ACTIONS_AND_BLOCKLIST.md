@@ -6,6 +6,7 @@ The desktop overlay and addon provide per-message actions and a manually synchro
 
 - **Left-click a message row** to reply in its source channel; received whispers reply to their sender. Enter translates/copies the text and restores game focus; you paste/send it yourself.
 - **Right-click a message row** for Whisper, View level (in-game `/who`) or Block player. The menu retains a copy of the message, so incoming messages, sorting and asynchronous translation cannot change its target.
+- Forever's two-part character names remain intact. Whisper replies use `/cw First Last`; surnames are never treated as message text or replaced with realm metadata. Classic single-name and name-realm replies retain their existing `/w` behavior.
 - **View level** copies `/who <player>` and attempts to restore the captured game window. Open game chat, paste and submit the command to see its result in game. It does not return a level to the app or add queries to ordinary messages. Cross-realm lookup is not guaranteed. This action is disabled while output translation is busy.
 - Manage names under **Settings → Translation scope → Blocklist and addon sync**. Choose **Copy sync code** to transfer the list. Only that explicit action writes the clipboard; blocking a message does not overwrite it.
 - Run `/bl blocks` in game, select **Import from desktop**, paste, then **Import and apply**. The list immediately affects later capture. WoW saves `BianLingoDB` through SavedVariables on `/reload` or normal exit and restores it next session.
@@ -20,6 +21,8 @@ The desktop writes only its own `UserData/blocklist.json`. It does not open the 
 Desktop-to-addon transfer requires copying, pasting and applying a data code. The app does not simulate input, automatically send `/run`/other commands, or read the game's clipboard. Addon-to-desktop uses pixel control event 23 in chunks of at most 32 records with existing live-chat priority; this is not a bidirectional network connection or periodic heartbeat. List synchronization cannot reveal secret chat bodies.
 
 Blocking a received message preserves full player-realm identity. A manually entered name without a realm matches all characters with that name. Records merge by logical version; unblocking retains a record so an older code cannot reapply a newer removal. An empty snapshot does not clear the other side. Capacity is 512 records including removals. Concurrent edits are ordered by logical version and origin, not guaranteed real-world clock order across devices.
+
+On Forever, a complete first/surname pair is a regional identity. Both desktop and addon match that complete pair without adding a realm. A different surname remains a different player. Multiple separators, extra name words, control characters and command delimiters are rejected.
 
 ## Data codes
 

@@ -1,6 +1,20 @@
 -- Addon UI and notifications use Chinese for zh locales and English otherwise.
 local chinese = type(GetLocale) == "function" and tostring(GetLocale()):sub(1, 2) == "zh"
 local messages = {
+    ["Compatibility module missing; install the complete addon folder."] = "缺少兼容模块，请安装完整插件文件夹。",
+    ["Invalid compatibility code"] = "兼容码格式无效",
+    ["This code belongs to another game session. Copy a new compatibility code."] = "兼容码属于其他游戏会话，请在接收端重新复制兼容码。",
+    ["Version mismatch. Update the desktop app and addon; chat transmission is paused."] = "版本不兼容，请更新接收端和插件；聊天传输已暂停。",
+    ["Manual desktop version check passed: "] = "接收端版本手动检查通过：",
+    ["Version mismatch; chat transmission paused"] = "版本不兼容；聊天传输已暂停",
+    ["Manually confirmed desktop: "] = "本会话已手动确认接收端：",
+    ["Desktop version not yet manually confirmed"] = "尚未手动确认接收端版本",
+    ["Addon "] = "插件 ",
+    [" · Desktop required: "] = " · 接收端最低版本：",
+    ["Check compatibility"] = "检查兼容性",
+    ["Version sent. View Status in the desktop app; paste its compatibility code with /bl pair."] = "版本信息已发送。请查看接收端“运行状态”，复制兼容命令并粘贴到游戏中。",
+    ["Could not send version; enable the addon and retry after the current transmission."] = "无法发送版本信息，请开启插件并等待当前传输完成后重试。",
+    ["Reset manual confirmation"] = "重置手动确认",
     ["Enable addon"] = "启用插件",
     ["\nNot queued so far: "] = "\n累计未入发送队列：",
     [" / "] = " 条 / ",
@@ -79,7 +93,7 @@ local messages = {
     ["Window"] = "窗口",
     ["[BianLingo] Skip Chinese input: "] = "[BianLingo] 游戏端跳过中文：",
     ["[BianLingo] Test message sent; check the translation overlay."] = "[BianLingo] 已发送测试消息，请查看翻译浮窗。",
-    ["[BianLingo] settings; blocks; blocksync; windows; minimap on/off/reset; mode native/compact; replay [1–100]; cache [1–100]; hide on/off; test; on/off; cn on/off; size 2/3/4; corner tl/tr/bl/br. Messages %d, queued %d, secret %d, dropped %d, filtered %d, redraws %d, cached %d/%d, not queued %d."] = "[BianLingo] settings 设置；blocks 屏蔽名单；blocksync 同步名单到接收端；windows 一键同步聊天窗口；minimap on/off/reset 小地图按钮；mode native/compact 像素模式；replay [1–100] 补发；cache [1–100] 缓存上限；hide on/off 空闲隐藏；test 测试；on/off 开关；cn on/off；size 2/3/4；corner tl/tr/bl/br。消息%d，排队%d，秘密跳过%d，丢弃%d，文本过滤%d，重绘%d，缓存%d/%d，累计未发送%d。",
+    ["[BianLingo] settings; version; pair CODE; blocks; blocksync; windows; minimap on/off/reset; mode native/compact; replay [1–100]; cache [1–100]; hide on/off; test; on/off; cn on/off; size 2/3/4; corner tl/tr/bl/br. Messages %d, queued %d, secret %d, dropped %d, filtered %d, redraws %d, cached %d/%d, not queued %d."] = "[BianLingo] settings 设置；version 版本检查；pair CODE 确认兼容码；blocks 屏蔽名单；blocksync 同步名单到接收端；windows 一键同步聊天窗口；minimap on/off/reset 小地图按钮；mode native/compact 像素模式；replay [1–100] 补发；cache [1–100] 缓存上限；hide on/off 空闲隐藏；test 测试；on/off 开关；cn on/off；size 2/3/4；corner tl/tr/bl/br。消息%d，排队%d，秘密跳过%d，丢弃%d，文本过滤%d，重绘%d，缓存%d/%d，累计未发送%d。",
 }
 function BLGText(value)
     if chinese and type(value) == "string" then return messages[value] or value end

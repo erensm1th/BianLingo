@@ -206,6 +206,7 @@ struct MacChatBookmark {
 - (void)showNotices:(id)sender;
 - (void)openLogs:(id)sender;
 - (void)clearChatLogs:(id)sender;
+- (void)copyCompatibility:(id)sender;
 - (void)hideOutput:(id)sender;
 - (void)captureProvider;
 - (void)fillProvider;
@@ -1246,6 +1247,8 @@ OSStatus keyEvent(EventHandlerCallRef, EventRef event, void *context) {
     [statusScroll.widthAnchor constraintEqualToConstant:550].active = YES;
     [statusScroll.heightAnchor constraintEqualToConstant:310].active = YES;
     [runtime addArrangedSubview:statusScroll];
+    [runtime addArrangedSubview:button("Copy compatibility code", @selector(copyCompatibility:))];
+    [runtime addArrangedSubview:label("Run /bl version in-game first. Paste the copied command into game chat to confirm the desktop version in the addon.")];
     [runtime addArrangedSubview:button("Notes and component notices", @selector(showNotices:))];
     [runtime addArrangedSubview:button("Open log directory", @selector(openLogs:))];
     addCheck(runtime, "chat_logging", "Save chat and output logs (includes whispers and names)");
@@ -1778,6 +1781,20 @@ OSStatus keyEvent(EventHandlerCallRef, EventRef event, void *context) {
     std::filesystem::create_directories(directory, error);
     [NSWorkspace.sharedWorkspace openURL:[NSURL fileURLWithPath:ns(directory.string())]];
 }
+- (void)copyCompatibility:(id)sender {
+    (void)sender;
+    try {
+        auto command = engine->compatibility_receipt();
+        if (!smoke) {
+            [NSPasteboard.generalPasteboard clearContents];
+            if (![NSPasteboard.generalPasteboard setString:ns(command) forType:NSPasteboardTypeString])
+                throw std::runtime_error("Could not copy the compatibility code; retry");
+        }
+        status.stringValue = ns(notification_text("Compatibility command copied. Paste it into game chat to confirm the desktop version."));
+    } catch (const std::exception &e) {
+        status.stringValue = ns(notification_text(e.what()));
+    }
+}
 - (void)clearChatLogs:(id)sender {
     (void)sender;
     NSAlert *alert = [NSAlert new];
@@ -1956,8 +1973,8 @@ OSStatus keyEvent(EventHandlerCallRef, EventRef event, void *context) {
     if (dirty && !messagePreview)
         [self render];
     if (settings.visible) {
-        auto value = std::string("Native version ") + BL_VERSION + "\n" + engine->status() + "\n\n" +
-                     str(status.stringValue);
+        auto value = notification_text(std::string("Native version ") + BL_VERSION + "\n" + engine->status() + "\n\n" +
+                     str(status.stringValue));
         if (str(statusView.string) != value)
             statusView.string = ns(value);
         if ([settingsTabs.selectedTabViewItem.identifier isEqual:@"API"])

@@ -89,6 +89,9 @@ def validate_runtime_evidence(root=ROOT):
         raise ValueError('Actual optional runtime smoke/license evidence missing')
 
 def validate_sources(root=ROOT):
+    from generate_bridge_compatibility import render
+    if (root/'addon/BianLingo/Compatibility.lua').read_text(encoding='utf8') != render(root):
+        raise ValueError('Compatibility constants are stale; run tools/generate_bridge_compatibility.py')
     licenses=root/'resources/licenses'
     for item in load(licenses/'sources.json'):
         if digest(licenses/item['file']) != item['sha256']: raise ValueError('Pinned notice changed: '+item['file'])

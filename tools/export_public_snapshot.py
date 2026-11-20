@@ -16,7 +16,7 @@ ROOT_FILES = {'CMakeLists.txt', 'vcpkg.json', '.gitignore', '.gitattributes', 'R
               'README.fr.md', 'README.de.md', 'README.es.md', 'README.pt-BR.md', 'README.ru.md',
               'LICENSE', 'THIRD_PARTY_NOTICES.md', 'PRIVACY.md', 'PROJECT_NOTICE.md', 'SOURCE_ACCESS.md'}
 ROOTS = {'src', 'include', 'addon', 'resources', 'cmake', 'tools', 'tests', '.github'}
-DOCS = {'BUILDING.md','DEVELOPMENT.md','BERGAMOT_TRANSLATION.md', 'CHAT_TABS.md', 'CTRANSLATE2_TRANSLATION.md',
+DOCS = {'BRIDGE_COMPATIBILITY.md','BUILDING.md','DEVELOPMENT.md','BERGAMOT_TRANSLATION.md', 'CHAT_TABS.md', 'CTRANSLATE2_TRANSLATION.md',
         'LOCAL_TRANSLATION.md', 'MATRIX_TRANSPORT.md', 'MESSAGE_ACTIONS_AND_BLOCKLIST.md',
         'OCR_FALLBACK.md', 'PERFORMANCE_BENCHMARKS.md', 'PORTABLE_STORAGE.md', 'PROVIDERS.md',
         'RELEASE_COMPLIANCE.md', 'RELEASE_READINESS.md', 'SETTINGS_LAYOUT.md', 'SKINS.md',

@@ -297,7 +297,8 @@ struct Notice {
         ChatLayout,
         Blocklist,
         ProviderTest,
-        ProviderTestError
+        ProviderTestError,
+        BridgeCompatibility
     } kind = Status;
     DisplayMessage chat;
     std::string text;
@@ -307,6 +308,7 @@ struct Notice {
 class ChatJournal;
 class PlayerBlocklist;
 struct ChatTab;
+struct BridgeCompatibilityReport;
 class Engine {
     struct Job {
         Message message;
@@ -334,6 +336,11 @@ class Engine {
     std::unordered_map<std::string, std::shared_future<std::string>> inflight_;
     std::deque<std::string> cache_order_;
     std::atomic<bool> connected_{false}, idle_{false};
+    std::atomic<bool> bridge_incompatible_{false};
+    std::string bridge_status_;
+    uint32_t bridge_session_ = 0;
+    uint32_t bridge_receipt_nonce_ = 0;
+    bool bridge_checked_ = false;
     uint32_t output_seq_ = 0, output_session_ = 0;
     uint64_t generation_ = 0;
     bool outbound_pending_ = false;
@@ -353,6 +360,7 @@ class Engine {
                               std::string_view chat_language = {}, StopToken stop = {});
     void notice(Notice, std::optional<uint64_t> generation = std::nullopt);
     void update_blocklist(const std::function<bool(PlayerBlocklist &)> &change);
+    void update_bridge_compatibility(const BridgeCompatibilityReport &, uint32_t session);
 
   public:
     explicit Engine(std::filesystem::path directory = platform::app_data());
@@ -375,6 +383,7 @@ class Engine {
     std::string ocr_preview() const;
     std::vector<Notice> drain();
     std::string status() const;
+    std::string compatibility_receipt() const;
     Json usage() const;
     void clear_chat_logs();
     Json blocklist() const;

@@ -180,6 +180,23 @@ void verify_skin() {
     player.same_realm = true;
     player.author = "Runga-WestFall /unsafe";
     require(!whisper_target(player), "Shortening bypasses complete-name input validation");
+    player.author = "Fizzleton Frostfuse";
+    player.realm = "Frostfuse";
+    require(whisper_target(player) && whisper_target(player)->prefix == "/cw Fizzleton Frostfuse " &&
+                reply_target(player)->prefix == "/cw Fizzleton Frostfuse ",
+            "Forever two-part name disabled whisper or dropped the surname");
+    player.same_realm = false;
+    player.realm = "UnrelatedRealm";
+    require(compose_reply(*whisper_target(player), "hello there") == "/cw Fizzleton Frostfuse hello there",
+            "Forever reply appended a realm or consumed the surname as message text");
+    player.author = "Fizzleton Frostfuse-LegacyRealm";
+    require(whisper_target(player)->prefix == "/cw Fizzleton Frostfuse ",
+            "Forever reply retained a legacy realm suffix");
+    for (const auto *invalid : {"First  Last", "First Last Extra", "First Last/unsafe", "First\tLast",
+                                "First Last;unsafe", "First Last\n/run unsafe", " First Last"}) {
+        player.author = invalid;
+        require(!whisper_target(player), "Invalid two-part identity accepted as a whisper command");
+    }
 }
 void verify_chat_style() {
     Message colored;

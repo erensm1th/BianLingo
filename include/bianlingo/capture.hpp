@@ -19,7 +19,7 @@ class BridgeCapture {
     std::optional<Marker> marker_;
     std::optional<Rect> last_box_;
     std::optional<platform::Capture::GameWindow> window_;
-    Clock::time_point next_scan_{}, next_full_{}, last_good_{}, compact_bad_{};
+    Clock::time_point next_scan_{}, next_marker_scan_{}, next_full_{}, last_good_{}, compact_bad_{};
 
   public:
     CaptureStep poll(platform::Capture &, Clock::time_point);

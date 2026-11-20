@@ -70,6 +70,7 @@ class ComplianceTests(unittest.TestCase):
         self.root=Path(self.tmp.name)
         shutil.copytree(ROOT/'resources',self.root/'resources')
         shutil.copytree(ROOT/'addon',self.root/'addon')
+        shutil.copyfile(ROOT/'CMakeLists.txt',self.root/'CMakeLists.txt')
     def tearDown(self): self.tmp.cleanup()
     def edit(self,name,fn):
         path=self.root/'resources'/name
@@ -137,13 +138,14 @@ class PackageTests(unittest.TestCase):
         self.put=put
         for name in ('LICENSE','THIRD_PARTY_NOTICES.md','PROJECT_NOTICE.md','PRIVACY.md','SOURCE_ACCESS.md'):
             (self.root/name).write_bytes((ROOT/name).read_bytes());put(name,(ROOT/name).read_bytes())
-        for name in ('BianLingo.toc','PixelBridge.lua','LocaleMessages.lua','TraditionalMarkers.lua','Blocklist.lua'):
+        for name in ('BianLingo.toc','PixelBridge.lua','LocaleMessages.lua','Compatibility.lua','TraditionalMarkers.lua','Blocklist.lua'):
             put('BianLingo/'+name,b'fixture')
         logo=(ROOT/'addon/BianLingo/Textures/Logo.tga').read_bytes()
         source_logo=self.root/'addon/BianLingo/Textures/Logo.tga'
         source_logo.parent.mkdir(parents=True);source_logo.write_bytes(logo)
         (source_logo.parent.parent/'BianLingo.toc').write_bytes(b'fixture')
         put('BianLingo/Textures/Logo.tga',logo)
+        (source_logo.parent.parent/'Compatibility.lua').write_bytes(b'fixture')
         duanduan=(ROOT/'addon/BianLingo/Textures/Duanduan.tga').read_bytes()
         (source_logo.parent/'Duanduan.tga').write_bytes(duanduan)
         put('BianLingo/Textures/Duanduan.tga',duanduan)

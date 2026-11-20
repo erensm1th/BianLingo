@@ -30,6 +30,13 @@ for i = 1, 16 do
 end
 marker:Hide()
 local session, seq = math.floor(GetTime() * 10), 0
+local compatibility = BLGCompatibility
+if type(compatibility) ~= "table" then
+    DEFAULT_CHAT_FRAME:AddMessage("[BianLingo] " .. BLGText("Compatibility module missing; install the complete addon folder."))
+    frame:Hide(); marker:Hide(); return
+end
+local pairedDesktop, pairedNonce, peerBlocked = nil, 0, false
+local lastCompatibilityAt = -math.huge
 local enabled, transmitting = true, false
 local chatState = 0 -- 0 unknown, 1 readable, 2 restricted (never stores secret text)
 local UpdateMarker, UpdatePanel, PaintHeader, Draw
@@ -357,6 +364,58 @@ eventIDs.BRIDGE_REPLAY_END = #events + 4
 eventIDs.BRIDGE_CHAT_LAYOUT = #events + 5
 eventIDs.BRIDGE_BLOCKLIST = #events + 6
 eventIDs.CHAT_MSG_COMMUNITIES_CHANNEL_META = #events + 7
+local function CompatibilityMessage()
+    local text = table.concat({"BLV1", compatibility.version, compatibility.minimumDesktop,
+        compatibility.protocolMin, compatibility.protocolMax, pairedDesktop or "-", pairedNonce, peerBlocked and 1 or 0}, "\t")
+    seq = seq + 1
+    return {seq = seq, sent = GetServerTime(), event = eventIDs.BRIDGE_READY, player = 0, body = "\0" .. text}
+end
+local function QueueCompatibility(force)
+    if not enabled or QueueSize() >= 256 then return end
+    local now = GetTime()
+    if not force and now - lastCompatibilityAt < 15 then return end
+    local message = CompatibilityMessage()
+    qtail = qtail + 1; queue[qtail] = PacketFor(message, 1)
+    lastCompatibilityAt = now
+    Wake()
+    return true
+end
+local function VersionTuple(value)
+    if type(value) ~= "string" or #value > 17 then return end
+    local a, b, c = value:match("^(%d+)%.(%d+)%.(%d+)$")
+    if not a or #a > 5 or #b > 5 or #c > 5 then return end
+    a, b, c = tonumber(a), tonumber(b), tonumber(c)
+    if a > 65535 or b > 65535 or c > 65535 then return end
+    return {a, b, c}
+end
+local function VersionBefore(a, b)
+    for i = 1, 3 do if a[i] ~= b[i] then return a[i] < b[i] end end
+    return false
+end
+local function PairDesktop(code)
+    if #code > 160 then Say(BLGText("Invalid compatibility code")); return end
+    local desktop, minimum, low, high, targetSession, nonce = code:match(
+        "^[Bb][Ll][Pp]1:([%d%.]+):([%d%.]+):(%d+):(%d+):(%d+):(%d+)$")
+    local desktopVersion, addonMinimum = VersionTuple(desktop), VersionTuple(minimum)
+    low, high, targetSession, nonce = tonumber(low), tonumber(high), tonumber(targetSession), tonumber(nonce)
+    if not desktopVersion or not addonMinimum or not low or not high or low < 1 or low > high or high > 65535
+        or not targetSession or targetSession > 4294967295 or not nonce or nonce < 1 or nonce > 4294967295 then
+        Say(BLGText("Invalid compatibility code")); return
+    end
+    if targetSession ~= session then Say(BLGText("This code belongs to another game session. Copy a new compatibility code.")); return end
+    pairedDesktop, pairedNonce = desktop, nonce
+    peerBlocked = VersionBefore(desktopVersion, VersionTuple(compatibility.minimumDesktop))
+        or VersionBefore(VersionTuple(compatibility.version), addonMinimum)
+        or low > compatibility.protocolMax or high < compatibility.protocolMin
+    if peerBlocked then
+        queue = {}; qhead = 1; qtail = 0; recent = {}; repeatIndex = 0
+        manual = nil; layoutExport = nil; blockSyncQueued = false
+    end
+    Say(peerBlocked and BLGText("Version mismatch. Update the desktop app and addon; chat transmission is paused.")
+        or (BLGText("Manual desktop version check passed: ") .. desktop))
+    QueueCompatibility(true)
+    if UpdatePanel then UpdatePanel() end
+end
 for id, name in ipairs({"WARRIOR", "PALADIN", "HUNTER", "ROGUE", "PRIEST", "DEATHKNIGHT",
     "SHAMAN", "MAGE", "WARLOCK", "MONK", "DRUID", "DEMONHUNTER", "EVOKER"}) do classIDs[name] = id end
 -- Cache our own realm once on login. No per-chat realm API or additional player lookup.
@@ -377,6 +436,7 @@ local function CacheHomeRealm()
 end
 local function Enqueue(event, text, author, guid)
     if not enabled then return end
+    if peerBlocked and event:sub(1, 9) == "CHAT_MSG_" then return end
     if not Readable(text) then
         if event:sub(1, 9) == "CHAT_MSG_" and Secret(text) then SetChatState(2) end
         skipped = skipped + 1; return
@@ -480,6 +540,7 @@ local function Enqueue(event, text, author, guid)
     end
     local count = math.max(1, math.ceil(#body / CAPACITY))
     if QueueSize() + count > 256 then dropped = dropped + 1; unsent = unsent + 1; return end
+    if kind:sub(1, 9) == "CHAT_MSG_" and QueueSize() + count < 256 then QueueCompatibility(false) end
     for part = 1, count do
         qtail = qtail + 1; queue[qtail] = PacketFor(message, part)
     end
@@ -552,9 +613,14 @@ local function ExportChatWindows()
         return json
     end)
     if not ok then Say(BLGText("Could not prepare synchronization: ") .. tostring(snapshot)); return end
+    local hello = CompatibilityMessage()
+    lastCompatibilityAt = GetTime()
     seq = seq + 1
     local message = {seq = seq, sent = GetServerTime(), event = eventIDs.BRIDGE_CHAT_LAYOUT, player = 0, body = "\0" .. snapshot}
-    layoutExport = {message = message, part = 1, count = math.ceil(#message.body / CAPACITY)}
+    -- An explicit sync owns a complete immutable snapshot. Repeat this control
+    -- only, with stable identities, rather than relying on the 32-frame chat tail.
+    layoutExport = {message = message, part = 1, count = math.ceil(#message.body / CAPACITY),
+        hello = hello, announce = true, rounds = 3, warmup = true}
     Wake(); Say(BLGText("Sending the chat layout; keep the game visible. The desktop app will replace and save all tabs when complete."))
 end
 local function ExportBlocklist()
@@ -586,6 +652,7 @@ local function ExportBlocklist()
     Say(BLGText("Sending the blocklist to the desktop app. Import desktop edits by pasting a sync code in game."))
 end
 local function StartReplay(number)
+    if peerBlocked then Say(BLGText("Version mismatch; chat transmission paused")); return end
     if not enabled then Say(BLGText("Run /bl on first")); return end
     if manual or layoutExport then Say(BLGText("Replay or synchronization is already active; wait for it to finish.")); return end
     local n = number == "" and 20 or tonumber(number)
@@ -596,6 +663,7 @@ local function StartReplay(number)
         if not BLGBlocklist.IsBlocked(Config(), message.identity, message.identityRealm) then items[#items + 1] = message end
     end
     if #items == 0 then Say(BLGText("No cached chat is available for replay.")); return end
+    QueueCompatibility(true)
     batchCounter = batchCounter % 65535 + 1
     manual = {id = batchCounter, items = items, index = 1, part = 1, phase = "begin"}
     recent = {}; repeatIndex = 0
@@ -648,7 +716,7 @@ OnUpdate = function(_, dt)
     if blockSyncQueued and not manual and not layoutExport and QueueSize() == 0 then
         blockSyncQueued = false; ExportBlocklist()
     end
-    local packet
+    local packet, reliableControl
     if QueueSize() > 0 then
         packet = queue[qhead]; queue[qhead] = nil; qhead = qhead + 1
         if qhead > qtail then queue = {}; qhead = 1; qtail = 0 end
@@ -665,12 +733,33 @@ OnUpdate = function(_, dt)
             end
         else manual.phase = "tail" end
     elseif layoutExport then
-        packet = PacketFor(layoutExport.message, layoutExport.part)
-        layoutExport.part = layoutExport.part + 1
-        if layoutExport.part > layoutExport.count then layoutExport = layoutExport.next end
+        local transfer = layoutExport
+        reliableControl = transfer.rounds ~= nil
+        if transfer.held then
+            packet = transfer.held; transfer.holdTicks = transfer.holdTicks - 1
+            if transfer.holdTicks == 0 then transfer.held = nil end
+        else
+            if transfer.announce then
+                packet = PacketFor(transfer.hello, 1); transfer.announce = false
+            else
+                packet = PacketFor(transfer.message, transfer.part)
+                transfer.part = transfer.part + 1
+                if transfer.part > transfer.count then
+                    if transfer.rounds and transfer.rounds > 1 then
+                        transfer.rounds = transfer.rounds - 1; transfer.part = 1; transfer.announce = true
+                    else transfer.finished = true end
+                end
+            end
+            if reliableControl then
+                transfer.held = packet; transfer.holdTicks = transfer.warmup and 4 or 1
+                transfer.warmup = nil
+            end
+        end
+        if transfer.finished and not transfer.held then layoutExport = transfer.next end
     end
     if packet then
-        Remember(packet); Draw(packet); idleElapsed = 0; return
+        if not reliableControl then Remember(packet) end
+        Draw(packet); idleElapsed = 0; return
     end
     if repeatIndex < #recent then
         repeatIndex = repeatIndex + 1; Draw(recent[repeatIndex]); idleElapsed = 0; return
@@ -766,6 +855,13 @@ UpdatePanel = function()
     for _, view in ipairs(settingsViews) do
         if view.frame:IsShown() then
             view.enabled:SetChecked(Config().enabled)
+            if view.compatibility then
+                local state = peerBlocked and BLGText("Version mismatch; chat transmission paused")
+                    or pairedDesktop and (BLGText("Manually confirmed desktop: ") .. pairedDesktop)
+                    or BLGText("Desktop version not yet manually confirmed")
+                view.compatibility:SetText(BLGText("Addon ") .. compatibility.version .. BLGText(" · Desktop required: ") ..
+                    compatibility.minimumDesktop .. "+\n" .. state)
+            end
             view.hide:SetChecked(not not Config().idleHide)
             view.native:SetChecked(Config().mode == "native")
             view.compact:SetChecked(Config().mode == "compact")
@@ -800,7 +896,7 @@ local function SetEnabled(value, force)
     end
     if value then
         CacheHomeRealm(); RefreshChatState(); Appearance()
-        if changed or force then Enqueue("BRIDGE_READY", BLGText("Screen bridge ready"), "") end
+        if changed or force then QueueCompatibility(true) end
     else
         transmitting = false
         queue = {}; qhead = 1; qtail = 0; recent = {}; manual = nil; layoutExport = nil; blockSyncQueued = false
@@ -880,7 +976,21 @@ local function BuildSettings(parent, prefix)
     local blocks = CreateFrame("Button", prefix .. "Blocklist", parent, "UIPanelButtonTemplate")
     blocks:SetSize(175, 28); blocks:SetPoint("TOPLEFT", 20, -447); blocks:SetText(BLGText("Blocklist…"))
     blocks:SetScript("OnClick", function() ShowBlocklist() end)
-    parent:SetScript("OnShow", UpdatePanel)
+    view.compatibility = parent:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    view.compatibility:SetPoint("TOPLEFT", 20, -487); view.compatibility:SetWidth(540); view.compatibility:SetJustifyH("LEFT")
+    local check = CreateFrame("Button", prefix .. "CheckVersion", parent, "UIPanelButtonTemplate")
+    check:SetSize(175, 28); check:SetPoint("TOPLEFT", 20, -536); check:SetText(BLGText("Check compatibility"))
+    check:SetScript("OnClick", function()
+        if QueueCompatibility(true) then Say(BLGText("Version sent. View Status in the desktop app; paste its compatibility code with /bl pair."))
+        else Say(BLGText("Could not send version; enable the addon and retry after the current transmission.")) end
+    end)
+    local reset = CreateFrame("Button", prefix .. "ResetVersion", parent, "UIPanelButtonTemplate")
+    reset:SetSize(175, 28); reset:SetPoint("TOPLEFT", 210, -536); reset:SetText(BLGText("Reset manual confirmation"))
+    reset:SetScript("OnClick", function()
+        pairedDesktop, pairedNonce, peerBlocked = nil, 0, false
+        QueueCompatibility(true); UpdatePanel()
+    end)
+    parent:SetScript("OnShow", function() QueueCompatibility(true); UpdatePanel() end)
 end
 ShowSettings = function()
     if blockPanel then
@@ -889,7 +999,7 @@ ShowSettings = function()
     end
     if not panel then
         panel = CreateFrame("Frame", "BianLingoBridgeSettings", UIParent, "BackdropTemplate")
-        panel:SetSize(440, 505); panel:SetPoint("CENTER"); panel:SetFrameStrata("DIALOG")
+        panel:SetSize(600, 580); panel:SetPoint("CENTER"); panel:SetFrameStrata("DIALOG")
         panel:SetMovable(true); panel:EnableMouse(true); panel:RegisterForDrag("LeftButton")
         panel:SetScript("OnDragStart", panel.StartMoving); panel:SetScript("OnDragStop", panel.StopMovingOrSizing)
         panel:SetBackdrop({bgFile = "Interface/Buttons/WHITE8X8", edgeFile = "Interface/Buttons/WHITE8X8", edgeSize = 1})
@@ -1029,7 +1139,11 @@ frame:SetScript("OnEvent", function(_, event, text, author, language, channelNam
             Say(BLGText("The blocklist module is missing; install the complete BianLingo folder."))
             enabled = false; frame:Hide(); marker:Hide(); return
         end
-        Config()
+        local db = Config()
+        if db.enabled and db.compatibilityNoticeMinimum ~= compatibility.minimumDesktop then
+            Say(BLGText("Addon ") .. compatibility.version .. BLGText(" · Desktop required: ") .. compatibility.minimumDesktop .. "+")
+            db.compatibilityNoticeMinimum = compatibility.minimumDesktop
+        end
         seq = 0
         Layout()
         UpdateReplayButton()
@@ -1077,6 +1191,11 @@ SlashCmdList.BIANLINGO = function(input)
         ExportBlocklist()
     elseif command == "replay" then
         StartReplay(argument)
+    elseif command == "version" then
+        QueueCompatibility(true)
+        Say(BLGText("Addon ") .. compatibility.version .. BLGText(" · Desktop required: ") .. compatibility.minimumDesktop .. "+")
+    elseif command == "pair" then
+        PairDesktop(argument)
     elseif command == "cache" then
         if SetLimit(argument) then Say(BLGText("Cache limit set to ") .. Config().cacheLimit .. BLGText(" messages.")) end
     elseif command == "hide" and (argument == "on" or argument == "off") then
@@ -1084,6 +1203,7 @@ SlashCmdList.BIANLINGO = function(input)
     elseif command == "mode" and (argument == "native" or argument == "compact") then
         SetMode(argument); Say(BLGText("Pixel mode: ") .. (argument == "compact" and BLGText("Compact matrix") or BLGText("Black & white (HDR compatible)")))
     elseif command == "test" then
+        QueueCompatibility(true)
         Enqueue("BRIDGE_TEST", "LFM Deadmines, need a healer. Can you summon me?", "local-test")
         DEFAULT_CHAT_FRAME:AddMessage(BLGText("[BianLingo] Test message sent; check the translation overlay."))
     elseif command == "cn" and (argument == "on" or argument == "off") then
@@ -1096,7 +1216,7 @@ SlashCmdList.BIANLINGO = function(input)
         BianLingoDB.corner = argument; Layout()
     else
         DEFAULT_CHAT_FRAME:AddMessage(string.format(
-            BLGText("[BianLingo] settings; blocks; blocksync; windows; minimap on/off/reset; mode native/compact; replay [1–100]; cache [1–100]; hide on/off; test; on/off; cn on/off; size 2/3/4; corner tl/tr/bl/br. Messages %d, queued %d, secret %d, dropped %d, filtered %d, redraws %d, cached %d/%d, not queued %d."),
+            BLGText("[BianLingo] settings; version; pair CODE; blocks; blocksync; windows; minimap on/off/reset; mode native/compact; replay [1–100]; cache [1–100]; hide on/off; test; on/off; cn on/off; size 2/3/4; corner tl/tr/bl/br. Messages %d, queued %d, secret %d, dropped %d, filtered %d, redraws %d, cached %d/%d, not queued %d."),
             seq, QueueSize(), skipped, dropped, filtered, draws, #cache, Config().cacheLimit, unsent))
     end
 end

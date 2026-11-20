@@ -57,6 +57,24 @@ CaptureStep BridgeCapture::poll(platform::Capture &screen, Clock::time_point now
             last_good_ = {};
         }
     }
+    // A short control transfer must not disappear during the large-scan backoff.
+    // Probe only the four known 4x4 marker locations between discovery scans.
+    if (!location_ && scope && now < next_scan_ && now >= next_marker_scan_) {
+        next_marker_scan_ = now + std::chrono::milliseconds(250);
+        for (int corner = 0; corner < 4; ++corner) {
+            const int x = corner & 1 ? scope->w - 5 : 1;
+            const int y = corner & 2 ? scope->h - 5 : 1;
+            auto state = decode_marker(screen.grab(absolute({x, y, 4, 4})));
+            if (!state || state->corner != corner) continue;
+            state->x = x;
+            state->y = y;
+            marker_ = state;
+            step.chat_state = state->chat_state;
+            location_ = marker_location(*state);
+            last_good_ = now;
+            break;
+        }
+    }
     if (!location_ && now >= next_scan_) {
         next_scan_ = now + std::chrono::seconds(5);
         std::vector<Rect> boxes;
@@ -163,6 +181,8 @@ CaptureStep BridgeCapture::poll(platform::Capture &screen, Clock::time_point now
     step.connected = location_.has_value() && now - last_good_ < std::chrono::seconds(1);
     if (location_)
         step.interval = std::chrono::milliseconds(100);
+    else if (scope)
+        step.interval = std::chrono::milliseconds(250);
     return step;
 }
 } // namespace bl

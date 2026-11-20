@@ -71,6 +71,7 @@ def boot(saved=None, uptime=123456, interface=16001, secret_api=True, home_realm
     if saved is not None:
         lua.globals().BianLingoDB=lua.table_from(saved, recursive=True)
     lua.execute((ROOT/'addon/BianLingo/LocaleMessages.lua').read_bytes())
+    lua.execute((ROOT/'addon/BianLingo/Compatibility.lua').read_bytes())
     lua.execute((ROOT/'addon/BianLingo/TraditionalMarkers.lua').read_bytes())
     lua.execute((ROOT/'addon/BianLingo/Blocklist.lua').read_bytes())
     lua.execute((ROOT/'addon/BianLingo/PixelBridge.lua').read_bytes())
@@ -255,6 +256,65 @@ end
         assert not any(p['event']==22 for p in sender.packets)
     return output
 
+def reliable_layout_fixtures():
+    output = []
+    for mode in [b'native', b'compact']:
+        for large in [False, True]:
+            sender = boot({b'mode': mode}, uptime=125000 + int(large))
+            sender.g.large_layout = large
+            sender.lua.execute(b'''
+layout_calls=0; NUM_CHAT_WINDOWS=large_layout and 4 or 1
+function GetChatWindowInfo(index)
+ layout_calls=layout_calls+1; return "Window "..index,14,0,0,0,0,true
+end
+function GetChatWindowMessages(index) layout_calls=layout_calls+1; return "SAY" end
+function GetChatWindowChannels(index)
+ layout_calls=layout_calls+1
+ if not large_layout then return "General",1 end
+ local values={}
+ for i=1,24 do
+  values[#values+1]=string.rep("c",112)..string.format("%02d%02d",index,i)
+  values[#values+1]=i
+ end
+ return unpack(values)
+end
+''')
+            sender.packets = []
+            sender.command('windows')
+            calls, queries = sender.g.layout_calls, sender.g.queries
+            sequence = []
+            for tick in range(1500):
+                if tick == 1:
+                    sender.command('windows')
+                    assert sender.g.layout_calls == calls, 'Repeated sync replaced the active snapshot'
+                    sender.lua.execute(b'function GetChatWindowInfo() error("snapshot queried again") end')
+                if tick == 9:
+                    sender.chat('live chat during a reliable layout transfer', guid='Player-live-sync')
+                if not sender.tick():
+                    break
+                if sender.frame[b'shown']:
+                    sequence.append(sender.packets[-1])
+            else:
+                raise AssertionError('Reliable layout transmission did not stop')
+            parts = {}
+            counts = {}
+            for packet in sequence:
+                if packet['event'] == 22:
+                    parts[packet['part']] = packet
+                    counts[packet['part']] = counts.get(packet['part'], 0) + 1
+            assert parts and set(counts.values()) == {6}, 'A complete layout was not held/repeated three times'
+            assert len({p['seq'] for p in sequence if p['event'] == 22}) == 1
+            assert len({p['seq'] for p in sequence if p['event'] == 18}) == 1
+            assert sender.g.queries == queries + 1 and sender.g.layout_calls == calls
+            assert sequence[9]['event'] == 1, 'Control retries displaced a new real-time message'
+            assert not sender.frame[b'scripts'][b'OnUpdate'], 'Sync left an idle heartbeat running'
+            if large:
+                assert len(parts) > 32, 'Large layout did not exceed the old short-tail capacity'
+            expected = json.loads(b''.join(parts[k]['body'] for k in sorted(parts))[1:])
+            output.append(dict(packets=[parts[k]['raw'] for k in sorted(parts)], expected=expected,
+                               transmission=[p['raw'] for p in sequence]))
+    return output
+
 def community_fixtures():
     output=[]
     for mode in [b'native',b'compact']:
@@ -280,7 +340,49 @@ def crc8(data):
         for _ in range(8): n=((n<<1)^(7 if n&128 else 0))&255
     return n
 
+def compatibility_checks():
+    sender=boot({b'mode':b'compact'})
+    sender.packets=[];sender.command('version');sender.drain()
+    hello=next(p for p in sender.packets if p['event']==18)
+    parts=hello['body'][1:].decode().split('\t')
+    assert len(parts)==8 and parts[0]=='BLV1' and parts[-2:]==['0','0']
+    version=parts[1];session=hello['session']
+    sender.packets=[];queries=sender.g.queries
+    sender.command(f'pair BLP1:{version}:{version}:2:2:{session+1}:42');sender.drain()
+    assert not sender.packets and sender.g.queries==queries
+    sender.command(f'pair BLP1:0.0.1:{version}:2:2:{session}:42');sender.drain()
+    blocked=next(p for p in reversed(sender.packets) if p['event']==18)
+    assert blocked['body'][1:].decode().split('\t')[-1]=='1'
+    sender.packets=[];sender.chat('this chat must be paused');sender.command('replay');sender.drain()
+    assert not sender.packets and sender.g.queries==queries
+    sender.command('settings')
+    reset=sender.g.BianLingoBridgeSettingsResetVersion
+    reset[b'scripts'][b'OnClick'](reset);sender.drain()
+    sender.packets=[]
+    sender.command(f'pair BLP1:{version}:{version}:2:2:{session}:123');sender.drain()
+    paired=next(p for p in reversed(sender.packets) if p['event']==18)
+    assert paired['body'][1:].decode().split('\t')[-3:]==[version,'123','0']
+    before=sender.g.mutations
+    for _ in range(200):sender.tick()
+    assert sender.g.mutations==before and sender.g.queries==queries
+    repeated = boot()
+    repeated.packets = []
+    repeated.command('replay')
+    repeated.command('replay 0')
+    repeated.drain()
+    assert not repeated.packets, 'Rejected replay requests queued version frames'
+    repeated.chat('one cached replay message')
+    repeated.drain()
+    repeated.packets = []
+    repeated.command('replay')
+    repeated.command('replay')
+    repeated.drain()
+    assert len({p['seq'] for p in repeated.packets if p['event'] == 18}) == 1, \
+        'Repeated replay clicks queued duplicate compatibility announcements'
+    assert len(repeated.snapshot()) == 1
+
 def run(output=None):
+    compatibility_checks()
     markers=[];images=[];colors=[]
     fresh=boot({})
     assert fresh.g.BianLingoDB[b'idleHide'] is True
@@ -511,7 +613,13 @@ def run(output=None):
     short.command('mode native');assert short.raw()==held and short.frame[b'w']==196
     images.append(short.image_fixture())
     short.command('mode compact');assert short.raw()==held and short.g.queries==q
-    short.drain();short.packets=[];short.command('replay');short.tick();short.tick()
+    short.drain();short.packets=[];short.command('replay')
+    # Version metadata precedes the replay controls. Wait for replay payload,
+    # rather than assuming the second frame must be a history packet.
+    for _ in range(8):
+        short.tick()
+        if short.packets and short.packets[-1]['batch']:
+            break
     assert short.packets[-1]['batch']
     images.append(short.image_fixture())
     short.drain()
@@ -526,7 +634,7 @@ def run(output=None):
             short.command('size '+str(cell));images.append(short.image_fixture())
             markers.append(dict(raw=short.marker_raw().hex(),corner=['tl','tr','bl','br'].index(corner),cell=cell,active=False,compact=True))
     assert not any(short.frame[b'textures'][i][b'shown'] for i in range(402,1154))
-    layouts=layout_export_fixtures()
+    layouts=layout_export_fixtures() + reliable_layout_fixtures()
     communities=community_fixtures()
     realms=realm_fixtures()
     for fixture in realms:
@@ -535,6 +643,24 @@ def run(output=None):
         clean=[{k:v for k,v in p.items() if k!='body'} for p in fixtures]
         Path(output).write_text(json.dumps(dict(packets=clean,markers=markers,images=images,colors=colors,layouts=layouts,realms=realms,communities=communities)),encoding='utf-8')
     print('PASS real Lua 5.1: defaults/persistence, whole cache eviction, immutable replay, live priority, overflow recovery, filters, four corners/cells, idle wake/hide, no idle redraw')
+def forever_blocklist_names():
+    sample = boot()
+    b, db = sample.g.BLGBlocklist, sample.g.BianLingoDB
+    assert b.Key(b'Fizzleton Frostfuse-LegacyRealm')[0] == b'fizzleton frostfuse'
+    b.Set(db, b'Fizzleton Frostfuse', True)
+    assert b.IsBlocked(db, b'Fizzleton Frostfuse', b'Frostfuse')
+    assert b.IsBlocked(db, b'Fizzleton Frostfuse-LegacyRealm', b'OtherRealm')
+    assert not b.IsBlocked(db, b'Fizzleton Other', b'Frostfuse')
+    q = sample.g.queries
+    sample.chat('Looking for a healer', author='Fizzleton Frostfuse')
+    assert sample.g.queries == q, 'Blocked Forever identity still triggered a player lookup'
+    snapshot = b.Snapshot(db)
+    b.Set(db, b'Fizzleton Frostfuse', False)
+    b.Merge(db, snapshot)
+    assert not b.IsBlocked(db, b'Fizzleton Frostfuse', b'Frostfuse')
+    for invalid in [b'First  Last', b'First Last Extra', b'First Last/unsafe', b'First\tLast']:
+        assert not sample.g.pcall(b.Key, invalid)[0]
+
 def notification_languages():
     for language in ['enUS', 'frFR', 'deDE', 'jaJP', 'koKR', 'zhCN', 'zhTW']:
         sample = boot(locale=language)
@@ -544,5 +670,6 @@ def notification_languages():
         assert not ok and expected in error, 'Addon errors ignored the UI locale'
 
 if __name__=='__main__':
+    forever_blocklist_names()
     notification_languages()
     parser=argparse.ArgumentParser();parser.add_argument('--fixtures');run(parser.parse_args().fixtures)

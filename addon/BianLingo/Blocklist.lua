@@ -33,11 +33,16 @@ function B.Key(raw)
     end
     local player, realm = name:match("^([^-]+)%-(.*)$")
     player = Trim(player or name)
-    if player == "" or player:find(" ", 1, true) then error("Invalid player name") end
+    local space = player:find(" ", 1, true)
+    if player == "" or (space and (space == 1 or space == #player or player:find(" ", space + 1, true))) then
+        error("Invalid player name")
+    end
     if realm then
         realm = realm:gsub("[%s%-]", "")
         if realm == "" then error("Invalid realm") end
     end
+    -- First/surname pairs identify a character across the whole Forever region.
+    if space then realm = nil end
     return (player .. (realm and "-" .. realm or "")):lower(), name
 end
 local function ValidNode(value)

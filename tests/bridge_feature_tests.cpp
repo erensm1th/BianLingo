@@ -1,4 +1,5 @@
 #include "bianlingo/chat_style.hpp"
+#include "bianlingo/bridge_compatibility.hpp"
 #include "bianlingo/chat_tabs.hpp"
 #include "bianlingo/core.hpp"
 #include "bianlingo/journal.hpp"
@@ -480,6 +481,37 @@ void lua_fixture(const char *file) {
                 "Lua layout did not reassemble out of order");
         require(parse_chat_layout(complete->text) == layout.at("expected"),
                 "Lua layout escaping/metadata differs from C++");
+        if (layout.contains("transmission")) {
+            // Lose the initial two seconds, then exercise actual repeated Lua
+            // control packets through receiver reconstruction and deduplication.
+            for (size_t lost : {size_t(0), size_t(11)}) {
+                Assembler recovering;
+                size_t updates = 0;
+                bool compatible = false;
+                const auto &frames = layout.at("transmission");
+                for (size_t i = lost; i < frames.size(); ++i) {
+                    const auto hex = frames[i].get<std::string>();
+                    Bytes raw;
+                    for (size_t n = 0; n < hex.size(); n += 2)
+                        raw.push_back(uint8_t(std::stoul(hex.substr(n, 2), nullptr, 16)));
+                    auto packet = decode_packet(raw);
+                    require(bool(packet), "Reliable layout frame was not a valid packet");
+                    // Mirror the engine's known-mismatch gate: version metadata
+                    // must recover before data controls can be reconstructed.
+                    if (!compatible && packet->event != 18) continue;
+                    if (auto message = recovering.accept(*packet)) {
+                        if (message->event == "BRIDGE_READY")
+                            compatible = !assess_bridge_hello(message->text).blocking();
+                        if (message->event == "BRIDGE_CHAT_LAYOUT") {
+                            require(compatible && parse_chat_layout(message->text) == layout.at("expected"),
+                                    "A delayed receiver applied an incomplete or incompatible layout");
+                            ++updates;
+                        }
+                    }
+                }
+                require(updates == 1, "One synchronization click was lost or applied more than once");
+            }
+        }
     }
     for (const auto &fixture : data.value("communities", Json::array())) {
         for (auto key : {"raw", "replay_raw"}) {

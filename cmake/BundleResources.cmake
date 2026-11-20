@@ -28,6 +28,7 @@ bundle_resource("chat-preview.json" "${CMAKE_CURRENT_SOURCE_DIR}/resources/chat-
 bundle_resource("usage-formats.json" "${CMAKE_CURRENT_SOURCE_DIR}/resources/usage-formats.json")
 bundle_resource("glossary-context.json" "${CMAKE_CURRENT_SOURCE_DIR}/resources/glossary-context.json")
 bundle_resource("connection-test.json" "${CMAKE_CURRENT_SOURCE_DIR}/resources/connection-test.json")
+bundle_resource("bridge-compatibility.json" "${CMAKE_CURRENT_SOURCE_DIR}/resources/bridge-compatibility.json")
 
 bundle_resource("ocr-models.json" "${CMAKE_CURRENT_SOURCE_DIR}/resources/ocr-models.json")
 bundle_resource("ollama-setup.ps1" "${CMAKE_CURRENT_SOURCE_DIR}/resources/ollama_portable.ps1")

@@ -18,20 +18,25 @@ std::string block_name_key(std::string_view raw) {
     utf32(name);
     auto dash = name.find('-');
     auto player = trim(name.substr(0, dash));
-    if (player.empty() || player.find(' ') != player.npos) throw std::runtime_error("Invalid player name");
+    const auto space = player.find(' ');
+    const bool regional = space != player.npos;
+    if (player.empty() || (regional && (space == 0 || space + 1 == player.size() ||
+        player.find(' ', space + 1) != player.npos))) throw std::runtime_error("Invalid player name");
     std::string realm;
     if (dash != name.npos) {
         realm = name.substr(dash + 1);
         std::erase_if(realm, [](char c) { return c == ' ' || c == '-'; });
         if (realm.empty()) throw std::runtime_error("Realm name cannot be empty");
     }
-    return lower_ascii(player + (realm.empty() ? "" : "-" + realm));
+    // A Forever first/surname pair is already a region-wide identity.
+    return lower_ascii(player + (regional || realm.empty() ? "" : "-" + realm));
 }
 std::string block_player_name(const Message &m) {
     if (!m.event.starts_with("CHAT_MSG_") || m.event.starts_with("CHAT_MSG_BN_") ||
         m.event == "CHAT_MSG_COMMUNITIES_CHANNEL") return {};
     auto name = m.author.empty() ? m.player_name : m.author;
-    if (!name.empty() && name.find('-') == name.npos && !m.realm.empty()) name += "-" + m.realm;
+    if (!name.empty() && name.find('-') == name.npos && name.find(' ') == name.npos && !m.realm.empty())
+        name += "-" + m.realm;
     try { block_name_key(name); return name; } catch (...) { return {}; }
 }
 PlayerBlocklist::PlayerBlocklist(const Json &state) : origin_("pc-" + sha256(random_bytes(16)).substr(0, 16)) {
