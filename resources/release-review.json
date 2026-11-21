@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedDate": "2026-11-10",
+  "checkedDate": "2026-11-21",
   "releaseStatus": "approved",
   "pending": [],
   "deferred": [
@@ -40,7 +40,7 @@
     },
     {
       "id": "windows-validation",
-      "detail": "Chat routing and per-tab history changes passed targeted CTest checks before later artwork/layout changes. Windows Release compilation and packaging completed for the final artwork/layout build. Automated test suites and executable smoke were not rerun for this release build."
+      "detail": "BianLingo 0.2.11 passed all 37 local Windows x64 CTest checks, including nine UI locales and hover-only overlay controls. The complete Windows package passed inventory and hash verification, isolated first launch and cached restart. The standalone addon archive was also built and checked."
     },
     {
       "id": "source-review",
@@ -54,14 +54,13 @@
     "CT2 conversions use pinned publisher cards; original conversion input checkpoints were not recorded.",
     "Source review of the exact 729 terminology mappings remains deferred; rights clearance is unconfirmed.",
     "Hosted Windows CPU runtime smoke does not establish local GPU/driver or gaming performance.",
-    "Windows 11 developer-host and Windows Server CI checks do not substitute for a Windows 10 desktop field validation.",
-    "Final 0.2.10 artwork/layout and version build has not rerun automated tests or executable smoke."
+    "Windows 11 developer-host and Windows Server CI checks do not substitute for a Windows 10 desktop field validation."
   ],
   "approval_kind": "windows-release-engineering-review",
   "source_review": {
-    "eligible_source_sha256": "c3bb6843e4912954edc24269ca10827a2cc1a5cebc0d404d4a0dd10a2f34fbf7",
-    "preapproval_archive_sha256": "90f68713eba9e66458c363c05c01627ffe9aa76c79e609eb659eb3f326af60b8",
-    "files_reviewed": 326,
+    "eligible_source_sha256": "86d3abba72881766570416be2d7f48ee1c688554c495b57392911fa41e304639",
+    "preapproval_archive_sha256": "1dca74c4f49dc81442ceba54804e725758a9117c3a0fd43fd3f7357e116836d3",
+    "files_reviewed": 333,
     "scope": "Allowlisted source archive checked for contents, pinned provenance/notices, personal data exclusion and known secret patterns. Review metadata is excluded from its own fingerprint. Scope is limited to these checks, not exhaustive legal or security clearance."
   }
 }

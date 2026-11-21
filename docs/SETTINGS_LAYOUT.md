@@ -12,6 +12,8 @@
 
 Add new options to a section. Do not restore independent background coordinates. Check all selectable interface languages after changing captions/fonts, rather than validating one language alone. **Chat appearance → Interface language** offers Follow system and explicit native-name choices; saving refreshes captions/fonts in place without resetting translation targets or custom prompts.
 
+**Chat appearance → Show cat icon and chat tabs only on hover** hides the cat and all configured chat tabs while the pointer is outside the overlay. This includes tabs synced from the game. The message area keeps its position, and unread counts remain available when the tabs reappear. While the overlay is unlocked, click the cat for Settings or drag it to reposition the overlay. Settings are also available from the system tray.
+
 ## Regression checks
 
 ```powershell
