@@ -851,6 +851,7 @@ local function UpdateReplayButton()
     replayButton:SetShown(Config().showReplayButton == true)
 end
 local settingsViews = {}
+local updateNotice, updateNoticeScheduled
 UpdatePanel = function()
     for _, view in ipairs(settingsViews) do
         if view.frame:IsShown() then
@@ -866,11 +867,63 @@ UpdatePanel = function()
             view.native:SetChecked(Config().mode == "native")
             view.compact:SetChecked(Config().mode == "compact")
             view.replayButton:SetChecked(Config().showReplayButton == true)
+            view.updateReminders:SetChecked(Config().hideUpdateReminders ~= true)
             if not view.input:HasFocus() then view.input:SetText(tostring(Config().cacheLimit)) end
             view.count:SetText(BLGText("Cached messages: ") .. #cache .. BLGText(" / ") .. Config().cacheLimit .. BLGText(" messages") ..
                 (manual and BLGText(" · Replaying") or "") .. BLGText("\nNot queued so far: ") .. unsent .. BLGText(" messages (available for manual replay)"))
         end
     end
+end
+local function SetUpdateReminders(show)
+    Config().hideUpdateReminders = not show
+    if updateNotice then updateNotice.optOut:SetChecked(not show) end
+    UpdatePanel()
+end
+local function ShowUpdateNotice(db)
+    if not db.enabled or db.hideUpdateReminders == true then return end
+    local last = VersionTuple(db.dismissedUpdateNoticeVersion)
+    if last and not VersionBefore(last, VersionTuple(compatibility.version)) then return end
+
+    local dialog = CreateFrame("Frame", "BianLingoUpdateNotice", UIParent, "BackdropTemplate")
+    updateNotice = dialog
+    dialog:Hide()
+    dialog:SetSize(460, 192); dialog:SetPoint("CENTER"); dialog:SetFrameStrata("FULLSCREEN_DIALOG")
+    dialog:EnableMouse(true)
+    dialog:SetBackdrop({bgFile = "Interface/Buttons/WHITE8X8", edgeFile = "Interface/Buttons/WHITE8X8", edgeSize = 1})
+    dialog:SetBackdropColor(0.05, 0.07, 0.1, 0.98); dialog:SetBackdropBorderColor(0.2, 0.6, 0.65, 1)
+    local function Dismiss()
+        db.dismissedUpdateNoticeVersion = compatibility.version
+        dialog:Hide()
+    end
+    local title = dialog:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    title:SetPoint("TOPLEFT", 20, -20); title:SetText(BLGText("BianLingo update"))
+    local note = dialog:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    note:SetPoint("TOPLEFT", 20, -51); note:SetWidth(420); note:SetJustifyH("LEFT")
+    note:SetText(BLGText("Add-on %s is installed. Make sure the Windows app is version %s or later. Click the download link below and press Ctrl+C to copy it.")
+        :format(compatibility.version, compatibility.minimumDesktop))
+
+    local url = "https://github.com/erensm1th/BianLingo/releases/latest"
+    local link = CreateFrame("EditBox", "BianLingoUpdateNoticeLink", dialog, "InputBoxTemplate")
+    link:SetSize(412, 26); link:SetPoint("TOPLEFT", 24, -111); link:SetAutoFocus(false)
+    link:SetText(url); link:SetCursorPosition(0)
+    link:SetScript("OnEditFocusGained", function(self) self:HighlightText() end)
+    link:SetScript("OnMouseUp", function(self) self:HighlightText() end)
+    link:SetScript("OnTextChanged", function(self, userInput)
+        if userInput then self:SetText(url); self:HighlightText() end
+    end)
+    link:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
+    dialog:SetScript("OnHide", function() link:ClearFocus() end)
+
+    local optOut = CreateFrame("CheckButton", "BianLingoUpdateNoticeOptOut", dialog, "UICheckButtonTemplate")
+    dialog.optOut = optOut
+    optOut:SetPoint("BOTTOMLEFT", 15, 13); optOut:SetChecked(false)
+    optOut:SetScript("OnClick", function(self) SetUpdateReminders(not self:GetChecked()) end)
+    local label = dialog:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    label:SetPoint("LEFT", optOut, "RIGHT", 3, 0); label:SetText(BLGText("Don't show update reminders again"))
+    local close = CreateFrame("Button", "BianLingoUpdateNoticeClose", dialog, "UIPanelButtonTemplate")
+    close:SetSize(92, 28); close:SetPoint("BOTTOMRIGHT", -20, 15); close:SetText(CLOSE or "Close")
+    close:SetScript("OnClick", Dismiss)
+    dialog:Show()
 end
 local function SetLimit(value)
     local n = tonumber(value)
@@ -990,6 +1043,11 @@ local function BuildSettings(parent, prefix)
         pairedDesktop, pairedNonce, peerBlocked = nil, 0, false
         QueueCompatibility(true); UpdatePanel()
     end)
+    view.updateReminders = CreateFrame("CheckButton", prefix .. "UpdateReminders", parent, "UICheckButtonTemplate")
+    view.updateReminders:SetPoint("TOPLEFT", 395, -534)
+    local updateLabel = parent:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    updateLabel:SetPoint("LEFT", view.updateReminders, "RIGHT", 3, 0); updateLabel:SetText(BLGText("Show update reminders"))
+    view.updateReminders:SetScript("OnClick", function(self) SetUpdateReminders(not not self:GetChecked()) end)
     parent:SetScript("OnShow", function() QueueCompatibility(true); UpdatePanel() end)
 end
 ShowSettings = function()
@@ -1140,19 +1198,21 @@ frame:SetScript("OnEvent", function(_, event, text, author, language, channelNam
             enabled = false; frame:Hide(); marker:Hide(); return
         end
         local db = Config()
-        if db.enabled and db.compatibilityNoticeMinimum ~= compatibility.minimumDesktop then
-            Say(BLGText("Addon ") .. compatibility.version .. BLGText(" · Desktop required: ") .. compatibility.minimumDesktop .. "+")
-            db.compatibilityNoticeMinimum = compatibility.minimumDesktop
-        end
         seq = 0
         Layout()
         UpdateReplayButton()
         local registered = pcall(RegisterSettings)
         if not registered then Say(BLGText("Could not register the settings page; use /bl settings.")) end
-        SetEnabled(Config().enabled, true)
+        SetEnabled(db.enabled, true)
         pcall(frame.UnregisterEvent, frame, "PLAYER_LOGIN")
         if enabled and #BLGBlocklist.Snapshot(Config()).entries > 0 then ExportBlocklist() end
-    elseif event == "ADDON_RESTRICTION_STATE_CHANGED" or event == "ENCOUNTER_END" or event == "CHALLENGE_MODE_COMPLETED" or event == "PVP_MATCH_COMPLETE" or event == "PLAYER_ENTERING_WORLD" then
+    elseif event == "PLAYER_ENTERING_WORLD" then
+        RefreshChatState()
+        if not updateNoticeScheduled then
+            updateNoticeScheduled = true
+            C_Timer.After(1, function() ShowUpdateNotice(Config()) end)
+        end
+    elseif event == "ADDON_RESTRICTION_STATE_CHANGED" or event == "ENCOUNTER_END" or event == "CHALLENGE_MODE_COMPLETED" or event == "PVP_MATCH_COMPLETE" then
         RefreshChatState()
     elseif event == "UI_SCALE_CHANGED" or event == "DISPLAY_SIZE_CHANGED" then
         Layout(); PositionReplayButton()

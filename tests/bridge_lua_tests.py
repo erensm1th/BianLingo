@@ -9,6 +9,13 @@ from lupa.lua51 import LuaRuntime
 ROOT = Path(__file__).resolve().parents[1]
 MOCK = r"""
 frames, messages, mutations = {}, {}, 0
+timers = {}
+C_Timer = {After = function(_, callback) timers[#timers + 1] = callback end}
+function RunTimers()
+    local pending = timers
+    timers = {}
+    for _, callback in ipairs(pending) do callback() end
+end
 local methods = {}
 function methods:SetScript(k,v) self.scripts[k]=v end
 function methods:GetScript(k) return self.scripts[k] end
@@ -53,7 +60,8 @@ Settings={
 function GetPlayerInfoByGUID(guid) queries=queries+1; return '猎人','HUNTER','人类','Human',2,'Player','Realm' end
 """
 
-def boot(saved=None, uptime=123456, interface=16001, secret_api=True, home_realm=None, fallback_realm=None, locale="enUS"):
+def boot(saved=None, uptime=123456, interface=16001, secret_api=True, home_realm=None, fallback_realm=None,
+         locale="enUS", addon_version=None, enter_world=True):
     lua=LuaRuntime(encoding=None)
     lua.execute(MOCK.encode())
     lua.globals().testLocale = locale.encode()
@@ -72,16 +80,24 @@ def boot(saved=None, uptime=123456, interface=16001, secret_api=True, home_realm
         lua.globals().BianLingoDB=lua.table_from(saved, recursive=True)
     lua.execute((ROOT/'addon/BianLingo/LocaleMessages.lua').read_bytes())
     lua.execute((ROOT/'addon/BianLingo/Compatibility.lua').read_bytes())
+    if addon_version is not None:
+        lua.globals().BLGCompatibility[b'version'] = addon_version
     lua.execute((ROOT/'addon/BianLingo/TraditionalMarkers.lua').read_bytes())
     lua.execute((ROOT/'addon/BianLingo/Blocklist.lua').read_bytes())
     lua.execute((ROOT/'addon/BianLingo/PixelBridge.lua').read_bytes())
-    return Sender(lua)
+    return Sender(lua, enter_world)
 
 class Sender:
-    def __init__(self,lua):
+    def __init__(self,lua,enter_world):
         self.lua=lua; self.g=lua.globals();self.frame=self.g.BianLingoBridgeFrame;self.marker=self.g.BianLingoIdleMarker
         self.g.BianLingoBridgeFrame[b'scripts'][b'OnEvent'](self.frame,b'PLAYER_LOGIN')
+        if enter_world:
+            self.enter_world()
+            self.g.RunTimers()
         self.packets=[];self.drain()
+    def enter_world(self):
+        if self.frame[b'events'][b'PLAYER_ENTERING_WORLD']:
+            self.frame[b'scripts'][b'OnEvent'](self.frame, b'PLAYER_ENTERING_WORLD')
     def command(self,s): self.g.SlashCmdList[b'BIANLINGO'](s.encode())
     def chat(self,text,author='Player-Realm',guid='Player-123'):
         f=self.frame[b'scripts'][b'OnEvent']
@@ -381,8 +397,54 @@ def compatibility_checks():
         'Repeated replay clicks queued duplicate compatibility announcements'
     assert len(repeated.snapshot()) == 1
 
+def update_reminder_checks():
+    def click(control, checked=None):
+        if checked is not None:
+            control.SetChecked(control, checked)
+        control[b'scripts'][b'OnClick'](control)
+
+    # An earlier preview could mark the notice shown while the login screen still covered it.
+    prior = boot({b'lastUpdateNoticeVersion': b'0.2.10'}, addon_version=b'0.2.10', enter_world=False)
+    assert prior.g.BianLingoUpdateNotice is None and len(prior.g.timers) == 0
+    prior.enter_world()
+    prior.enter_world()
+    assert prior.g.BianLingoUpdateNotice is None and len(prior.g.timers) == 1
+    prior.g.RunTimers()
+    assert prior.g.BianLingoUpdateNotice[b'shown']
+    assert prior.g.BianLingoUpdateNoticeLink[b'text'] == b'https://github.com/erensm1th/BianLingo/releases/latest'
+    prior.g.BianLingoUpdateNotice.Hide(prior.g.BianLingoUpdateNotice)
+    assert prior.g.BianLingoDB[b'dismissedUpdateNoticeVersion'] is None
+    prior = boot(dict(prior.g.BianLingoDB), addon_version=b'0.2.10')
+    assert prior.g.BianLingoUpdateNotice[b'shown']
+    click(prior.g.BianLingoUpdateNoticeClose)
+    assert not prior.g.BianLingoUpdateNotice[b'shown']
+    assert prior.g.BianLingoDB[b'dismissedUpdateNoticeVersion'] == b'0.2.10'
+    assert boot(dict(prior.g.BianLingoDB), addon_version=b'0.2.10').g.BianLingoUpdateNotice is None
+
+    # A newer add-on still gets a notice when the minimum desktop version is unchanged.
+    updated = boot(dict(prior.g.BianLingoDB), addon_version=b'0.2.11', locale='zhCN')
+    assert updated.g.BianLingoUpdateNotice[b'shown']
+    assert updated.g.BLGText(b'BianLingo update') == 'BianLingo 更新提醒'.encode()
+    assert boot(dict(updated.g.BianLingoDB), addon_version=b'0.2.10').g.BianLingoUpdateNotice is None
+    click(updated.g.BianLingoUpdateNoticeOptOut, True)
+    click(updated.g.BianLingoUpdateNoticeClose)
+    muted = boot(dict(updated.g.BianLingoDB), addon_version=b'0.2.12')
+    assert muted.g.BianLingoUpdateNotice is None
+    muted.command('version')
+    assert b'Desktop required:' in muted.g.messages[len(muted.g.messages)]
+
+    muted.command('settings')
+    settings = muted.g.BianLingoBridgeSettingsUpdateReminders
+    assert settings[b'checked'] is False
+    click(settings, True)
+    later = boot(dict(muted.g.BianLingoDB), addon_version=b'0.2.12')
+    assert later.g.BianLingoUpdateNotice[b'shown']
+    assert boot({b'enabled': False}).g.BianLingoUpdateNotice is None
+
+
 def run(output=None):
     compatibility_checks()
+    update_reminder_checks()
     markers=[];images=[];colors=[]
     fresh=boot({})
     assert fresh.g.BianLingoDB[b'idleHide'] is True

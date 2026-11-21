@@ -11,7 +11,7 @@ Install the complete addon folder and desktop package. Keep the game visible and
 - **Not confirmed**: no usable version announcement has arrived. Older readable chat formats can continue, but the app does not label them compatible. Run `/bl version`; update the addon if the command is unavailable.
 - **Invalid or unsupported announcement**: pixel chat is paused and an update warning is displayed.
 
-Windows issues a tray warning when a mismatch or unconfirmed legacy connection is first detected. The result remains visible in **Status**, even if another operation changes the short status note. No modal dialog interrupts the game.
+Windows issues a tray warning when a mismatch or unconfirmed legacy connection is first detected. The result remains visible in **Status**, even if another operation changes the short status note.
 
 Announcements are sent at login/enabling, explicit checks, layout synchronization and replay. Accepted chat traffic can attach an announcement at most once per 15 seconds so an app opened later can discover the version. There is no idle heartbeat, timed chat replay or added idle pixel redraw. Compatibility messages are not translated, sent to an AI service or recorded as chat bodies.
 
@@ -28,7 +28,7 @@ The command is bound to the current addon session and a fresh desktop nonce. Ano
 
 If a valid reverse confirmation identifies a mismatch, the addon pauses new chat and replay transmission while still allowing compatibility announcements. **Reset manual confirmation** clears this state so the versions can be checked again.
 
-Desktop apps released without this mechanism cannot display its new checks. The addon therefore also shows its minimum required desktop version in settings and prints a local notice when that minimum changes. Update both components to adopt the mechanism.
+After entering the world with a new addon version, BianLingo shows the minimum Windows app version and a copyable GitHub Releases link. Click **Close** to dismiss it for that version. **Don't show update reminders again** disables future notices, and **Show update reminders** in the addon settings turns them back on. WoW saves these choices on `/reload` or normal exit. The minimum desktop version remains available in settings and through `/bl version`.
 
 ## Maintainer configuration
 
