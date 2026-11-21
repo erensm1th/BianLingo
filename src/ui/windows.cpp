@@ -345,6 +345,7 @@ class App {
     std::map<UINT, HCURSOR> reply_cursors;
     POINT chat_press{};
     bool chat_pressed = false, handles_visible = false, scroll_dragging = false;
+    bool overlay_hovered = false, chat_tabs_configured = false;
     UINT chat_button = 0;
     int scroll_drag_offset = 0;
     std::optional<ReplyTarget> chosen_reply;
@@ -1775,7 +1776,7 @@ class App {
         }
     }
     bool gear_input(HWND h, UINT msg, WPARAM, LPARAM l) {
-        if (msg == WM_LBUTTONDOWN && !config.value("click_through", false)) {
+        if (msg == WM_LBUTTONDOWN && IsWindowVisible(gear) && !config.value("click_through", false)) {
             gear_down = true;
             gear_dragged = false;
             gear_press = {GET_X_LPARAM(l), GET_Y_LPARAM(l)};
@@ -2202,7 +2203,8 @@ class App {
             return;
         if (active_theme.chat.tabs != ChatTabVisual::Classic || config.value("click_through", false) ||
             !IsWindowVisible(main) || IsIconic(main) || !IsWindowVisible(chat_tab_bar)) {
-            ShowWindow(tab_input_surface, SW_HIDE);
+            if (IsWindowVisible(tab_input_surface))
+                ShowWindow(tab_input_surface, SW_HIDE);
             return;
         }
         RECT bounds{}, old{};
@@ -2215,8 +2217,9 @@ class App {
     void sync_gear_input_surface() {
         if (!gear_input_surface || !gear)
             return;
-        if (config.value("click_through", false) || !IsWindowVisible(main) || IsIconic(main)) {
-            ShowWindow(gear_input_surface, SW_HIDE);
+        if (config.value("click_through", false) || !IsWindowVisible(gear) || IsIconic(main)) {
+            if (IsWindowVisible(gear_input_surface))
+                ShowWindow(gear_input_surface, SW_HIDE);
             return;
         }
         RECT bounds{}, old{};
@@ -2228,6 +2231,28 @@ class App {
             GetWindow(main, GW_HWNDNEXT) != gear_input_surface)
             SetWindowPos(gear_input_surface, main, bounds.left, bounds.top, bounds.right - bounds.left,
                          bounds.bottom - bounds.top, SWP_NOACTIVATE | SWP_SHOWWINDOW);
+    }
+    void sync_overlay_controls() {
+        // Let a mouse gesture that started on the overlay finish before hiding its controls.
+        const bool show = !config.at("overlay_controls_on_hover").get<bool>() || overlay_hovered ||
+                          gear_down || tab_pressed != -3;
+        auto set_visible = [](HWND window, bool visible) {
+            if (!window || bool(GetWindowLongPtrW(window, GWL_STYLE) & WS_VISIBLE) == visible)
+                return false;
+            ShowWindow(window, visible ? SW_SHOWNOACTIVATE : SW_HIDE);
+            return true;
+        };
+        const bool show_tabs = show && chat_tabs_configured;
+        const bool tabs_changed = set_visible(chat_tab_bar, show_tabs);
+        const bool cat_changed = set_visible(gear, show);
+        if (tabs_changed) {
+            if (!show_tabs)
+                tab_hover = -3;
+            sync_tab_input_surface();
+            sync_tab_flash();
+        }
+        if (tabs_changed || cat_changed)
+            sync_gear_input_surface();
     }
     void sync_resize_input_surface() {
         if (!resize_input_surface)
@@ -2673,9 +2698,12 @@ class App {
         POINT cursor{};
         RECT bounds{};
         GetWindowRect(main, &bounds);
+        const bool has_cursor = GetCursorPos(&cursor);
+        overlay_hovered = has_cursor && PtInRect(&bounds, cursor);
+        sync_overlay_controls();
         InflateRect(&bounds, scale(6), scale(6));
         bool visible =
-            !config.value("click_through", false) && GetCursorPos(&cursor) && PtInRect(&bounds, cursor);
+            !config.value("click_through", false) && has_cursor && PtInRect(&bounds, cursor);
         if (visible != handles_visible) {
             handles_visible = visible;
             if (active_theme.chat.tabs != ChatTabVisual::Classic)
@@ -2876,15 +2904,13 @@ class App {
                 active_tab = i;
         trim_tab_history(messages, size_t(config.value("max_messages", 20)), display_tabs);
         tab_first = std::clamp(tab_first, 0, int(display_tabs.size()) - 1);
-        if (chat_tab_bar) {
-            bool visible = display_tabs.size() > 1 || display_tabs.front().id != "main" ||
-                           display_tabs.front().name != ui_text("General") &&
-                           display_tabs.front().name != ui_text_for_language("General", "zh") &&
-                           display_tabs.front().name != "General";
-            ShowWindow(chat_tab_bar, visible ? SW_SHOWNOACTIVATE : SW_HIDE);
+        const auto &first = display_tabs.front();
+        chat_tabs_configured = display_tabs.size() > 1 || first.id != "main" ||
+                               (first.name != ui_text("General") &&
+                                first.name != ui_text_for_language("General", "zh") && first.name != "General");
+        sync_overlay_controls();
+        if (chat_tab_bar && IsWindowVisible(chat_tab_bar))
             InvalidateRect(chat_tab_bar, nullptr, FALSE);
-            sync_tab_input_surface();
-        }
     }
     std::string tab_caption(size_t index) const {
         const auto &tab = display_tabs.at(index);
@@ -3482,6 +3508,7 @@ class App {
         }
         require(GetWindow(main, GW_OWNER) == backdrop && IsWindowVisible(gear) && !GetDlgItem(main, 27),
                 "Unexpected extra drag grip or missing gear/background");
+        require(!config.at("overlay_controls_on_hover").get<bool>(), "Hover-only controls are enabled by default");
         config["background_opacity"] = 0.0;
         apply();
         RedrawWindow(main, nullptr, nullptr, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_UPDATENOW);
@@ -3492,6 +3519,20 @@ class App {
         ReleaseDC(gear, gripDC);
         require(gripPixel == transparency_key && IsWindowVisible(gear_input_surface),
                 "Transparent settings button lost its independent mouse input surface");
+        auto expect_cat = [&](bool visible) {
+            require((IsWindowVisible(gear) != FALSE) == visible &&
+                        (IsWindowVisible(gear_input_surface) != FALSE) == visible && IsWindowVisible(chat),
+                    "Overlay cat visibility did not match its click area or affected the chat");
+        };
+        auto hover_overlay = [&](bool hovered) {
+            overlay_hovered = hovered;
+            sync_overlay_controls();
+        };
+        config["overlay_controls_on_hover"] = true;
+        hover_overlay(false);
+        expect_cat(false);
+        hover_overlay(true);
+        expect_cat(true);
         bool drag_forwarded = false;
         auto intercept_drag = [](HWND h, UINT msg, WPARAM w, LPARAM l, UINT_PTR, DWORD_PTR data) -> LRESULT {
             if (msg == WM_NCLBUTTONDOWN) {
@@ -3508,8 +3549,18 @@ class App {
         require(drag_forwarded && !IsWindowVisible(settings),
                 "Dragging gear failed or accidentally opened settings");
         SendMessageW(gear, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(scale(10), scale(8)));
+        hover_overlay(false);
+        expect_cat(true);
         SendMessageW(gear, WM_LBUTTONUP, 0, MAKELPARAM(scale(10), scale(8)));
         require(IsWindowVisible(settings), "Clicking gear no longer opens settings");
+        const auto hover_control = std::find_if(checks.begin(), checks.end(),
+            [](const Control &control) { return control.key == "overlay_controls_on_hover"; });
+        require(hover_control != checks.end() && SendMessageW(hover_control->h, BM_GETCHECK, 0, 0) == BST_CHECKED,
+                "The hover-only option did not load the active setting");
+        hover_overlay(false);
+        expect_cat(false);
+        config["overlay_controls_on_hover"] = false;
+        hover_overlay(false);
         set(settings_status, "Could not identify this Mac");
         require(text(settings_status) == notification_text("Could not identify this Mac"),
                 "The UI error display ignored the notification language policy");
@@ -3534,10 +3585,17 @@ class App {
                     engine->connections() == original_connections &&
                     text(incoming_edit) == "custom {language} instructions retained during UI changes",
                 "Changing UI language altered translation targets, credentials or custom prompt text");
-        require(Engine(settings_data_directory()).settings().at("ui_language") == expected_language,
+        const auto saved_settings = Engine(settings_data_directory()).settings();
+        require(saved_settings.at("ui_language") == expected_language,
                 "UI language was not persisted for restart");
+        require(saved_settings.at("overlay_controls_on_hover") == true &&
+                    text(hover_control->h) == ui_text("Show cat icon and chat tabs only on hover"),
+                "The hover-only setting did not persist or refresh its translated caption");
+        hover_overlay(false);
+        expect_cat(false);
         set(incoming_edit, original_incoming);
         SendMessageW(interface_language, CB_SETCURSEL, original_choice, 0);
+        SendMessageW(hover_control->h, BM_SETCHECK, BST_UNCHECKED, 0);
         SendMessageW(settings, WM_COMMAND, MAKEWPARAM(id_save, BN_CLICKED), 0);
         require(ui_language() == original_language, "Following system / original language was not restored");
 
@@ -4592,6 +4650,21 @@ class App {
         require(tab_flash_running && tab_alert(1) && !tab_alert(0),
                 "Unread classic tab did not start its glow");
         auto render_before_flash = chat_render_calls;
+        config["overlay_controls_on_hover"] = true;
+        auto tabs_before_hover = config.at("chat_tabs");
+        RECT chat_before_hover{}, chat_after_hover{};
+        GetWindowRect(chat, &chat_before_hover);
+        hover_overlay(false);
+        expect_cat(false);
+        require(!IsWindowVisible(chat_tab_bar) && !IsWindowVisible(tab_input_surface) && !tab_flash_running,
+                "Hidden tabs kept their input surface or unread animation");
+        hover_overlay(true);
+        expect_cat(true);
+        GetWindowRect(chat, &chat_after_hover);
+        require(IsWindowVisible(chat_tab_bar) && IsWindowVisible(tab_input_surface) && tab_flash_running &&
+                    EqualRect(&chat_before_hover, &chat_after_hover) && config.at("chat_tabs") == tabs_before_hover,
+                "Hover did not restore configured tabs or shifted the message viewport");
+        config["overlay_controls_on_hover"] = false;
         for (int frame = 0; frame < 60; ++frame)
             animate_tabs();
         require(chat_render_calls == render_before_flash, "Tab animation reflowed the chat history");
@@ -4623,6 +4696,8 @@ class App {
         auto committed_url = config["base_url"];
         set(url_control->h, "https://unsaved.invalid");
         set(tab_name, ""); // Old incomplete tab draft must not block an explicit game sync.
+        config["overlay_controls_on_hover"] = true;
+        hover_overlay(false);
         require(apply_game_tabs(export_snapshot), "Fresh game export did not automatically apply");
         require(config["chat_tabs"] == export_snapshot["windows"] && tab_draft == config["chat_tabs"] &&
                     display_tabs.size() == 2 && active_tab == 0 && editing_tab == 0,
@@ -4632,6 +4707,10 @@ class App {
         auto renders_after_sync = chat_render_calls;
         require(!apply_game_tabs(export_snapshot) && chat_render_calls == renders_after_sync,
                 "Identical game export reflowed the chat history");
+        require(!IsWindowVisible(chat_tab_bar), "Game layout sync made tabs visible outside hover");
+        hover_overlay(true);
+        require(IsWindowVisible(chat_tab_bar), "Hover did not reveal tabs synced from the game");
+        config["overlay_controls_on_hover"] = false;
         export_snapshot["windows"].erase(export_snapshot["windows"].begin() + 1);
         apply_game_tabs(export_snapshot);
         require(config["chat_tabs"] == export_snapshot["windows"] && display_tabs.size() == 1,
@@ -5167,6 +5246,9 @@ class App {
         number_row("__font", "Font size", 286, 9, 36, config.value("font_size", 14));
         number_row("__limit", "History messages (count)", 328, 10, 200, config.value("max_messages", 20));
         label(0, "Use the slider or enter a number; save to apply. 100% = fully transparent.", 20, 371);
+        settings_section(0);
+        checkbox(0, "overlay_controls_on_hover", "Show cat icon and chat tabs only on hover", 20, 405, 590);
+        label(0, "You can also open settings from the system tray.", 20, 438, 590);
         settings_section(0);
         label(0, "Design style", 20, 411, 100);
         design_select =

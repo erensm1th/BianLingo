@@ -2397,6 +2397,28 @@
     "ru": "Фон",
     "zh": "背景"
   },
+  "Show cat icon and chat tabs only on hover": {
+    "en": "Show cat icon and chat tabs only on hover",
+    "fr": "Afficher l’icône du chat et les onglets uniquement au survol",
+    "de": "Katzensymbol und Chat-Tabs nur bei Mauszeiger anzeigen",
+    "es": "Mostrar el gato y las pestañas solo al pasar el cursor",
+    "ja": "マウスを置いたときだけ猫アイコンとチャットタブを表示",
+    "ko": "마우스를 올릴 때만 고양이 아이콘과 채팅 탭 표시",
+    "pt-BR": "Mostrar o ícone do gato e as abas só ao passar o mouse",
+    "ru": "Показывать значок кота и вкладки только при наведении",
+    "zh": "悬停时才显示小猫图标和聊天页签"
+  },
+  "You can also open settings from the system tray.": {
+    "en": "You can also open settings from the system tray.",
+    "fr": "Les paramètres sont aussi accessibles depuis la zone de notification.",
+    "de": "Die Einstellungen sind auch im Infobereich erreichbar.",
+    "es": "También puedes abrir los ajustes desde la bandeja del sistema.",
+    "ja": "タスクトレイからも設定を開けます。",
+    "ko": "시스템 트레이에서도 설정을 열 수 있습니다.",
+    "pt-BR": "Você também pode abrir as configurações pela bandeja do sistema.",
+    "ru": "Настройки также можно открыть из области уведомлений.",
+    "zh": "也可以从系统托盘打开设置。"
+  },
   "Background opacity (%)": {
     "en": "Background opacity (%)",
     "fr": "Opacité de l'arrière-plan (%)",

@@ -389,6 +389,7 @@ Json default_settings() {
             {"x", 60},
             {"y", 100},
             {"click_through", false},
+            {"overlay_controls_on_hover", false},
             {"hotkey", {{"key", 192}, {"modifiers", 0}}},
             {"mac_keycode", 50},
             {"active_connection", "default"},
